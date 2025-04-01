@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.backendwayplanner.Enums.CategoriaLugar;
+
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -24,7 +26,7 @@ public class Itinerario {
 
     private String ubicacion;
 
-    private Date hora;
+    private LocalTime hora;
 
     @Lob
     private byte[] foto;
