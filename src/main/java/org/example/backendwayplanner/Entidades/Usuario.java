@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -23,6 +24,8 @@ public class Usuario {
     private String nombre;
 
     private String email;
+
+    private LocalTime horaNotificacion;
 
     private String contraseña;
 
