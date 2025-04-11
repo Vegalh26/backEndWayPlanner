@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -22,9 +23,13 @@ public class Ruta {
 
     private String lugar;
 
+    private String latitud;
+
+    private String longitud;
+
     private String medioTransporte;
 
-    private Date duracion;
+    private LocalDate duracion;
 
     @ManyToOne
     private Dia dia;

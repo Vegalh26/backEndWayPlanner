@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -24,9 +25,9 @@ public class Viaje {
 
     private String nombre;
 
-    private Date fechaInicio;
+    private LocalDate fechaInicio;
 
-    private Date fechaFin;
+    private LocalDate fechaFin;
 
     private String destino;
 

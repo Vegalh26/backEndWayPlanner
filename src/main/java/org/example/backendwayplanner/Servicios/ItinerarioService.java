@@ -2,12 +2,14 @@ package org.example.backendwayplanner.Servicios;
 
 import org.example.backendwayplanner.Dtos.ItinerarioDTO;
 import org.example.backendwayplanner.Dtos.UbicacionItinerarioDTO;
+import org.example.backendwayplanner.Entidades.BilleteEntrada;
 import org.example.backendwayplanner.Entidades.Itinerario;
 import org.example.backendwayplanner.Repositorios.BilleteEntradaRepository;
 import org.example.backendwayplanner.Repositorios.ItinerarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,12 @@ public class ItinerarioService {
 
         return transformarListaADTO(itinerariosOrdenados);
 
+    }
+
+    // Obtener itinerarios por fecha y viaje
+    public List<ItinerarioDTO> obtenerItinerariosPorFecha(Long viajeId,LocalDate fechaInicio, LocalDate fechaFin) {
+        List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdAndDia_FechaBetween(viajeId,fechaInicio, fechaFin);
+        return transformarListaADTO(itinerarios);
     }
 
     public UbicacionItinerarioDTO obtenerUbicacionItinerario(Long id) {
@@ -73,7 +81,14 @@ public class ItinerarioService {
         itinerarioSinDTO.setUbicacion(itinerario.getUbicacion());
         itinerarioSinDTO.setHora(LocalTime.parse(itinerario.getHora()));
         itinerarioSinDTO.setDia(itinerario.getDia());
-        itinerarioSinDTO.setBillete(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()));
+
+        if(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()) != null) {
+            itinerarioSinDTO.setBillete(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()));
+        } else {
+            BilleteEntrada billeteEntrada = new BilleteEntrada();
+            billeteEntrada.setNombre(itinerario.getNombreBillete());
+            itinerarioSinDTO.setBillete(billeteEntrada);
+        }
         itinerarioSinDTO.setFoto(itinerario.getFoto());
         return itinerarioSinDTO;
     }

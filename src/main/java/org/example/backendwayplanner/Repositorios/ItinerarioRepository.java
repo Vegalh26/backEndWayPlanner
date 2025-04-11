@@ -4,6 +4,7 @@ import org.example.backendwayplanner.Entidades.Itinerario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -11,5 +12,7 @@ public interface ItinerarioRepository extends JpaRepository<Itinerario, Long> {
 
     // Esta consulta dará la lista de itinerarios en orden, es decir, primero por número de día y luego por hora.
     List<Itinerario> findByDia_Viaje_IdOrderByDia_NumeroDiaAscHoraAsc(Long viajeId);
+    List<Itinerario> findByDia_Viaje_IdAndDia_FechaBetween(Long viajeId, LocalDate fechaInicio, LocalDate fechaFin);
+
 
 }
