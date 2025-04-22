@@ -6,12 +6,34 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class FechasDTO {
 
     private LocalDate FechaInicio;
     private LocalDate FechaFin;
 
+    public LocalDate getFechaInicio() {
+        return FechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        FechaInicio = fechaInicio;
+    }
+
+    public LocalDate getFechaFin() {
+        return FechaFin;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        FechaFin = fechaFin;
+    }
+
+
+    public FechasDTO(LocalDate fechaInicio, LocalDate fechaFin) {
+        FechaInicio = fechaInicio;
+        FechaFin = fechaFin;
+    }
+
+    public FechasDTO() {
+    }
 }

@@ -13,10 +13,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "viajes")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Viaje {
 
     @Id
@@ -38,5 +34,83 @@ public class Viaje {
 
     @OneToMany(mappedBy = "viaje")
     List<Maleta> maletas;
+
+    // COntructor
+    public Viaje(String nombre, LocalDate fechaInicio, LocalDate fechaFin, String destino, String descripcion, Usuario usuario, List<Maleta> maletas) {
+        this.nombre = nombre;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.destino = destino;
+        this.descripcion = descripcion;
+        this.usuario = usuario;
+        this.maletas = maletas;
+    }
+    public Viaje() {
+        // Constructor vacío
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<Maleta> getMaletas() {
+        return maletas;
+    }
+
+    public void setMaletas(List<Maleta> maletas) {
+        this.maletas = maletas;
+    }
 }
 

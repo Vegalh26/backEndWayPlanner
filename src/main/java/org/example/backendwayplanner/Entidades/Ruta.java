@@ -11,10 +11,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "rutas")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Ruta {
 
     @Id
@@ -33,4 +29,72 @@ public class Ruta {
 
     @ManyToOne
     private Dia dia;
+
+    public Ruta(String lugar, String latitud, String longitud, String medioTransporte, LocalDate duracion, Dia dia) {
+        this.lugar = lugar;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.medioTransporte = medioTransporte;
+        this.duracion = duracion;
+        this.dia = dia;
+    }
+    public Ruta() {
+        // Constructor vacío
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
+    }
+
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public String getMedioTransporte() {
+        return medioTransporte;
+    }
+
+    public void setMedioTransporte(String medioTransporte) {
+        this.medioTransporte = medioTransporte;
+    }
+
+    public LocalDate getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(LocalDate duracion) {
+        this.duracion = duracion;
+    }
+
+    public Dia getDia() {
+        return dia;
+    }
+
+    public void setDia(Dia dia) {
+        this.dia = dia;
+    }
 }

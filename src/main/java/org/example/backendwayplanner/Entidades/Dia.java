@@ -11,10 +11,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "dias")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Dia {
 
     @Id
@@ -27,5 +23,46 @@ public class Dia {
 
     @ManyToOne
     private Viaje viaje;
+
+    public Dia(Long id, LocalDate fecha, int numeroDia, Viaje viaje) {
+        this.id = id;
+        this.fecha = fecha;
+        this.numeroDia = numeroDia;
+        this.viaje = viaje;
+    }
+
+    public Dia(){}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getNumeroDia() {
+        return numeroDia;
+    }
+
+    public void setNumeroDia(int numeroDia) {
+        this.numeroDia = numeroDia;
+    }
+
+    public Viaje getViaje() {
+        return viaje;
+    }
+
+    public void setViaje(Viaje viaje) {
+        this.viaje = viaje;
+    }
 }
 
