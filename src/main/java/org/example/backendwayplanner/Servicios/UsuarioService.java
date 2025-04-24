@@ -1,11 +1,10 @@
 package org.example.backendwayplanner.Servicios;
 
-import lombok.AllArgsConstructor;
-import org.example.backendwayplanner.DTO.LoginDTO;
-import org.example.backendwayplanner.DTO.RegistroDTO;
-import org.example.backendwayplanner.DTO.RespuestaDTO;
+import org.example.backendwayplanner.Dtos.LoginDTO;
+import org.example.backendwayplanner.Dtos.RegistroDTO;
+import org.example.backendwayplanner.Dtos.RespuestaDTO;
 
-import org.example.backendwayplanner.DTO.UsuarioDTO;
+import org.example.backendwayplanner.Dtos.UsuarioDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
 import org.example.backendwayplanner.Security.JwtService;
@@ -18,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Service

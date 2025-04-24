@@ -1,9 +1,9 @@
 package org.example.backendwayplanner.Controladores;
 
 import lombok.AllArgsConstructor;
-import org.example.backendwayplanner.DTO.LoginDTO;
-import org.example.backendwayplanner.DTO.RegistroDTO;
-import org.example.backendwayplanner.DTO.RespuestaDTO;
+import org.example.backendwayplanner.Dtos.LoginDTO;
+import org.example.backendwayplanner.Dtos.RegistroDTO;
+import org.example.backendwayplanner.Dtos.RespuestaDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Servicios.UsuarioService;
 import org.springframework.http.ResponseEntity;

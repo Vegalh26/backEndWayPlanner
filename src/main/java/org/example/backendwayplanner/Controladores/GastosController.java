@@ -1,8 +1,8 @@
 package org.example.backendwayplanner.Controladores;
 
 import lombok.AllArgsConstructor;
-import org.example.backendwayplanner.DTO.GastoDTO;
-import org.example.backendwayplanner.DTO.GastosResumenDTO;
+import org.example.backendwayplanner.Dtos.GastoDTO;
+import org.example.backendwayplanner.Dtos.GastosResumenDTO;
 import org.example.backendwayplanner.Entidades.Gastos;
 import org.example.backendwayplanner.Servicios.GastosService;
 import org.springframework.http.ResponseEntity;
