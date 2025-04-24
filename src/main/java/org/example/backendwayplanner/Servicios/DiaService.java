@@ -36,7 +36,7 @@ public class DiaService {
         diaDTO.setId(dia.getId());
         diaDTO.setFecha(dia.getFecha());
         diaDTO.setNumeroDia(dia.getNumeroDia());
-        diaDTO.setNombreViaje(dia.getViaje().getNombre());
+        diaDTO.setidViaje((dia.getViaje().getId()));
         return diaDTO;
     }
 
@@ -45,7 +45,8 @@ public class DiaService {
         dia.setId(diaDTO.getId());
         dia.setFecha(diaDTO.getFecha());
         dia.setNumeroDia(diaDTO.getNumeroDia());
-        dia.setViaje(viajeRepository.findByNombre(diaDTO.getNombreViaje()));
+        dia.setViaje(viajeRepository.findById(diaDTO.getIdViaje())
+                .orElseThrow(() -> new IllegalArgumentException("Viaje no encontrado con ID: " + diaDTO.getIdViaje())));
         return dia;
     }
 

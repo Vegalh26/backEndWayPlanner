@@ -32,10 +32,13 @@ public class ItinerarioService {
 
     }
 
-    // Obtener itinerarios por fecha y viaje
-    public List<ItinerarioDTO> obtenerItinerariosPorFecha(Long viajeId,LocalDate fechaInicio, LocalDate fechaFin) {
-        List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdAndDia_FechaBetween(viajeId,fechaInicio, fechaFin);
+    // Obtener todos los itinerarios por viaje y día
+    public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(Long viajeId, LocalDate fecha) {
+
+        List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdAndDia_Fecha(viajeId, fecha);
+
         return transformarListaADTO(itinerarios);
+
     }
 
 
@@ -82,14 +85,7 @@ public class ItinerarioService {
         itinerarioSinDTO.setDuracion(LocalDateTime.parse(itinerario.getDuracion()));
         itinerarioSinDTO.setHora(LocalTime.parse(itinerario.getHora()));
         itinerarioSinDTO.setDia(itinerario.getDia());
-
-        if(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()) != null) {
-            itinerarioSinDTO.setBillete(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()));
-        } else {
-            BilleteEntrada billeteEntrada = new BilleteEntrada();
-            billeteEntrada.setNombre(itinerario.getNombreBillete());
-            itinerarioSinDTO.setBillete(billeteEntrada);
-        }
+        itinerarioSinDTO.setBillete(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()));
         itinerarioSinDTO.setFoto(itinerario.getFoto());
         return itinerarioSinDTO;
     }

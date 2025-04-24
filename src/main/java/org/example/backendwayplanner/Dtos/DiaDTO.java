@@ -13,13 +13,13 @@ public class DiaDTO {
 
     private int numeroDia;
 
-    private String nombreViaje;
+    private Long idViaje;
 
-    public DiaDTO(Long id, LocalDate fecha, int numeroDia, String nombreViaje) {
+    public DiaDTO(Long id, LocalDate fecha, int numeroDia, Long idViaje) {
         this.id = id;
         this.fecha = fecha;
         this.numeroDia = numeroDia;
-        this.nombreViaje = nombreViaje;
+        this.idViaje = idViaje;
     }
 
     public DiaDTO() {
@@ -49,11 +49,11 @@ public class DiaDTO {
         this.numeroDia = numeroDia;
     }
 
-    public String getNombreViaje() {
-        return nombreViaje;
+    public Long getIdViaje() {
+        return idViaje;
     }
 
-    public void setNombreViaje(String nombreViaje) {
-        this.nombreViaje = nombreViaje;
+    public void setidViaje(Long idViaje) {
+        this.idViaje = idViaje;
     }
 }

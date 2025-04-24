@@ -9,13 +9,12 @@ public class ItinerarioDTO {
     String latitud;
     String longitud;
     boolean estaEnRuta;
-
     String medioTransporte;
-
     String duracion;
     String hora;
     byte[] foto;
     String categoria;
+    // El nombre del billete para asociar el itinerario con el billete y se buscará por su nombre
     String nombreBillete;
     Dia dia;
 
