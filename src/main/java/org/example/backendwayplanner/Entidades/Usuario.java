@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "usuarios")
@@ -20,6 +21,8 @@ public class Usuario {
 
     private String email;
 
+    private LocalTime horaNotificacion;
+
     private String contraseña;
 
     private String telefono;
@@ -27,9 +30,10 @@ public class Usuario {
     private LocalDate fechaRegistro = LocalDate.now();
 
 
-    public Usuario(String nombre, String email, String contraseña, String telefono) {
+    public Usuario(String nombre, String email, LocalTime horaNotificacion, String contraseña, String telefono) {
         this.nombre = nombre;
         this.email = email;
+        this.horaNotificacion = horaNotificacion;
         this.contraseña = contraseña;
         this.telefono = telefono;
     }
@@ -84,5 +88,13 @@ public class Usuario {
 
     public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    public LocalTime getHoraNotificacion(){
+        return horaNotificacion;
+    }
+
+    public LocalTime setHoraNotificacion(LocalTime horaNotificacion){
+        return this.horaNotificacion;
     }
 }
