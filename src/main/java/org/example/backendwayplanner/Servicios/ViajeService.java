@@ -24,7 +24,7 @@ public class ViajeService {
     }
 
     public List<Viaje> listarViajesporUsuarioId(Long usuarioId) {
-        return viajeRepository.ViajesporUsuarioId(usuarioId);
+        return viajeRepository.findByUsuarioId(usuarioId);
     }
 
 

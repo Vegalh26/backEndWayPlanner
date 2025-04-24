@@ -9,8 +9,6 @@ import org.example.backendwayplanner.Enums.TipoNotificacion;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "notificaciones")
 public class Notificacion {
 
@@ -43,5 +41,83 @@ public class Notificacion {
 
     @Column(name = "fecha_creacion", updatable = false, nullable = false)
     private LocalDateTime fechaCreacion = LocalDateTime.now();
+
+    public Notificacion(Long idNotificacion, Usuario usuario, Viaje viaje, String mensaje, TipoNotificacion tipoNotificacion, LocalDateTime fechaEnvio, EstadoNotificacion estado, LocalDateTime fechaCreacion) {
+        this.idNotificacion = idNotificacion;
+        this.usuario = usuario;
+        this.viaje = viaje;
+        this.mensaje = mensaje;
+        this.tipoNotificacion = tipoNotificacion;
+        this.fechaEnvio = fechaEnvio;
+        this.estado = estado;
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public Notificacion() {
+    }
+
+    public Long getIdNotificacion() {
+        return idNotificacion;
+    }
+
+    public void setIdNotificacion(Long idNotificacion) {
+        this.idNotificacion = idNotificacion;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Viaje getViaje() {
+        return viaje;
+    }
+
+    public void setViaje(Viaje viaje) {
+        this.viaje = viaje;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public TipoNotificacion getTipoNotificacion() {
+        return tipoNotificacion;
+    }
+
+    public void setTipoNotificacion(TipoNotificacion tipoNotificacion) {
+        this.tipoNotificacion = tipoNotificacion;
+    }
+
+    public LocalDateTime getFechaEnvio() {
+        return fechaEnvio;
+    }
+
+    public void setFechaEnvio(LocalDateTime fechaEnvio) {
+        this.fechaEnvio = fechaEnvio;
+    }
+
+    public EstadoNotificacion getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoNotificacion estado) {
+        this.estado = estado;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
 }
 

@@ -25,14 +25,13 @@ public class JwtService {
     @Autowired
     private UsuarioService usuarioService;
 
-    public String generateToken(Usuario usuario){
-        TokenDataDTO tokenDataDTO = TokenDataDTO
-                .builder()
-                .id(usuario.getId())
-                .username(usuario.getUsername())
-                .fecha_creacion(System.currentTimeMillis())
-                .fecha_expiracion(System.currentTimeMillis() + 1000 * 60 * 60 * 3)
-                .build();
+    public String generateToken(Usuario usuario) {
+        TokenDataDTO tokenDataDTO = new TokenDataDTO(
+                usuario.getId(),
+                usuario.getUsername(),
+                System.currentTimeMillis(),
+                System.currentTimeMillis() + 1000 * 60 * 60 * 3
+        );
 
         return Jwts
                 .builder()
@@ -40,6 +39,7 @@ public class JwtService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
     private Claims extractDatosToken(String token){
         return Jwts
@@ -51,17 +51,19 @@ public class JwtService {
     }
 
 
-    public TokenDataDTO extractTokenData(String token){
+    public TokenDataDTO extractTokenData(String token) {
         Claims claims = extractDatosToken(token);
-        Map<String, Object> mapa =  (LinkedHashMap<String,Object>) claims.get("tokenDataDTO");
-        return TokenDataDTO.builder()
-                .id(((Number) mapa.get("id")).longValue())
-                .username((String) mapa.get("username"))
-                .fecha_creacion((Long) mapa.get("fecha_creacion"))
-                .fecha_expiracion((Long) mapa.get("fecha_expiracion"))
-                .rol((String) mapa.get("rol"))
-                .build();
+        Map<String, Object> mapa = (LinkedHashMap<String, Object>) claims.get("tokenDataDTO");
+
+        return new TokenDataDTO(
+                ((Number) mapa.get("id")).longValue(),
+                (String) mapa.get("username"),
+                (Long) mapa.get("fecha_creacion"),
+                (Long) mapa.get("fecha_expiracion"),
+                (String) mapa.get("rol")
+        );
     }
+
 
     /**
      * Método que me dice si el token a expirado

@@ -16,6 +16,6 @@ public interface ViajeRepository extends JpaRepository<Viaje, Long> {
     Viaje findByNombre(String nombre);
     Optional<Viaje> findById(Long id);
 
-    List<Viaje> ViajesporUsuarioId(Long id);
+    List<Viaje> findByUsuarioId(Long id);
 
 }

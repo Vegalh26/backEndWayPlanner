@@ -15,11 +15,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@AllArgsConstructor
 public class SecurityConfig {
 
     private final JwtFilter jwtFilterChain;
     private final AuthenticationProvider authenticationProvider;
+
+    public SecurityConfig(JwtFilter jwtFilterChain, AuthenticationProvider authenticationProvider) {
+        this.jwtFilterChain = jwtFilterChain;
+        this.authenticationProvider = authenticationProvider;
+    }
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {

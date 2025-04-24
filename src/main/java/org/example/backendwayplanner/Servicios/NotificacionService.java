@@ -66,7 +66,7 @@ public class NotificacionService {
 
             long diasHastaViaje = java.time.temporal.ChronoUnit.DAYS.between(
                     hoy,
-                    viaje.getFechaInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                    viaje.getFechaInicio()
             );
             if (diasHastaViaje >= 0 && diasHastaViaje <= 3) {
                 long diferenciaMinutos = Math.abs(java.time.Duration.between(horaActual, horaUsuario).toMinutes());

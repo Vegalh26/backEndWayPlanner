@@ -22,11 +22,16 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class UsuarioService implements UserDetailsService {
     private UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String Email) throws UsernameNotFoundException {
@@ -55,12 +60,14 @@ public class UsuarioService implements UserDetailsService {
             if (passwordEncoder.matches(dto.getPassword(), usuario.getPassword())) {
 
                 String token = jwtService.generateToken(usuario);
-                return ResponseEntity
-                        .ok(RespuestaDTO.builder()
-                                .estado(HttpStatus.OK.value())
-                                .token(token)
-                                .mensaje("Inicio de sesión exitoso")
-                                .build());
+
+                RespuestaDTO respuesta = new RespuestaDTO();
+                respuesta.setEstado(HttpStatus.OK.value());
+                respuesta.setMensaje("Inicio de sesión exitoso");
+                respuesta.setToken(token);
+
+                return ResponseEntity.ok(respuesta);
+
             } else {
                 throw new BadCredentialsException("Contraseña incorrecta");
             }

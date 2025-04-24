@@ -7,15 +7,26 @@ import org.example.backendwayplanner.Entidades.Gastos;
 import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Repositorios.GastosRepository;
 import org.example.backendwayplanner.Repositorios.ViajeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class GastosService {
+
+    @Autowired
     private final GastosRepository gastosRepository;
+
+    @Autowired
     private final ViajeRepository viajeRepository;
+
+    public GastosService(GastosRepository gastosRepository, ViajeRepository viajeRepository) {
+        this.gastosRepository = gastosRepository;
+        this.viajeRepository = viajeRepository;
+    }
+
+
 
     public GastosResumenDTO obtenerResumenDeViaje(Long viajeId) {
         Viaje viaje = viajeRepository.findById(viajeId)
