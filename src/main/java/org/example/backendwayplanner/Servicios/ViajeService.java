@@ -23,8 +23,8 @@ public class ViajeService {
         viajeRepository.delete(viaje);
     }
 
-    public List<Viaje> listarViajes() {
-        return viajeRepository.findAll();
+    public List<Viaje> listarViajesporUsuarioId(Long usuarioId) {
+        return viajeRepository.ViajesporUsuarioId(usuarioId);
     }
 
 

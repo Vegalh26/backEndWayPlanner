@@ -10,6 +10,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 @Repository
 public interface ViajeRepository extends JpaRepository<Viaje, Long> {
-    @Query("SELECT v FROM Viaje v WHERE v.fechaInicio BETWEEN :inicio AND :fin")
-    List<Viaje> findByFechaInicioBetween(@Param("inicio") LocalDateTime inicio, @Param("fin") LocalDateTime fin);
+List<Viaje> ViajesporUsuarioId(Long id);
 }

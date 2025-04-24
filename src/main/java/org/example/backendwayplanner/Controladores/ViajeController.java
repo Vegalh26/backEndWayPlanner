@@ -22,9 +22,9 @@ public class ViajeController {
     }
 
 
-    @GetMapping("/listar")
-    public List<Viaje> listarViajes() {
-        return viajeService.listarViajes();
+    @GetMapping("/listarPorUsuario/{usuarioId}")
+    public List<Viaje> listarViajesPorUsuario(@PathVariable Long usuarioId) {
+        return viajeService.listarViajesporUsuarioId(usuarioId);
     }
 
 
