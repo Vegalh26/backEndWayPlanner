@@ -13,6 +13,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "viajes")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Viaje {
 
     @Id
@@ -35,8 +39,12 @@ public class Viaje {
     @OneToMany(mappedBy = "viaje")
     List<Maleta> maletas;
 
+    @OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Gastos> gastos;
+
+
     // COntructor
-    public Viaje(String nombre, LocalDate fechaInicio, LocalDate fechaFin, String destino, String descripcion, Usuario usuario, List<Maleta> maletas) {
+    public Viaje(String nombre, LocalDate fechaInicio, LocalDate fechaFin, String destino, String descripcion, Usuario usuario, List<Maleta> maletas, List<Gastos> gastos) {
         this.nombre = nombre;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -44,6 +52,7 @@ public class Viaje {
         this.descripcion = descripcion;
         this.usuario = usuario;
         this.maletas = maletas;
+        this.gastos = gastos;
     }
     public Viaje() {
         // Constructor vacío
@@ -111,6 +120,14 @@ public class Viaje {
 
     public void setMaletas(List<Maleta> maletas) {
         this.maletas = maletas;
+    }
+
+    public List<Gastos> getGastos(){
+        return gastos;
+    }
+
+    public void setGastos(List<Gastos> gastos){
+        this.gastos = gastos;
     }
 }
 
