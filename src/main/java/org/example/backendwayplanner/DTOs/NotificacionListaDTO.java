@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.DTOs;
+package org.example.backendwayplanner.Dtos;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,8 +7,7 @@ import org.example.backendwayplanner.Enums.TipoNotificacion;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+
 public class NotificacionListaDTO {
     private Long id;
     private String mensaje;
@@ -21,6 +20,46 @@ public class NotificacionListaDTO {
         this.mensaje = mensaje;
         this.tipo = tipo;
         this.estado = estado;
+        this.fechaEnvio = fechaEnvio;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public TipoNotificacion getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoNotificacion tipo) {
+        this.tipo = tipo;
+    }
+
+    public EstadoNotificacion getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoNotificacion estado) {
+        this.estado = estado;
+    }
+
+    public LocalDateTime getFechaEnvio() {
+        return fechaEnvio;
+    }
+
+    public void setFechaEnvio(LocalDateTime fechaEnvio) {
         this.fechaEnvio = fechaEnvio;
     }
 }
