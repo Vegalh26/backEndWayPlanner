@@ -1,24 +1,31 @@
 package org.example.backendwayplanner.Dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.example.backendwayplanner.Entidades.Dia;
 
 public class ItinerarioDTO {
 
     Long id;
     String actividad;
-    String ubicacion;
+    String latitud;
+    String longitud;
+    boolean estaEnRuta;
+    String medioTransporte;
+    String duracion;
     String hora;
     byte[] foto;
     String categoria;
+    // El nombre del billete para asociar el itinerario con el billete y se buscará por su nombre
     String nombreBillete;
     Dia dia;
 
-    public ItinerarioDTO(String actividad, String ubicacion, String hora, byte[] foto, String categoria, String nombreBillete, Dia dia) {
+    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, String medioTransporte, String duracion, String hora, byte[] foto, String categoria, String nombreBillete, Dia dia) {
+        this.id = id;
         this.actividad = actividad;
-        this.ubicacion = ubicacion;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.estaEnRuta = estaEnRuta;
+        this.medioTransporte = medioTransporte;
+        this.duracion = duracion;
         this.hora = hora;
         this.foto = foto;
         this.categoria = categoria;
@@ -46,13 +53,6 @@ public class ItinerarioDTO {
         this.actividad = actividad;
     }
 
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
-    }
 
     public String getHora() {
         return hora;
@@ -92,5 +92,45 @@ public class ItinerarioDTO {
 
     public void setDia(Dia dia) {
         this.dia = dia;
+    }
+
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public boolean isEstaEnRuta() {
+        return estaEnRuta;
+    }
+
+    public void setEstaEnRuta(boolean estaEnRuta) {
+        this.estaEnRuta = estaEnRuta;
+    }
+
+    public String getMedioTransporte() {
+        return medioTransporte;
+    }
+
+    public void setMedioTransporte(String medioTransporte) {
+        this.medioTransporte = medioTransporte;
+    }
+
+    public String getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(String duracion) {
+        this.duracion = duracion;
     }
 }

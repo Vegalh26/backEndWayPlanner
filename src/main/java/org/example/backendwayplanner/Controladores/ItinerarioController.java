@@ -21,9 +21,9 @@ public class ItinerarioController {
         return itinerarioService.obtenerItinerariosPorViajeId(id);
     }
 
-    @GetMapping("/viaje/{id}/fechas")
-    public List<ItinerarioDTO> obtenerItinerariosPorFecha(@PathVariable Long id, @RequestBody FechasDTO fechasDTO) {
-        return itinerarioService.obtenerItinerariosPorFecha(id, fechasDTO.getFechaInicio(), fechasDTO.getFechaFin());
+    @GetMapping("/viaje/{id}/dia")
+    public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(@RequestBody FechasDTO fechas){
+        return itinerarioService.obtenerItinerariosPorViajeIdYDia(fechas.getIdViaje(), fechas.getFecha());
     }
 
     @PostMapping("/crear")

@@ -1,33 +1,29 @@
-package org.example.backendwayplanner.Entidades;
+package org.example.backendwayplanner.Dtos;
 
-import jakarta.persistence.*;
+import jakarta.persistence.ManyToOne;
+import org.example.backendwayplanner.Entidades.Viaje;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
-@Entity
-@Table(name = "dias")
-public class Dia {
+public class DiaDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate fecha;
 
     private int numeroDia;
 
-    @ManyToOne
-    private Viaje viaje;
+    private Long idViaje;
 
-    public Dia(Long id, LocalDate fecha, int numeroDia, Viaje viaje) {
+    public DiaDTO(Long id, LocalDate fecha, int numeroDia, Long idViaje) {
         this.id = id;
         this.fecha = fecha;
         this.numeroDia = numeroDia;
-        this.viaje = viaje;
+        this.idViaje = idViaje;
     }
 
-    public Dia(){}
+    public DiaDTO() {
+    }
 
     public Long getId() {
         return id;
@@ -53,12 +49,11 @@ public class Dia {
         this.numeroDia = numeroDia;
     }
 
-    public Viaje getViaje() {
-        return viaje;
+    public Long getIdViaje() {
+        return idViaje;
     }
 
-    public void setViaje(Viaje viaje) {
-        this.viaje = viaje;
+    public void setidViaje(Long idViaje) {
+        this.idViaje = idViaje;
     }
 }
-

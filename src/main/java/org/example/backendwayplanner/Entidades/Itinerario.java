@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.backendwayplanner.Enums.CategoriaLugar;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -20,9 +22,17 @@ public class Itinerario {
 
     private String actividad;
 
-    private String ubicacion;
-
     private LocalTime hora;
+
+    private String latitud;
+
+    private String longitud;
+
+    private boolean estaEnRuta;
+
+    private String medioTransporte;
+
+    private LocalDateTime duracion;
 
     @Lob
     private byte[] foto;
@@ -36,10 +46,15 @@ public class Itinerario {
     @ManyToOne
     private Dia dia;
 
-    public Itinerario(String actividad, String ubicacion, LocalTime hora, byte[] foto, CategoriaLugar categoria, BilleteEntrada billete, Dia dia) {
+    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, String medioTransporte, LocalDateTime duracion, byte[] foto, CategoriaLugar categoria, BilleteEntrada billete, Dia dia) {
+        this.id = id;
         this.actividad = actividad;
-        this.ubicacion = ubicacion;
         this.hora = hora;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.estaEnRuta = estaEnRuta;
+        this.medioTransporte = medioTransporte;
+        this.duracion = duracion;
         this.foto = foto;
         this.categoria = categoria;
         this.billete = billete;
@@ -64,14 +79,6 @@ public class Itinerario {
 
     public void setActividad(String actividad) {
         this.actividad = actividad;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
     }
 
     public LocalTime getHora() {
@@ -112,5 +119,45 @@ public class Itinerario {
 
     public void setDia(Dia dia) {
         this.dia = dia;
+    }
+
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public boolean isEstaEnRuta() {
+        return estaEnRuta;
+    }
+
+    public void setEstaEnRuta(boolean estaEnRuta) {
+        this.estaEnRuta = estaEnRuta;
+    }
+
+    public String getMedioTransporte() {
+        return medioTransporte;
+    }
+
+    public void setMedioTransporte(String medioTransporte) {
+        this.medioTransporte = medioTransporte;
+    }
+
+    public LocalDateTime getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(LocalDateTime duracion) {
+        this.duracion = duracion;
     }
 }

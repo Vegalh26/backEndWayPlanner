@@ -1,7 +1,6 @@
 package org.example.backendwayplanner.Servicios;
 
 import org.example.backendwayplanner.Dtos.ItinerarioDTO;
-import org.example.backendwayplanner.Dtos.UbicacionItinerarioDTO;
 import org.example.backendwayplanner.Entidades.BilleteEntrada;
 import org.example.backendwayplanner.Entidades.Itinerario;
 import org.example.backendwayplanner.Repositorios.BilleteEntradaRepository;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +32,15 @@ public class ItinerarioService {
 
     }
 
-    // Obtener itinerarios por fecha y viaje
-    public List<ItinerarioDTO> obtenerItinerariosPorFecha(Long viajeId,LocalDate fechaInicio, LocalDate fechaFin) {
-        List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdAndDia_FechaBetween(viajeId,fechaInicio, fechaFin);
+    // Obtener todos los itinerarios por viaje y día
+    public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(Long viajeId, LocalDate fecha) {
+
+        List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdAndDia_Fecha(viajeId, fecha);
+
         return transformarListaADTO(itinerarios);
+
     }
 
-    public UbicacionItinerarioDTO obtenerUbicacionItinerario(Long id) {
-        Itinerario itinerario = itinerarioRepository.findById(id).get();
-        UbicacionItinerarioDTO ubicacionItinerarioDTO = new UbicacionItinerarioDTO();
-        ubicacionItinerarioDTO.setUbicacion(itinerario.getUbicacion());
-        ubicacionItinerarioDTO.setIdDia(itinerario.getDia().getId());
-        return ubicacionItinerarioDTO;
-    }
 
     public Itinerario crearItinerario(ItinerarioDTO itinerario) {
         return itinerarioRepository.save(transformarSinDTO(itinerario));
@@ -64,7 +60,11 @@ public class ItinerarioService {
             ItinerarioDTO itinerarioDTO = new ItinerarioDTO();
             itinerarioDTO.setId(i.getId());
             itinerarioDTO.setActividad(i.getActividad());
-            itinerarioDTO.setUbicacion(i.getUbicacion());
+            itinerarioDTO.setLatitud(i.getLatitud());
+            itinerarioDTO.setLongitud(i.getLongitud());
+            itinerarioDTO.setEstaEnRuta(i.isEstaEnRuta());
+            itinerarioDTO.setMedioTransporte(i.getMedioTransporte());
+            itinerarioDTO.setDuracion(String.valueOf(i.getDuracion()));
             itinerarioDTO.setHora(String.valueOf(i.getHora()));
             itinerarioDTO.setDia(i.getDia());
             itinerarioDTO.setNombreBillete(i.getBillete().getNombre());
@@ -78,17 +78,14 @@ public class ItinerarioService {
         Itinerario itinerarioSinDTO = new Itinerario();
         itinerarioSinDTO.setId(itinerario.getId());
         itinerarioSinDTO.setActividad(itinerario.getActividad());
-        itinerarioSinDTO.setUbicacion(itinerario.getUbicacion());
+        itinerarioSinDTO.setLatitud(itinerario.getLatitud());
+        itinerarioSinDTO.setLongitud(itinerario.getLongitud());
+        itinerarioSinDTO.setEstaEnRuta(itinerario.isEstaEnRuta());
+        itinerarioSinDTO.setMedioTransporte(itinerario.getMedioTransporte());
+        itinerarioSinDTO.setDuracion(LocalDateTime.parse(itinerario.getDuracion()));
         itinerarioSinDTO.setHora(LocalTime.parse(itinerario.getHora()));
         itinerarioSinDTO.setDia(itinerario.getDia());
-
-        if(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()) != null) {
-            itinerarioSinDTO.setBillete(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()));
-        } else {
-            BilleteEntrada billeteEntrada = new BilleteEntrada();
-            billeteEntrada.setNombre(itinerario.getNombreBillete());
-            itinerarioSinDTO.setBillete(billeteEntrada);
-        }
+        itinerarioSinDTO.setBillete(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()));
         itinerarioSinDTO.setFoto(itinerario.getFoto());
         return itinerarioSinDTO;
     }

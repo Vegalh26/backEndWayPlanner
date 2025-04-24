@@ -14,5 +14,6 @@ public interface ItinerarioRepository extends JpaRepository<Itinerario, Long> {
     List<Itinerario> findByDia_Viaje_IdOrderByDia_NumeroDiaAscHoraAsc(Long viajeId);
     List<Itinerario> findByDia_Viaje_IdAndDia_FechaBetween(Long viajeId, LocalDate fechaInicio, LocalDate fechaFin);
 
+    List<Itinerario> findByDia_Viaje_IdAndDia_Fecha(Long viajeId, LocalDate fecha);
 
 }
