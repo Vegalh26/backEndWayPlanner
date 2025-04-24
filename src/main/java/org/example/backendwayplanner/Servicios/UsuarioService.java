@@ -5,6 +5,7 @@ import org.example.backendwayplanner.DTO.LoginDTO;
 import org.example.backendwayplanner.DTO.RegistroDTO;
 import org.example.backendwayplanner.DTO.RespuestaDTO;
 
+import org.example.backendwayplanner.DTO.UsuarioDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
 import org.example.backendwayplanner.Security.JwtService;
@@ -51,7 +52,7 @@ public class UsuarioService implements UserDetailsService {
         if (usuarioOpcional.isPresent()) {
             Usuario usuario = usuarioOpcional.get();
 
-            if (passwordEncoder.matches(dto.getContraseña(), usuario.getPassword())) {
+            if (passwordEncoder.matches(dto.getPassword(), usuario.getPassword())) {
 
                 String token = jwtService.generateToken(usuario);
                 return ResponseEntity
@@ -67,6 +68,21 @@ public class UsuarioService implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
 
+    }
+    public Usuario actualizarUsuario(Long id, UsuarioDTO dto) {
+        Optional<Usuario> usuarioOpcional = usuarioRepository.findById(id);
+
+        if (usuarioOpcional.isEmpty()) {
+            throw new IllegalArgumentException("Usuario no encontrado");
+        }
+
+        Usuario usuario = usuarioOpcional.get();
+        usuario.setNombre(dto.getNombre());
+        usuario.setTelefono(dto.getTelefono());
+        usuario.setEmail(dto.getEmail());
+        usuario.setContraseña(passwordEncoder.encode(dto.getContraseña()));
+
+        return usuarioRepository.save(usuario);
     }
 
 

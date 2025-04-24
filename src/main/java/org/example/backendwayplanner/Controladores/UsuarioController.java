@@ -1,0 +1,22 @@
+package org.example.backendwayplanner.Controladores;
+
+import lombok.AllArgsConstructor;
+import org.example.backendwayplanner.DTO.UsuarioDTO;
+import org.example.backendwayplanner.Entidades.Usuario;
+import org.example.backendwayplanner.Servicios.UsuarioService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/usuario")
+@AllArgsConstructor
+public class UsuarioController {
+
+    private final UsuarioService usuarioService;
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
+        Usuario usuarioActualizado = usuarioService.actualizarUsuario(id, dto);
+        return ResponseEntity.ok(usuarioActualizado);
+    }
+}
