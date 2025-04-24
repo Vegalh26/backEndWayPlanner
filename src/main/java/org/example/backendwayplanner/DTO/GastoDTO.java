@@ -5,7 +5,7 @@ import org.example.backendwayplanner.Enums.CategoriaGasto;
 
 import java.util.Date;
 
-@Data
+
 public class GastoDTO {
 
     private String titulo;

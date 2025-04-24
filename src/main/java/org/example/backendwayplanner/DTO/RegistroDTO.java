@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 
-@Data
+
 public class RegistroDTO {
 
     private Long id;
