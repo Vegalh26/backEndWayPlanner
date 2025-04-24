@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.DTOs;
+package org.example.backendwayplanner.Dtos;
 
 import java.time.LocalTime;
 

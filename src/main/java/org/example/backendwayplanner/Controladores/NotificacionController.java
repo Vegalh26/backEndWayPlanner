@@ -1,8 +1,8 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.DTOs.HoraNotificacionDTO;
-import org.example.backendwayplanner.DTOs.NotificacionDTO;
-import org.example.backendwayplanner.DTOs.NotificacionListaDTO;
+import org.example.backendwayplanner.Dtos.HoraNotificacionDTO;
+import org.example.backendwayplanner.Dtos.NotificacionDTO;
+import org.example.backendwayplanner.Dtos.NotificacionListaDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
