@@ -5,6 +5,7 @@ import org.example.backendwayplanner.Entidades.Dia;
 public class ItinerarioDTO {
 
     Long id;
+    Long idViaje;
     String actividad;
     String latitud;
     String longitud;
