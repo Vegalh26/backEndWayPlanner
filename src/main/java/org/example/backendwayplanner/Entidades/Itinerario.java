@@ -30,6 +30,8 @@ public class Itinerario {
 
     private boolean estaEnRuta;
 
+    private boolean apareceEnItinerario;
+
     private String medioTransporte;
 
     private LocalDateTime duracion;
@@ -46,13 +48,14 @@ public class Itinerario {
     @ManyToOne
     private Dia dia;
 
-    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, String medioTransporte, LocalDateTime duracion, byte[] foto, CategoriaLugar categoria, BilleteEntrada billete, Dia dia) {
+    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String medioTransporte, LocalDateTime duracion, byte[] foto, CategoriaLugar categoria, BilleteEntrada billete, Dia dia) {
         this.id = id;
         this.actividad = actividad;
         this.hora = hora;
         this.latitud = latitud;
         this.longitud = longitud;
         this.estaEnRuta = estaEnRuta;
+        this.apareceEnItinerario = apareceEnItinerario;
         this.medioTransporte = medioTransporte;
         this.duracion = duracion;
         this.foto = foto;
@@ -143,6 +146,14 @@ public class Itinerario {
 
     public void setEstaEnRuta(boolean estaEnRuta) {
         this.estaEnRuta = estaEnRuta;
+    }
+
+    public boolean apareceEnItinerario() {
+        return apareceEnItinerario;
+    }
+
+    public void setApareceEnItinerario(boolean apareceEnItinerario) {
+        this.apareceEnItinerario = apareceEnItinerario;
     }
 
     public String getMedioTransporte() {
