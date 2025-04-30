@@ -1,5 +1,6 @@
 package org.example.backendwayplanner.Servicios;
 
+import org.example.backendwayplanner.DTOs.VerGastosDTO;
 import org.example.backendwayplanner.Dtos.GastoDTO;
 import org.example.backendwayplanner.Dtos.GastosResumenDTO;
 import org.example.backendwayplanner.Entidades.Gastos;
@@ -8,7 +9,10 @@ import org.example.backendwayplanner.Repositorios.GastosRepository;
 import org.example.backendwayplanner.Repositorios.ViajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -67,6 +71,29 @@ public class GastosService {
         gasto.setViaje(viaje);
 
         return gastosRepository.save(gasto);
+    }
+
+    public List<VerGastosDTO> obtenerDiasConGastosOIngresosYDetalles(Long viajeId) {
+        List<Gastos> gastos = gastosRepository.findByViajeId(viajeId);
+
+        return gastos.stream()
+                .collect(Collectors.groupingBy(Gastos::getFecha))
+                .entrySet()
+                .stream()
+                .map(entry -> new VerGastosDTO(
+                        entry.getKey(),
+                        entry.getValue().stream()
+                                .map(gasto -> new GastoDTO(
+                                        gasto.getTitulo(),
+                                        gasto.getCantidad(),
+                                        gasto.isEsIngreso(),
+                                        gasto.getCategoria(),
+                                        gasto.getFecha(),
+                                        gasto.getViaje().getId()
+                                ))
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
     }
 
 }

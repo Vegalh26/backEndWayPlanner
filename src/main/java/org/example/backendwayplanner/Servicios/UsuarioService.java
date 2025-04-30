@@ -40,7 +40,7 @@ public class UsuarioService implements UserDetailsService {
 
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setEmail(dto.getEmail());
-        nuevoUsuario.setContraseña(passwordEncoder.encode(dto.getContraseña()));
+        nuevoUsuario.setContraseña(passwordEncoder.encode(dto.getPassword()));
         nuevoUsuario.setTelefono(dto.getTelefono());
         nuevoUsuario.setFechaRegistro(dto.getFechaRegistro());
         nuevoUsuario.setNombre(dto.getNombre());

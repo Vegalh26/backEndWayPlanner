@@ -1,10 +1,6 @@
 package org.example.backendwayplanner.Dtos;
 
-import lombok.Data;
-
 import java.time.LocalDate;
-import java.util.Date;
-
 
 
 public class RegistroDTO {
@@ -12,18 +8,18 @@ public class RegistroDTO {
     private Long id;
     private String nombre;
     private String email;
-    private String contraseña;
+    private String password;
     private String telefono;
     private LocalDate fechaRegistro = LocalDate.now();
 
     public RegistroDTO() {
     }
 
-    public RegistroDTO(Long id, String nombre, String email, String contraseña, String telefono, LocalDate fechaRegistro) {
+    public RegistroDTO(Long id, String nombre, String email, String password, String telefono, LocalDate fechaRegistro) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
-        this.contraseña = contraseña;
+        this.password = password;
         this.telefono = telefono;
         this.fechaRegistro = fechaRegistro;
     }
@@ -52,12 +48,12 @@ public class RegistroDTO {
         this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getTelefono() {
