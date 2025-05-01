@@ -37,5 +37,9 @@ public class Viaje {
 
     @OneToMany(mappedBy = "viaje")
     List<Maleta> maletas;
+
+    @OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Gastos> gastos;
+
 }
 
