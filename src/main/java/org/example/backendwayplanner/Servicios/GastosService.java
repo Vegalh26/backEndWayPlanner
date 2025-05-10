@@ -67,7 +67,7 @@ public class GastosService {
         gasto.setCantidad(gastoDTO.getCantidad());
         gasto.setEsIngreso(gastoDTO.isEsIngreso());
         gasto.setCategoria(gastoDTO.getCategoria());
-        gasto.setFecha(gastoDTO.getFecha());
+        gasto.setFecha(gastoDTO.getFecha() != null ? gastoDTO.getFecha() : LocalDate.now());
         gasto.setViaje(viaje);
 
         return gastosRepository.save(gasto);
@@ -84,16 +84,33 @@ public class GastosService {
                         entry.getKey(),
                         entry.getValue().stream()
                                 .map(gasto -> new GastoDTO(
+                                        gasto.getId(),
                                         gasto.getTitulo(),
                                         gasto.getCantidad(),
                                         gasto.isEsIngreso(),
                                         gasto.getCategoria(),
                                         gasto.getFecha(),
                                         gasto.getViaje().getId()
+
                                 ))
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
+    }
+    public Gastos actualizarGasto(Long id, GastoDTO gastoDTO) {
+        Gastos gastoExistente = gastosRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Gasto no encontrado"));
+
+        gastoExistente.setTitulo(gastoDTO.getTitulo());
+        gastoExistente.setCantidad(gastoDTO.getCantidad());
+        gastoExistente.setEsIngreso(gastoDTO.isEsIngreso());
+        gastoExistente.setCategoria(gastoDTO.getCategoria());
+
+        if (gastoDTO.getFecha() != null) {
+            gastoExistente.setFecha(gastoDTO.getFecha());
+        }
+
+        return gastosRepository.save(gastoExistente);
     }
 
 }

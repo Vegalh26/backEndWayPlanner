@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 public class GastoDTO {
-
+    private Long id;
     private String titulo;
     private Double cantidad;
     private boolean esIngreso;
@@ -16,7 +16,8 @@ public class GastoDTO {
     private LocalDate fecha;
     private Long viajeId;
 
-    public GastoDTO(String titulo, Double cantidad, boolean esIngreso, CategoriaGasto categoria, LocalDate fecha, Long viajeId) {
+    public GastoDTO(Long id,String titulo, Double cantidad, boolean esIngreso, CategoriaGasto categoria, LocalDate fecha, Long viajeId) {
+        this.id = id;
         this.titulo = titulo;
         this.cantidad = cantidad;
         this.esIngreso = esIngreso;
@@ -75,5 +76,11 @@ public class GastoDTO {
 
     public void setViajeId(Long viajeId) {
         this.viajeId = viajeId;
+    }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 }

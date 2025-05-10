@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/gastos")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 
 public class GastosController {
     private GastosService gastosService;
@@ -32,5 +33,10 @@ public class GastosController {
     @GetMapping("/dias/{viajeId}")
     public ResponseEntity<List<VerGastosDTO>> obtenerDiasConGastosOIngresosYDetalles(@PathVariable Long viajeId) {
         return ResponseEntity.ok(gastosService.obtenerDiasConGastosOIngresosYDetalles(viajeId));
+    }
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<Gastos> actualizarGasto(@PathVariable Long id, @RequestBody GastoDTO gastoDTO) {
+        Gastos gastoActualizado = gastosService.actualizarGasto(id, gastoDTO);
+        return ResponseEntity.ok(gastoActualizado);
     }
 }
