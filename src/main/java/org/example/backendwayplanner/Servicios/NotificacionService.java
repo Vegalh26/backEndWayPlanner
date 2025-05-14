@@ -42,15 +42,9 @@ public class NotificacionService {
                 .collect(Collectors.toList());
     }
 
-    public LocalDateTime establecerFechaEnvio(Usuario usuario) {
-        LocalTime horaEnvio = usuario.getHoraNotificacion() != null
-                ? usuario.getHoraNotificacion()
-                : LocalTime.of(8, 0);
 
-        return LocalDate.now().plusDays(1).atTime(horaEnvio);
-    }
 
-    @Scheduled(cron = "0 * * * * ?") // Cada minuto
+    @Scheduled(cron = "0 * * * * ?")
     public void enviarNotificacionesPorHora() {
         LocalDateTime ahora = LocalDateTime.now();
         LocalDate hoy = LocalDate.now();
@@ -62,7 +56,7 @@ public class NotificacionService {
             Usuario usuario = viaje.getUsuario();
             LocalTime horaUsuario = usuario.getHoraNotificacion() != null
                     ? usuario.getHoraNotificacion()
-                    : LocalTime.of(8, 0); // valor por defecto
+                    : LocalTime.of(8, 0);
 
             long diasHastaViaje = java.time.temporal.ChronoUnit.DAYS.between(
                     hoy,

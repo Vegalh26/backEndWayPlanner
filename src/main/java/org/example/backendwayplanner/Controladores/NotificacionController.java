@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/notificaciones")
 public class NotificacionController {
     @Autowired
     private NotificacionService notificacionService;
@@ -23,12 +25,12 @@ public class NotificacionController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/usuario/{idUsuario}")
+    @GetMapping("/listar/{idUsuario}")
     public List<NotificacionListaDTO> listarNotificaciones(@PathVariable Long idUsuario) {
         return notificacionService.listarNotificaciones(idUsuario);
     }
 
-    @PutMapping("/{id}/hora-notificacion")
+    @PutMapping("/establecer-hora/{id}")
     public ResponseEntity<?> actualizarHoraNotificacion(@PathVariable Long id, @RequestBody HoraNotificacionDTO horaDTO) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
 
@@ -47,12 +49,12 @@ public class NotificacionController {
 
 
     @PostMapping("/enviar")
-    public void enviarNotificacion(@RequestBody NotificacionDTO notificacionDTO) {
+    public void enviarNotificacion() {
         notificacionService.enviarNotificacionesPorHora();
     }
 
 
-    @GetMapping("/{id}/hora-notificacion")
+    @GetMapping("/hora-notificacion/{id}")
     public ResponseEntity<HoraNotificacionDTO> obtenerHoraNotificacion(@PathVariable Long id) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
 

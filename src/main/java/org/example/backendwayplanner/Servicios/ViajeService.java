@@ -37,6 +37,7 @@ public class ViajeService {
         Optional<Viaje> viajeExistente = viajeRepository.findById(viaje.getId());
         if (viajeExistente.isPresent()) {
             Viaje viajeActualizado = viajeExistente.get();
+            viajeActualizado.setNombre(viaje.getNombre());
             viajeActualizado.setDestino(viaje.getDestino());
             viajeActualizado.setFechaInicio(viaje.getFechaInicio());
             viajeActualizado.setFechaFin(viaje.getFechaFin());
