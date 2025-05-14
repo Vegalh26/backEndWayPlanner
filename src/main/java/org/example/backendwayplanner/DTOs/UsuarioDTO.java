@@ -1,18 +1,16 @@
 package org.example.backendwayplanner.Dtos;
 
-import lombok.Data;
-
 
 public class UsuarioDTO {
     private String nombre;
     private String email;
-    private String contraseña;
+    private String password;
     private String telefono;
 
-    public UsuarioDTO(String nombre, String email, String contraseña, String telefono) {
+    public UsuarioDTO(String nombre, String email, String password, String telefono) {
         this.nombre = nombre;
         this.email = email;
-        this.contraseña = contraseña;
+        this.password = password;
         this.telefono = telefono;
     }
 
@@ -35,12 +33,12 @@ public class UsuarioDTO {
         this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getTelefono() {

@@ -39,4 +39,10 @@ public class GastosController {
         Gastos gastoActualizado = gastosService.actualizarGasto(id, gastoDTO);
         return ResponseEntity.ok(gastoActualizado);
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<Void> eliminarGasto(@PathVariable Long id) {
+        gastosService.eliminarGasto(id);
+        return ResponseEntity.noContent().build();
+    }
 }
