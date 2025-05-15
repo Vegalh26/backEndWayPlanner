@@ -1,5 +1,6 @@
 package org.example.backendwayplanner.Servicios;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.example.backendwayplanner.DTO.LoginDTO;
 import org.example.backendwayplanner.DTO.RegistroDTO;
@@ -90,6 +91,13 @@ public class UsuarioService implements UserDetailsService {
         usuario.setContraseña(passwordEncoder.encode(dto.getContraseña()));
 
         return usuarioRepository.save(usuario);
+    }
+
+
+    public Usuario obtenerUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Perfil no encontrado para el usuario con ID: " + id));
+
     }
 
 

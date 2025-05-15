@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +37,10 @@ public class Viaje {
 
     @OneToMany(mappedBy = "viaje")
     List<Maleta> maletas;
+
+    @OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Gastos> gastos;
+
 
     @OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Gastos> gastos;
