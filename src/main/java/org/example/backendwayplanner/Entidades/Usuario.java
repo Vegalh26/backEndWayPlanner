@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -32,45 +31,7 @@ public class Usuario implements UserDetails {
 
     private String telefono;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaRegistro = new Date();
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-    @Override
-    public String getPassword() {
-        return this.contraseña;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
     private LocalDate fechaRegistro = LocalDate.now();
-
 
     public Usuario(String nombre, String email, LocalTime horaNotificacion, String contraseña, String telefono) {
         this.nombre = nombre;
@@ -80,8 +41,7 @@ public class Usuario implements UserDetails {
         this.telefono = telefono;
     }
 
-    public Usuario(){
-
+    public Usuario() {
     }
 
     public Long getId() {
@@ -132,12 +92,12 @@ public class Usuario implements UserDetails {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public LocalTime getHoraNotificacion(){
+    public LocalTime getHoraNotificacion() {
         return horaNotificacion;
     }
 
-    public LocalTime setHoraNotificacion(LocalTime horaNotificacion){
-        return this.horaNotificacion;
+    public void setHoraNotificacion(LocalTime horaNotificacion) {
+        this.horaNotificacion = horaNotificacion;
     }
 
     @Override
@@ -157,21 +117,21 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }

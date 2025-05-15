@@ -1,11 +1,11 @@
 package org.example.backendwayplanner.Servicios;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.example.backendwayplanner.DTO.LoginDTO;
-import org.example.backendwayplanner.DTO.RegistroDTO;
-import org.example.backendwayplanner.DTO.RespuestaDTO;
 
-import org.example.backendwayplanner.DTO.UsuarioDTO;
+import org.example.backendwayplanner.Dtos.LoginDTO;
+import org.example.backendwayplanner.Dtos.RegistroDTO;
+import org.example.backendwayplanner.Dtos.RespuestaDTO;
+import org.example.backendwayplanner.Dtos.UsuarioDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
 import org.example.backendwayplanner.Security.JwtService;
@@ -86,7 +86,7 @@ public class UsuarioService implements UserDetailsService {
         usuario.setNombre(dto.getNombre());
         usuario.setTelefono(dto.getTelefono());
         usuario.setEmail(dto.getEmail());
-        usuario.setContraseña(passwordEncoder.encode(dto.getContraseña()));
+        usuario.setContraseña(passwordEncoder.encode(dto.getPassword()));
 
         return usuarioRepository.save(usuario);
     }
