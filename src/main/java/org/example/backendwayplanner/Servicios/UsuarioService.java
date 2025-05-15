@@ -40,7 +40,7 @@ public class UsuarioService implements UserDetailsService {
 
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setEmail(dto.getEmail());
-        nuevoUsuario.setContraseña(passwordEncoder.encode(dto.getPassword()));
+        nuevoUsuario.setContrasena(passwordEncoder.encode(dto.getPassword()));
         nuevoUsuario.setTelefono(dto.getTelefono());
         nuevoUsuario.setFechaRegistro(dto.getFechaRegistro());
         nuevoUsuario.setNombre(dto.getNombre());
@@ -85,7 +85,7 @@ public class UsuarioService implements UserDetailsService {
         usuario.setNombre(dto.getNombre());
         usuario.setTelefono(dto.getTelefono());
         usuario.setEmail(dto.getEmail());
-        usuario.setContraseña(passwordEncoder.encode(dto.getPassword()));
+        usuario.setContrasena(passwordEncoder.encode(dto.getPassword()));
 
         return usuarioRepository.save(usuario);
     }
