@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.backendwayplanner.Enums.TipoMaleta;
 
+import java.util.List;
+
 @Entity
 @Table(name = "maletas")
 public class Maleta {
@@ -24,6 +26,9 @@ public class Maleta {
 
     @ManyToOne
     private Viaje viaje;
+
+    @OneToMany(mappedBy = "maletaId", cascade = CascadeType.ALL)
+    private List<ObjetoMaleta> objetosMaleta;
 
     public Maleta(String nombre, Double peso, TipoMaleta tipoMaleta, Viaje viaje) {
         this.nombre = nombre;

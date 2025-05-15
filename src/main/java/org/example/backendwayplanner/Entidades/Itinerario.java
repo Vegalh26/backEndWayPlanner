@@ -1,14 +1,10 @@
 package org.example.backendwayplanner.Entidades;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.example.backendwayplanner.Enums.CategoriaLugar;
 
 import java.time.LocalTime;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "itinerario")
@@ -31,12 +27,15 @@ public class Itinerario {
     private CategoriaLugar categoria;
 
     @ManyToOne
-    private BilleteEntrada billete;
+    private Billete billete;
 
     @ManyToOne
     private Dia dia;
 
-    public Itinerario(String actividad, String ubicacion, LocalTime hora, byte[] foto, CategoriaLugar categoria, BilleteEntrada billete, Dia dia) {
+    @OneToMany
+    private List<Horario> horarios;
+
+    public Itinerario(String actividad, String ubicacion, LocalTime hora, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia) {
         this.actividad = actividad;
         this.ubicacion = ubicacion;
         this.hora = hora;
@@ -98,11 +97,11 @@ public class Itinerario {
         this.categoria = categoria;
     }
 
-    public BilleteEntrada getBillete() {
+    public Billete getBillete() {
         return billete;
     }
 
-    public void setBillete(BilleteEntrada billete) {
+    public void setBillete(Billete billete) {
         this.billete = billete;
     }
 

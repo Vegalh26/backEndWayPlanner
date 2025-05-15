@@ -2,9 +2,9 @@ package org.example.backendwayplanner.Servicios;
 
 import org.example.backendwayplanner.Dtos.ItinerarioDTO;
 import org.example.backendwayplanner.Dtos.UbicacionItinerarioDTO;
-import org.example.backendwayplanner.Entidades.BilleteEntrada;
+import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Entidades.Itinerario;
-import org.example.backendwayplanner.Repositorios.BilleteEntradaRepository;
+import org.example.backendwayplanner.Repositorios.BilleteRepository;
 import org.example.backendwayplanner.Repositorios.ItinerarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class ItinerarioService {
     private ItinerarioRepository itinerarioRepository;
 
     @Autowired
-    private BilleteEntradaRepository billeteEntradaRepository;
+    private BilleteRepository billeteEntradaRepository;
 
     // Obtener todos los itinerarios en orden por viajeId
     public List<ItinerarioDTO> obtenerItinerariosPorViajeId(Long viajeId) {
@@ -85,9 +85,9 @@ public class ItinerarioService {
         if(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()) != null) {
             itinerarioSinDTO.setBillete(billeteEntradaRepository.findByNombre(itinerario.getNombreBillete()));
         } else {
-            BilleteEntrada billeteEntrada = new BilleteEntrada();
-            billeteEntrada.setNombre(itinerario.getNombreBillete());
-            itinerarioSinDTO.setBillete(billeteEntrada);
+            Billete billete = new Billete();
+            billete.setNombre(itinerario.getNombreBillete());
+            itinerarioSinDTO.setBillete(billete);
         }
         itinerarioSinDTO.setFoto(itinerario.getFoto());
         return itinerarioSinDTO;

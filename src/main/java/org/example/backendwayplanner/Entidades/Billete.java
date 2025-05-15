@@ -1,15 +1,11 @@
 package org.example.backendwayplanner.Entidades;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.example.backendwayplanner.Enums.CategoriaBillete;
 
 @Entity
 @Table(name = "billetes_entradas")
-public class BilleteEntrada {
+public class Billete {
 
 
     @Id
@@ -30,7 +26,7 @@ public class BilleteEntrada {
     private Viaje viaje;
 
 
-    public BilleteEntrada(String nombre, CategoriaBillete categoria, byte[] pdf, String ubicacion, Viaje viaje) {
+    public Billete(String nombre, CategoriaBillete categoria, byte[] pdf, String ubicacion, Viaje viaje) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.pdf = pdf;
@@ -38,7 +34,7 @@ public class BilleteEntrada {
         this.viaje = viaje;
     }
 
-    public BilleteEntrada() {
+    public Billete() {
         // Constructor vacío
     }
 
