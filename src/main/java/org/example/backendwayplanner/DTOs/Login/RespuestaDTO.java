@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos;
+package org.example.backendwayplanner.Dtos.Login;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

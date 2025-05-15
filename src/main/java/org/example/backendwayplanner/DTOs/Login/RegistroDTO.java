@@ -1,20 +1,35 @@
-package org.example.backendwayplanner.Dtos;
+package org.example.backendwayplanner.Dtos.Login;
+
+import java.time.LocalDate;
 
 
-public class UsuarioDTO {
+public class RegistroDTO {
+
+    private Long id;
     private String nombre;
     private String email;
     private String password;
     private String telefono;
+    private LocalDate fechaRegistro = LocalDate.now();
 
-    public UsuarioDTO(String nombre, String email, String password, String telefono) {
+    public RegistroDTO() {
+    }
+
+    public RegistroDTO(Long id, String nombre, String email, String password, String telefono, LocalDate fechaRegistro) {
+        this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.telefono = telefono;
+        this.fechaRegistro = fechaRegistro;
     }
 
-    public UsuarioDTO() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -47,5 +62,13 @@ public class UsuarioDTO {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 }
