@@ -1,13 +1,8 @@
 package org.example.backendwayplanner.Entidades;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.example.backendwayplanner.Enums.CategoriaLugar;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -43,7 +38,7 @@ public class Itinerario {
     private CategoriaLugar categoria;
 
     @ManyToOne
-    private BilleteEntrada billete;
+    private Billete billete;
 
     @ManyToOne
     private Dia dia;

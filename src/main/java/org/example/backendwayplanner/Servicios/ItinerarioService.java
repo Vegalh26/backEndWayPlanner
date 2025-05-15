@@ -1,9 +1,6 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.ItinerarioDTO;
-import org.example.backendwayplanner.Entidades.BilleteEntrada;
-import org.example.backendwayplanner.Dtos.UbicacionItinerarioDTO;
-import org.example.backendwayplanner.Entidades.Billete;
+import org.example.backendwayplanner.Dtos.Itinerarios.ItinerarioDTO;
 import org.example.backendwayplanner.Entidades.Itinerario;
 import org.example.backendwayplanner.Repositorios.BilleteRepository;
 import org.example.backendwayplanner.Repositorios.ItinerarioRepository;
@@ -23,7 +20,7 @@ public class ItinerarioService {
     private ItinerarioRepository itinerarioRepository;
 
     @Autowired
-    private BilleteEntradaRepository billeteEntradaRepository;
+    private BilleteRepository billeteEntradaRepository;
 
     // Obtener todos los itinerarios en orden por viajeId
     public List<ItinerarioDTO> obtenerItinerariosPorViajeId(Long viajeId) {

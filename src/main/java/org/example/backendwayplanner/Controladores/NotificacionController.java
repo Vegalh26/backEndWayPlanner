@@ -1,10 +1,8 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.HoraNotificacionDTO;
-import org.example.backendwayplanner.Dtos.NotificacionDTO;
-import org.example.backendwayplanner.Dtos.NotificacionListaDTO;
+import org.example.backendwayplanner.Dtos.Notificaciones.HoraNotificacionDTO;
+import org.example.backendwayplanner.Dtos.Notificaciones.NotificacionListaDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
-import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
 import org.example.backendwayplanner.Servicios.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;

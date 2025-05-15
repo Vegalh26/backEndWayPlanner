@@ -1,11 +1,10 @@
 package org.example.backendwayplanner.Servicios;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 
-import org.example.backendwayplanner.Dtos.LoginDTO;
-import org.example.backendwayplanner.Dtos.RegistroDTO;
-import org.example.backendwayplanner.Dtos.RespuestaDTO;
-import org.example.backendwayplanner.Dtos.UsuarioDTO;
+import org.example.backendwayplanner.Dtos.Login.LoginDTO;
+import org.example.backendwayplanner.Dtos.Login.RegistroDTO;
+import org.example.backendwayplanner.Dtos.Login.RespuestaDTO;
+import org.example.backendwayplanner.Dtos.Login.UsuarioDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
 import org.example.backendwayplanner.Security.JwtService;

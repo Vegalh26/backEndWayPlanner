@@ -1,6 +1,6 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.DiaDTO;
+import org.example.backendwayplanner.Dtos.Itinerarios.DiaDTO;
 import org.example.backendwayplanner.Entidades.Dia;
 import org.example.backendwayplanner.Servicios.DiaService;
 import org.example.backendwayplanner.Servicios.ItinerarioService;

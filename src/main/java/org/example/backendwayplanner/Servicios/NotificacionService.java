@@ -1,6 +1,6 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.NotificacionListaDTO;
+import org.example.backendwayplanner.Dtos.Notificaciones.NotificacionListaDTO;
 import org.example.backendwayplanner.Entidades.Notificacion;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Entidades.Viaje;
