@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.example.backendwayplanner.Enums.CategoriaBillete;
 
 @Entity
-@Table(name = "billetes_entradas")
+@Table(name = "billetes")
 public class Billete {
 
 
