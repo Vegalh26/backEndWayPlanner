@@ -27,17 +27,17 @@ public class Usuario implements UserDetails {
 
     private LocalTime horaNotificacion;
 
-    private String contraseña;
+    private String contrasena;
 
     private String telefono;
 
     private LocalDate fechaRegistro = LocalDate.now();
 
-    public Usuario(String nombre, String email, LocalTime horaNotificacion, String contraseña, String telefono) {
+    public Usuario(String nombre, String email, LocalTime horaNotificacion, String contrasena, String telefono) {
         this.nombre = nombre;
         this.email = email;
         this.horaNotificacion = horaNotificacion;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.telefono = telefono;
     }
 
@@ -68,12 +68,12 @@ public class Usuario implements UserDetails {
         this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contraseña) {
+        this.contrasena = contraseña;
     }
 
     public String getTelefono() {
@@ -107,7 +107,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.contraseña;
+        return this.contrasena;
     }
 
     @Override
