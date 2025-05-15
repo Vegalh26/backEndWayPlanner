@@ -2,8 +2,10 @@ package org.example.backendwayplanner.Servicios;
 
 import org.example.backendwayplanner.Dtos.ItinerarioDTO;
 import org.example.backendwayplanner.Entidades.BilleteEntrada;
+import org.example.backendwayplanner.Dtos.UbicacionItinerarioDTO;
+import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Entidades.Itinerario;
-import org.example.backendwayplanner.Repositorios.BilleteEntradaRepository;
+import org.example.backendwayplanner.Repositorios.BilleteRepository;
 import org.example.backendwayplanner.Repositorios.ItinerarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

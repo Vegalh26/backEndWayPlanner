@@ -10,7 +10,7 @@ import org.example.backendwayplanner.Enums.CategoriaLugar;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "itinerario")
@@ -48,7 +48,10 @@ public class Itinerario {
     @ManyToOne
     private Dia dia;
 
-    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String medioTransporte, LocalDateTime duracion, byte[] foto, CategoriaLugar categoria, BilleteEntrada billete, Dia dia) {
+    @OneToMany
+    private List<Horario> horarios;
+
+    public Itinerario(Long id,String actividad, String ubicacion, LocalTime hora, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia) {
         this.id = id;
         this.actividad = actividad;
         this.hora = hora;
@@ -108,11 +111,11 @@ public class Itinerario {
         this.categoria = categoria;
     }
 
-    public BilleteEntrada getBillete() {
+    public Billete getBillete() {
         return billete;
     }
 
-    public void setBillete(BilleteEntrada billete) {
+    public void setBillete(Billete billete) {
         this.billete = billete;
     }
 
