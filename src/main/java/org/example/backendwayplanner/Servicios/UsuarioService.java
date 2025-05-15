@@ -1,5 +1,4 @@
 package org.example.backendwayplanner.Servicios;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.example.backendwayplanner.DTO.LoginDTO;
@@ -19,7 +18,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -43,7 +41,7 @@ public class UsuarioService implements UserDetailsService {
 
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setEmail(dto.getEmail());
-        nuevoUsuario.setContraseña(passwordEncoder.encode(dto.getContraseña()));
+        nuevoUsuario.setContraseña(passwordEncoder.encode(dto.getPassword()));
         nuevoUsuario.setTelefono(dto.getTelefono());
         nuevoUsuario.setFechaRegistro(dto.getFechaRegistro());
         nuevoUsuario.setNombre(dto.getNombre());

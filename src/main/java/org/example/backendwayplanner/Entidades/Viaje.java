@@ -12,10 +12,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "viajes")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Viaje {
 
     @Id

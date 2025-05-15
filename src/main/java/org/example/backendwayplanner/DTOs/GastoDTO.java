@@ -1,21 +1,23 @@
-package org.example.backendwayplanner.DTO;
+package org.example.backendwayplanner.Dtos;
 
 import lombok.Data;
 import org.example.backendwayplanner.Enums.CategoriaGasto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
-@Data
-public class GastoDTO {
 
+public class GastoDTO {
+    private Long id;
     private String titulo;
     private Double cantidad;
     private boolean esIngreso;
     private CategoriaGasto categoria;
-    private Date fecha;
+    private LocalDate fecha;
     private Long viajeId;
 
-    public GastoDTO(String titulo, Double cantidad, boolean esIngreso, CategoriaGasto categoria, Date fecha, Long viajeId) {
+    public GastoDTO(Long id,String titulo, Double cantidad, boolean esIngreso, CategoriaGasto categoria, LocalDate fecha, Long viajeId) {
+        this.id = id;
         this.titulo = titulo;
         this.cantidad = cantidad;
         this.esIngreso = esIngreso;
@@ -60,11 +62,11 @@ public class GastoDTO {
         this.categoria = categoria;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
@@ -74,5 +76,11 @@ public class GastoDTO {
 
     public void setViajeId(Long viajeId) {
         this.viajeId = viajeId;
+    }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 }

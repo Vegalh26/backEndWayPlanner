@@ -1,15 +1,18 @@
 package org.example.backendwayplanner.Servicios;
 
-import lombok.AllArgsConstructor;
-import org.example.backendwayplanner.DTO.GastoDTO;
-import org.example.backendwayplanner.DTO.GastosResumenDTO;
+import org.example.backendwayplanner.DTOs.VerGastosDTO;
+import org.example.backendwayplanner.Dtos.GastoDTO;
+import org.example.backendwayplanner.Dtos.GastosResumenDTO;
 import org.example.backendwayplanner.Entidades.Gastos;
 import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Repositorios.GastosRepository;
 import org.example.backendwayplanner.Repositorios.ViajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -64,10 +67,56 @@ public class GastosService {
         gasto.setCantidad(gastoDTO.getCantidad());
         gasto.setEsIngreso(gastoDTO.isEsIngreso());
         gasto.setCategoria(gastoDTO.getCategoria());
-        gasto.setFecha(gastoDTO.getFecha());
+        gasto.setFecha(gastoDTO.getFecha() != null ? gastoDTO.getFecha() : LocalDate.now());
         gasto.setViaje(viaje);
 
         return gastosRepository.save(gasto);
+    }
+
+    public List<VerGastosDTO> obtenerDiasConGastosOIngresosYDetalles(Long viajeId) {
+        List<Gastos> gastos = gastosRepository.findByViajeId(viajeId);
+
+        return gastos.stream()
+                .collect(Collectors.groupingBy(Gastos::getFecha))
+                .entrySet()
+                .stream()
+                .map(entry -> new VerGastosDTO(
+                        entry.getKey(),
+                        entry.getValue().stream()
+                                .map(gasto -> new GastoDTO(
+                                        gasto.getId(),
+                                        gasto.getTitulo(),
+                                        gasto.getCantidad(),
+                                        gasto.isEsIngreso(),
+                                        gasto.getCategoria(),
+                                        gasto.getFecha(),
+                                        gasto.getViaje().getId()
+
+                                ))
+                                .collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+    }
+    public Gastos actualizarGasto(Long id, GastoDTO gastoDTO) {
+        Gastos gastoExistente = gastosRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Gasto no encontrado"));
+
+        gastoExistente.setTitulo(gastoDTO.getTitulo());
+        gastoExistente.setCantidad(gastoDTO.getCantidad());
+        gastoExistente.setEsIngreso(gastoDTO.isEsIngreso());
+        gastoExistente.setCategoria(gastoDTO.getCategoria());
+
+        if (gastoDTO.getFecha() != null) {
+            gastoExistente.setFecha(gastoDTO.getFecha());
+        }
+
+        return gastosRepository.save(gastoExistente);
+    }
+
+    public void eliminarGasto(Long id) {
+        Gastos gasto = gastosRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Gasto no encontrado"));
+        gastosRepository.delete(gasto);
     }
 
 }

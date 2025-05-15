@@ -1,9 +1,11 @@
 package org.example.backendwayplanner.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.backendwayplanner.Enums.CategoriaGasto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -24,13 +26,13 @@ public class Gastos {
     private CategoriaGasto categoria;
 
 
-    private Date fecha;
-
+    private LocalDate fecha;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_viaje")
     private Viaje viaje;
 
-    public Gastos(Long id, String titulo, Double cantidad, boolean esIngreso, CategoriaGasto categoria, Date fecha, Viaje viaje) {
+    public Gastos(Long id, String titulo, Double cantidad, boolean esIngreso, CategoriaGasto categoria, LocalDate fecha, Viaje viaje) {
         this.id = id;
         this.titulo = titulo;
         this.cantidad = cantidad;
@@ -84,11 +86,11 @@ public class Gastos {
         this.categoria = categoria;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

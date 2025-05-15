@@ -1,16 +1,21 @@
 package org.example.backendwayplanner.Controladores;
 
 import lombok.AllArgsConstructor;
-import org.example.backendwayplanner.DTO.GastoDTO;
-import org.example.backendwayplanner.DTO.GastosResumenDTO;
+import org.example.backendwayplanner.DTOs.VerGastosDTO;
+import org.example.backendwayplanner.Dtos.GastoDTO;
+import org.example.backendwayplanner.Dtos.GastosResumenDTO;
 import org.example.backendwayplanner.Entidades.Gastos;
 import org.example.backendwayplanner.Servicios.GastosService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("/gastos")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 
 public class GastosController {
     private GastosService gastosService;
@@ -24,5 +29,20 @@ public class GastosController {
     public ResponseEntity<Gastos> crearGasto(@RequestBody GastoDTO gastoDTO) {
         Gastos gastoCreado = gastosService.guardarGasto(gastoDTO);
         return ResponseEntity.ok(gastoCreado);
+    }
+    @GetMapping("/dias/{viajeId}")
+    public ResponseEntity<List<VerGastosDTO>> obtenerDiasConGastosOIngresosYDetalles(@PathVariable Long viajeId) {
+        return ResponseEntity.ok(gastosService.obtenerDiasConGastosOIngresosYDetalles(viajeId));
+    }
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<Gastos> actualizarGasto(@PathVariable Long id, @RequestBody GastoDTO gastoDTO) {
+        Gastos gastoActualizado = gastosService.actualizarGasto(id, gastoDTO);
+        return ResponseEntity.ok(gastoActualizado);
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<Void> eliminarGasto(@PathVariable Long id) {
+        gastosService.eliminarGasto(id);
+        return ResponseEntity.noContent().build();
     }
 }
