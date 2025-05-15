@@ -7,7 +7,6 @@ import org.example.backendwayplanner.Enums.CategoriaBillete;
 @Table(name = "billetes")
 public class Billete {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
