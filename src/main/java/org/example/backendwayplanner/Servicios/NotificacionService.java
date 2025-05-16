@@ -1,8 +1,7 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.Notificaciones.NotificacionListaDTO;
+import org.example.backendwayplanner.DTOs.Notificaciones.NotificacionListaDTO;
 import jakarta.persistence.EntityNotFoundException;
-import org.example.backendwayplanner.DTOs.NotificacionListaDTO;
 import org.example.backendwayplanner.Entidades.Notificacion;
 import org.example.backendwayplanner.Entidades.NotificacionDescartada;
 import org.example.backendwayplanner.Repositorios.notificacionDescartadaRepository;
@@ -98,7 +97,6 @@ public class NotificacionService {
         if (notificacionOptional.isPresent()) {
             Notificacion notificacion = notificacionOptional.get();
 
-            // Guardar como descartada
             NotificacionDescartada descartada = new NotificacionDescartada();
             descartada.setUsuarioId(notificacion.getUsuario().getId());
             descartada.setViajeId(notificacion.getViaje().getId());
