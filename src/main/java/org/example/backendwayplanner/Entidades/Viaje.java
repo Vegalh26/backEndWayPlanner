@@ -37,6 +37,9 @@ public class Viaje {
     @OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Gastos> gastos;
 
+    @OneToMany(mappedBy = "viaje", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notificacion> notificaciones;
+
     // COntructor
     public Viaje(String nombre, LocalDate fechaInicio, LocalDate fechaFin, String destino, String descripcion, Usuario usuario, List<Maleta> maletas, List<Gastos> gastos) {
         this.nombre = nombre;
