@@ -66,4 +66,11 @@ public class NotificacionController {
         }
     }
 
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarNotificacion(@PathVariable Long id) {
+        notificacionService.eliminarNotificacion(id);
+    }
+
+
+
 }

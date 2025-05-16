@@ -52,6 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("notificaciones/hora-notificacion/**").permitAll()
                         .requestMatchers("notificaciones/establecer-hora/**").permitAll()
                         .requestMatchers("notificaciones/listar/**").permitAll()
+                        .requestMatchers("notificaciones/eliminar/**").permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilterChain, UsernamePasswordAuthenticationFilter.class)
