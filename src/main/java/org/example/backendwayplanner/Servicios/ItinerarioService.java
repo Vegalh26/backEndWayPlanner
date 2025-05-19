@@ -77,6 +77,9 @@ public class ItinerarioService {
             itinerarioDTO.setFoto(i.getFoto());
             itinerarioDTO.setHorarios(null);
             itinerarioDTO.setCategoria(i.getCategoria());
+            itinerarioDTO.setHora(i.getHora());
+
+            itinerarioDTOS.add(itinerarioDTO);
 
         }
 
