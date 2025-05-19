@@ -29,7 +29,7 @@ public class Itinerario {
 
     private String medioTransporte;
 
-    private LocalDateTime duracion;
+    private String duracion;
 
     @Lob
     private byte[] foto;
@@ -46,7 +46,11 @@ public class Itinerario {
     @OneToMany
     private List<Horario> horarios;
 
-    public Itinerario(Long id,String actividad, String ubicacion, LocalTime hora, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia) {
+    public Itinerario() {
+
+    }
+
+    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String medioTransporte, String duracion, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia, List<Horario> horarios) {
         this.id = id;
         this.actividad = actividad;
         this.hora = hora;
@@ -60,10 +64,7 @@ public class Itinerario {
         this.categoria = categoria;
         this.billete = billete;
         this.dia = dia;
-    }
-
-    public Itinerario() {
-        // Constructor vacío
+        this.horarios = horarios;
     }
 
     public Long getId() {
@@ -82,52 +83,20 @@ public class Itinerario {
         this.actividad = actividad;
     }
 
-    public LocalTime getHora() {
-        return hora;
-    }
-
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
-    }
-
-    public byte[] getFoto() {
-        return foto;
-    }
-
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
-    }
-
-    public CategoriaLugar getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(CategoriaLugar categoria) {
-        this.categoria = categoria;
-    }
-
-    public Billete getBillete() {
-        return billete;
-    }
-
-    public void setBillete(Billete billete) {
-        this.billete = billete;
-    }
-
-    public Dia getDia() {
-        return dia;
-    }
-
-    public void setDia(Dia dia) {
-        this.dia = dia;
-    }
-
     public String getLatitud() {
         return latitud;
     }
 
     public void setLatitud(String latitud) {
         this.latitud = latitud;
+    }
+
+    public LocalTime getHora() {
+        return hora;
+    }
+
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
     }
 
     public String getLongitud() {
@@ -162,11 +131,51 @@ public class Itinerario {
         this.medioTransporte = medioTransporte;
     }
 
-    public LocalDateTime getDuracion() {
+    public String getDuracion() {
         return duracion;
     }
 
-    public void setDuracion(LocalDateTime duracion) {
+    public void setDuracion(String duracion) {
         this.duracion = duracion;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+
+    public CategoriaLugar getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaLugar categoria) {
+        this.categoria = categoria;
+    }
+
+    public Billete getBillete() {
+        return billete;
+    }
+
+    public void setBillete(Billete billete) {
+        this.billete = billete;
+    }
+
+    public Dia getDia() {
+        return dia;
+    }
+
+    public void setDia(Dia dia) {
+        this.dia = dia;
+    }
+
+    public List<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
     }
 }
