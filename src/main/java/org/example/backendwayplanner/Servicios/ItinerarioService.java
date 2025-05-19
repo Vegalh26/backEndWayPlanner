@@ -38,6 +38,7 @@ public class ItinerarioService {
     }
 
     // Obtener todos los itinerarios por viaje y día
+    @Transactional
     public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(Long viajeId, LocalDate fecha) {
 
         List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdAndDia_Fecha(viajeId, fecha);
