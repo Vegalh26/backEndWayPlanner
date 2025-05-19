@@ -1,7 +1,10 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.Notificaciones.NotificacionListaDTO;
+import org.example.backendwayplanner.DTOs.Notificaciones.NotificacionListaDTO;
+import jakarta.persistence.EntityNotFoundException;
 import org.example.backendwayplanner.Entidades.Notificacion;
+import org.example.backendwayplanner.Entidades.NotificacionDescartada;
+import org.example.backendwayplanner.Repositorios.notificacionDescartadaRepository;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Enums.EstadoNotificacion;
@@ -16,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +30,9 @@ public class NotificacionService {
 
     @Autowired
     private ViajeRepository viajeRepository;
+
+    @Autowired
+    private notificacionDescartadaRepository notificacionDescartadaRepository;
 
     public List<NotificacionListaDTO> listarNotificaciones(Long idUsuario) {
         List<Notificacion> notificaciones = notificacionRepository.findByUsuarioId(idUsuario);
@@ -40,7 +47,6 @@ public class NotificacionService {
                 ))
                 .collect(Collectors.toList());
     }
-
 
 
     @Scheduled(cron = "0 * * * * ?")
@@ -65,14 +71,10 @@ public class NotificacionService {
                 long diferenciaMinutos = Math.abs(java.time.Duration.between(horaActual, horaUsuario).toMinutes());
 
                 if (diferenciaMinutos < 2) {
-                    boolean yaExiste = notificacionRepository.existsByUsuarioIdAndViajeIdAndFechaEnvioBetween(
-                            usuario.getId(),
-                            viaje.getId(),
-                            ahora.minusMinutes(2),
-                            ahora.plusMinutes(2)
-                    );
+                    boolean yaExiste = notificacionRepository.existsByUsuarioIdAndViajeId(usuario.getId(), viaje.getId());
+                    boolean yaDescartada = notificacionDescartadaRepository.existsByUsuarioIdAndViajeId(usuario.getId(), viaje.getId());
 
-                    if (!yaExiste) {
+                    if (!yaExiste && !yaDescartada) {
                         Notificacion notificacion = new Notificacion();
                         notificacion.setMensaje("Tu viaje a " + viaje.getDestino() + " es en " + diasHastaViaje + " día(s)");
                         notificacion.setTipoNotificacion(TipoNotificacion.RECORDATORIO);
@@ -84,7 +86,27 @@ public class NotificacionService {
                         notificacionRepository.save(notificacion);
                     }
                 }
+
             }
+        }
+    }
+
+    public void eliminarNotificacion(Long idNotificacion) {
+        Optional<Notificacion> notificacionOptional = notificacionRepository.findById(idNotificacion);
+
+        if (notificacionOptional.isPresent()) {
+            Notificacion notificacion = notificacionOptional.get();
+
+            NotificacionDescartada descartada = new NotificacionDescartada();
+            descartada.setUsuarioId(notificacion.getUsuario().getId());
+            descartada.setViajeId(notificacion.getViaje().getId());
+            descartada.setFecha(LocalDate.now());
+
+            notificacionDescartadaRepository.save(descartada);
+
+            notificacionRepository.deleteById(idNotificacion);
+        } else {
+            throw new EntityNotFoundException("Notificación no encontrada con ID: " + idNotificacion);
         }
     }
 }

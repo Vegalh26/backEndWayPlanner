@@ -1,7 +1,7 @@
 package org.example.backendwayplanner.Controladores;
 
 import org.example.backendwayplanner.Dtos.Notificaciones.HoraNotificacionDTO;
-import org.example.backendwayplanner.Dtos.Notificaciones.NotificacionListaDTO;
+import org.example.backendwayplanner.DTOs.Notificaciones.NotificacionListaDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
 import org.example.backendwayplanner.Servicios.NotificacionService;
@@ -65,5 +65,12 @@ public class NotificacionController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarNotificacion(@PathVariable Long id) {
+        notificacionService.eliminarNotificacion(id);
+    }
+
+
 
 }
