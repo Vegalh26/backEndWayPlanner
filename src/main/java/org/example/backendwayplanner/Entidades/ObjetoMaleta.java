@@ -1,10 +1,6 @@
 package org.example.backendwayplanner.Entidades;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.example.backendwayplanner.Enums.CategoriaObjeto;
 
 
@@ -23,14 +19,18 @@ public class ObjetoMaleta {
     @Enumerated(EnumType.STRING)
     private CategoriaObjeto categoria;
 
-    @ManyToOne
-    private Maleta maleta;
+    private boolean isSelected;
 
-    public ObjetoMaleta(String nombre, int cantidad, CategoriaObjeto categoria, Maleta maleta) {
+    @ManyToOne
+    @JoinColumn(name = "maleta_id")
+    private Maleta maletaId;
+
+    public ObjetoMaleta(String nombre, int cantidad, CategoriaObjeto categoria, Maleta maletaId) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.categoria = categoria;
-        this.maleta = maleta;
+        this.isSelected = false;
+        this.maletaId = this.maletaId;
     }
 
     public ObjetoMaleta() {
@@ -69,11 +69,19 @@ public class ObjetoMaleta {
         this.categoria = categoria;
     }
 
-    public Maleta getMaleta() {
-        return maleta;
+    public boolean getIsSelected() {
+        return isSelected;
     }
 
-    public void setMaleta(Maleta maleta) {
-        this.maleta = maleta;
+    public void setIsSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public Maleta getMaletaId() {
+        return maletaId;
+    }
+
+    public void setMaletaId(Maleta maletaId) {
+        this.maletaId = maletaId;
     }
 }

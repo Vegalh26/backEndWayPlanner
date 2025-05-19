@@ -1,9 +1,8 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.DiaDTO;
+import org.example.backendwayplanner.Dtos.Itinerarios.DiaDTO;
 import org.example.backendwayplanner.Entidades.Dia;
 import org.example.backendwayplanner.Repositorios.DiaRepository;
-import org.example.backendwayplanner.Repositorios.ItinerarioRepository;
 import org.example.backendwayplanner.Repositorios.ViajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

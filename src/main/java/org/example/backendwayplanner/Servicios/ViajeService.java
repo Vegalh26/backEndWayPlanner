@@ -1,5 +1,6 @@
 package org.example.backendwayplanner.Servicios;
 
+import org.example.backendwayplanner.DTO.ViajeDTO;
 import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Repositorios.ViajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ViajeService {
@@ -15,35 +17,48 @@ public class ViajeService {
     ViajeRepository viajeRepository;
 
     public Viaje crearViaje(Viaje viaje) {
-        viajeRepository.save(viaje);
-        return viaje;
+        return viajeRepository.save(viaje);
     }
 
     public void eliminarViaje(Viaje viaje) {
         viajeRepository.delete(viaje);
     }
 
-    public List<Viaje> listarViajesporUsuarioId(Long usuarioId) {
-        return viajeRepository.findByUsuarioId(usuarioId);
+    // Devuelve una lista de DTOs
+    public List<ViajeDTO> listarViajesporUsuarioId(Long usuarioId) {
+        return viajeRepository.ViajesporUsuarioId(usuarioId)
+                .stream()
+                .map(this::convertirAViajeDTO)
+                .collect(Collectors.toList());
     }
 
-
-    public Optional<Viaje> obtenerViajePorId(Long id) {
-        return viajeRepository.findById(id);
+    // Devuelve un DTO opcional
+    public Optional<ViajeDTO> obtenerViajePorId(Long id) {
+        return viajeRepository.findById(id).map(this::convertirAViajeDTO);
     }
-
 
     public Viaje actualizarViaje(Viaje viaje) {
         Optional<Viaje> viajeExistente = viajeRepository.findById(viaje.getId());
         if (viajeExistente.isPresent()) {
             Viaje viajeActualizado = viajeExistente.get();
+            viajeActualizado.setNombre(viaje.getNombre());
             viajeActualizado.setDestino(viaje.getDestino());
             viajeActualizado.setFechaInicio(viaje.getFechaInicio());
             viajeActualizado.setFechaFin(viaje.getFechaFin());
-            viajeActualizado.setUsuario(viaje.getUsuario());
+            viajeActualizado.setDescripcion(viaje.getDescripcion());
             return viajeRepository.save(viajeActualizado);
         }
         return null;
     }
 
+    private ViajeDTO convertirAViajeDTO(Viaje viaje) {
+        return new ViajeDTO(
+                viaje.getId(),
+                viaje.getNombre(),
+                viaje.getFechaInicio(),
+                viaje.getFechaFin(),
+                viaje.getDestino(),
+                viaje.getDescripcion()
+        );
+    }
 }

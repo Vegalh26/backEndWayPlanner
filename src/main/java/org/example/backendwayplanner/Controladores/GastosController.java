@@ -1,15 +1,14 @@
 package org.example.backendwayplanner.Controladores;
 
 import lombok.AllArgsConstructor;
-import org.example.backendwayplanner.DTOs.VerGastosDTO;
-import org.example.backendwayplanner.Dtos.GastoDTO;
-import org.example.backendwayplanner.Dtos.GastosResumenDTO;
+import org.example.backendwayplanner.Dtos.Gastos.VerGastosDTO;
+import org.example.backendwayplanner.Dtos.Gastos.GastoDTO;
+import org.example.backendwayplanner.Dtos.Gastos.GastosResumenDTO;
 import org.example.backendwayplanner.Entidades.Gastos;
 import org.example.backendwayplanner.Servicios.GastosService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController

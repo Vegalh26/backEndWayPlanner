@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos;
+package org.example.backendwayplanner.Dtos.Gastos;
 
 import lombok.Data;
 import org.example.backendwayplanner.Enums.CategoriaGasto;

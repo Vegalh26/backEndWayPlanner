@@ -1,10 +1,8 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.HoraNotificacionDTO;
-import org.example.backendwayplanner.Dtos.NotificacionDTO;
-import org.example.backendwayplanner.Dtos.NotificacionListaDTO;
+import org.example.backendwayplanner.Dtos.Notificaciones.HoraNotificacionDTO;
+import org.example.backendwayplanner.DTOs.Notificaciones.NotificacionListaDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
-import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
 import org.example.backendwayplanner.Servicios.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/notificaciones")
 public class NotificacionController {
     @Autowired
     private NotificacionService notificacionService;
@@ -23,12 +23,12 @@ public class NotificacionController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/usuario/{idUsuario}")
+    @GetMapping("/listar/{idUsuario}")
     public List<NotificacionListaDTO> listarNotificaciones(@PathVariable Long idUsuario) {
         return notificacionService.listarNotificaciones(idUsuario);
     }
 
-    @PutMapping("/{id}/hora-notificacion")
+    @PutMapping("/establecer-hora/{id}")
     public ResponseEntity<?> actualizarHoraNotificacion(@PathVariable Long id, @RequestBody HoraNotificacionDTO horaDTO) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
 
@@ -47,12 +47,12 @@ public class NotificacionController {
 
 
     @PostMapping("/enviar")
-    public void enviarNotificacion(@RequestBody NotificacionDTO notificacionDTO) {
+    public void enviarNotificacion() {
         notificacionService.enviarNotificacionesPorHora();
     }
 
 
-    @GetMapping("/{id}/hora-notificacion")
+    @GetMapping("/hora-notificacion/{id}")
     public ResponseEntity<HoraNotificacionDTO> obtenerHoraNotificacion(@PathVariable Long id) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
 
@@ -65,5 +65,12 @@ public class NotificacionController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarNotificacion(@PathVariable Long id) {
+        notificacionService.eliminarNotificacion(id);
+    }
+
+
 
 }

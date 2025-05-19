@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,23 +27,21 @@ public class Usuario implements UserDetails {
 
     private LocalTime horaNotificacion;
 
-    private String contraseña;
+    private String contrasena;
 
     private String telefono;
 
     private LocalDate fechaRegistro = LocalDate.now();
 
-
-    public Usuario(String nombre, String email, LocalTime horaNotificacion, String contraseña, String telefono) {
+    public Usuario(String nombre, String email, LocalTime horaNotificacion, String contrasena, String telefono) {
         this.nombre = nombre;
         this.email = email;
         this.horaNotificacion = horaNotificacion;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.telefono = telefono;
     }
 
-    public Usuario(){
-
+    public Usuario() {
     }
 
     public Long getId() {
@@ -71,12 +68,12 @@ public class Usuario implements UserDetails {
         this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public String getTelefono() {
@@ -95,12 +92,12 @@ public class Usuario implements UserDetails {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public LocalTime getHoraNotificacion(){
+    public LocalTime getHoraNotificacion() {
         return horaNotificacion;
     }
 
-    public LocalTime setHoraNotificacion(LocalTime horaNotificacion){
-        return this.horaNotificacion;
+    public void setHoraNotificacion(LocalTime horaNotificacion) {
+        this.horaNotificacion = horaNotificacion;
     }
 
     @Override
@@ -110,7 +107,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.contraseña;
+        return this.contrasena;
     }
 
     @Override
@@ -120,21 +117,21 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }

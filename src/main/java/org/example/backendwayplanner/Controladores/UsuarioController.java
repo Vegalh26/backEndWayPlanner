@@ -1,6 +1,6 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.UsuarioDTO;
+import org.example.backendwayplanner.Dtos.Login.UsuarioDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Servicios.UsuarioService;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +22,15 @@ public class UsuarioController {
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
         Usuario usuarioActualizado = usuarioService.actualizarUsuario(id, dto);
         return ResponseEntity.ok(usuarioActualizado);
+    }
+
+    @GetMapping("usuarioPorId/{id}")
+    public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable Long id) {
+        Usuario usuario = usuarioService.obtenerUsuarioPorId(id);
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

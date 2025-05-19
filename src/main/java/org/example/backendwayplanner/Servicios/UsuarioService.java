@@ -1,10 +1,10 @@
 package org.example.backendwayplanner.Servicios;
+import jakarta.persistence.EntityNotFoundException;
 
-import org.example.backendwayplanner.Dtos.LoginDTO;
-import org.example.backendwayplanner.Dtos.RegistroDTO;
-import org.example.backendwayplanner.Dtos.RespuestaDTO;
-
-import org.example.backendwayplanner.Dtos.UsuarioDTO;
+import org.example.backendwayplanner.Dtos.Login.LoginDTO;
+import org.example.backendwayplanner.Dtos.Login.RegistroDTO;
+import org.example.backendwayplanner.Dtos.Login.RespuestaDTO;
+import org.example.backendwayplanner.Dtos.Login.UsuarioDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
 import org.example.backendwayplanner.Security.JwtService;
@@ -40,7 +40,7 @@ public class UsuarioService implements UserDetailsService {
 
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setEmail(dto.getEmail());
-        nuevoUsuario.setContraseña(passwordEncoder.encode(dto.getPassword()));
+        nuevoUsuario.setContrasena(passwordEncoder.encode(dto.getPassword()));
         nuevoUsuario.setTelefono(dto.getTelefono());
         nuevoUsuario.setFechaRegistro(dto.getFechaRegistro());
         nuevoUsuario.setNombre(dto.getNombre());
@@ -85,9 +85,16 @@ public class UsuarioService implements UserDetailsService {
         usuario.setNombre(dto.getNombre());
         usuario.setTelefono(dto.getTelefono());
         usuario.setEmail(dto.getEmail());
-        usuario.setContraseña(passwordEncoder.encode(dto.getPassword()));
+        usuario.setContrasena(passwordEncoder.encode(dto.getPassword()));
 
         return usuarioRepository.save(usuario);
+    }
+
+
+    public Usuario obtenerUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Perfil no encontrado para el usuario con ID: " + id));
+
     }
 
 

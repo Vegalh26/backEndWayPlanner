@@ -1,7 +1,7 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.FechasDTO;
-import org.example.backendwayplanner.Dtos.ItinerarioDTO;
+import org.example.backendwayplanner.Dtos.Itinerarios.FechasDTO;
+import org.example.backendwayplanner.Dtos.Itinerarios.ItinerarioDTO;
 import org.example.backendwayplanner.Entidades.Itinerario;
 import org.example.backendwayplanner.Servicios.ItinerarioService;
 import org.springframework.beans.factory.annotation.Autowired;

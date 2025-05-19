@@ -9,11 +9,6 @@ import java.util.List;
 public interface NotificacionRepository extends JpaRepository<Notificacion, Long> {
     List<Notificacion> findByUsuarioId(Long usuarioId);
 
-    boolean existsByUsuarioIdAndViajeIdAndFechaEnvioBetween(
-            Long usuarioId,
-            Long viajeId,
-            LocalDateTime desde,
-            LocalDateTime hasta
-    );
+    boolean existsByUsuarioIdAndViajeId(Long usuarioId, Long viajeId);
 
 }
