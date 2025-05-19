@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos.Itinerarios;
+package org.example.backendwayplanner.DTOs.Itinerarios;
 
 import java.time.LocalDate;
 
@@ -6,7 +6,7 @@ public class FechasDTO {
     private Long idViaje;
     private LocalDate fecha;
 
-    public FechasDTO(LocalDate fecha) {
+    public FechasDTO(Long idViaje,LocalDate fecha) {
         this.fecha = fecha;
         this.idViaje = idViaje;
     }
