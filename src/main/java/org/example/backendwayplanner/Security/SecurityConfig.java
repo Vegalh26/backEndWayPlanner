@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("auth/registro/perfil").permitAll()
                         .requestMatchers("/gastos/**").permitAll()
                         .requestMatchers("/usuario/**").permitAll()
+                        .requestMatchers("/viajes/**").permitAll()
 
                         .requestMatchers("/usuario/usuarioPorId/**").permitAll()
                         .requestMatchers("/viajes/listarPorUsuario/**").permitAll()
