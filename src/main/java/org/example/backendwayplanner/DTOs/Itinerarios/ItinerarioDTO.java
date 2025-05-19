@@ -1,44 +1,50 @@
 package org.example.backendwayplanner.Dtos.Itinerarios;
 
+import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Entidades.Dia;
+import org.example.backendwayplanner.Entidades.Horario;
+import org.example.backendwayplanner.Enums.CategoriaLugar;
+
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItinerarioDTO {
 
     Long id;
-    Long idViaje;
     String actividad;
     String latitud;
     String longitud;
     boolean estaEnRuta;
     boolean apareceEnItinerario;
     String medioTransporte;
+    LocalTime hora;
     String duracion;
-    String hora;
     byte[] foto;
-    String categoria;
-    // El nombre del billete para asociar el itinerario con el billete y se buscará por su nombre
-    String nombreBillete;
-    Dia dia;
+    CategoriaLugar categoria;
+    Long idbillete;
+    Long iddia;
+    List<Horario> horarios;
 
-    public ItinerarioDTO(Long id,Long idViaje, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String medioTransporte, String duracion, String hora, byte[] foto, String categoria, String nombreBillete, Dia dia) {
+    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String medioTransporte, LocalTime hora, String duracion, byte[] foto, CategoriaLugar categoria, Long idbillete, Long iddia, List<Horario> horarios) {
         this.id = id;
-        this.idViaje = idViaje;
         this.actividad = actividad;
         this.latitud = latitud;
         this.longitud = longitud;
         this.estaEnRuta = estaEnRuta;
         this.apareceEnItinerario = apareceEnItinerario;
         this.medioTransporte = medioTransporte;
-        this.duracion = duracion;
         this.hora = hora;
+        this.duracion = duracion;
         this.foto = foto;
         this.categoria = categoria;
-        this.nombreBillete = nombreBillete;
-        this.dia = dia;
+        this.idbillete = idbillete;
+        this.iddia = iddia;
+        this.horarios = horarios;
     }
 
     public ItinerarioDTO() {
-    // Constructor vacío
+        // Constructor vacío
     }
 
     public Long getId() {
@@ -49,61 +55,12 @@ public class ItinerarioDTO {
         this.id = id;
     }
 
-    public Long getIdViaje() {
-        return idViaje;
-    }
-
-    public void setIdViaje(Long idViaje) {
-        this.idViaje = idViaje;
-    }
-
     public String getActividad() {
         return actividad;
     }
 
     public void setActividad(String actividad) {
         this.actividad = actividad;
-    }
-
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
-
-    public byte[] getFoto() {
-        return foto;
-    }
-
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getNombreBillete() {
-        return nombreBillete;
-    }
-
-    public void setNombreBillete(String nombreBillete) {
-        this.nombreBillete = nombreBillete;
-    }
-
-    public Dia getDia() {
-        return dia;
-    }
-
-    public void setDia(Dia dia) {
-        this.dia = dia;
     }
 
     public String getLatitud() {
@@ -130,15 +87,24 @@ public class ItinerarioDTO {
         this.estaEnRuta = estaEnRuta;
     }
 
-    public boolean apareceEnItinerario() {
+    public boolean isApareceEnItinerario() {
         return apareceEnItinerario;
     }
+
     public void setApareceEnItinerario(boolean apareceEnItinerario) {
         this.apareceEnItinerario = apareceEnItinerario;
     }
 
     public String getMedioTransporte() {
         return medioTransporte;
+    }
+
+    public LocalTime getHora() {
+        return hora;
+    }
+
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
     }
 
     public void setMedioTransporte(String medioTransporte) {
@@ -151,5 +117,45 @@ public class ItinerarioDTO {
 
     public void setDuracion(String duracion) {
         this.duracion = duracion;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
+
+    public CategoriaLugar getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaLugar categoria) {
+        this.categoria = categoria;
+    }
+
+    public Long getIdbillete() {
+        return idbillete;
+    }
+
+    public void setIdbillete(Long idbillete) {
+        this.idbillete = idbillete;
+    }
+
+    public Long getIddia() {
+        return iddia;
+    }
+
+    public void setIddia(Long iddia) {
+        this.iddia = iddia;
+    }
+
+    public List<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
     }
 }
