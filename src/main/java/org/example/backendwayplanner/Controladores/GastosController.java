@@ -46,7 +46,8 @@ public class GastosController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Gastos> obtenerGastoPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(gastosService.obtenerGastoPorId(id));
+    public ResponseEntity<GastoDTO> obtenerGastoPorId(@PathVariable Long id) {
+        GastoDTO gastoDTO = gastosService.obtenerGastoPorId(id);
+        return ResponseEntity.ok(gastoDTO);
     }
 }
