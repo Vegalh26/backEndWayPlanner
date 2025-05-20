@@ -1,7 +1,5 @@
 package org.example.backendwayplanner.DTOs.Notificaciones;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.example.backendwayplanner.Enums.EstadoNotificacion;
 import org.example.backendwayplanner.Enums.TipoNotificacion;
 
