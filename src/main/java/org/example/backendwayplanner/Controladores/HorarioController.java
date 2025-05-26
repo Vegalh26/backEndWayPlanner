@@ -1,6 +1,6 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.Itinerarios.HorarioDTO;
+import org.example.backendwayplanner.DTOs.Itinerarios.HorarioDTO;
 import org.example.backendwayplanner.Servicios.HorarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

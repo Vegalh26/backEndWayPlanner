@@ -15,9 +15,6 @@ public interface ItinerarioRepository extends JpaRepository<Itinerario, Long> {
     // Esta consulta dará la lista de itinerarios en orden, es decir, primero por número de día y luego por hora.
     List<Itinerario> findByDia_Viaje_IdOrderByDia_NumeroDiaAscHoraAsc(Long viajeId);
 
-    @Query("SELECT i FROM Itinerario i WHERE i.dia.viaje.id = :viajeId")
-    List<Itinerario> buscarPorViajeId(@Param("viajeId") Long viajeId);
-
     List<Itinerario> findByDia_Viaje_IdAndDia_Fecha(Long viajeId, LocalDate fecha);
 
 }

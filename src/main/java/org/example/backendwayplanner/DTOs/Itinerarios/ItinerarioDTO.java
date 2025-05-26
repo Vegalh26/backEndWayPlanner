@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos.Itinerarios;
+package org.example.backendwayplanner.DTOs.Itinerarios;
 
 import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Entidades.Dia;
@@ -20,13 +20,13 @@ public class ItinerarioDTO {
     String medioTransporte;
     LocalTime hora;
     String duracion;
-    byte[] foto;
+    String foto;
     CategoriaLugar categoria;
     Long idbillete;
     Long iddia;
     List<Horario> horarios;
 
-    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String medioTransporte, LocalTime hora, String duracion, byte[] foto, CategoriaLugar categoria, Long idbillete, Long iddia, List<Horario> horarios) {
+    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String medioTransporte, LocalTime hora, String duracion, String foto, CategoriaLugar categoria, Long idbillete, Long iddia, List<Horario> horarios) {
         this.id = id;
         this.actividad = actividad;
         this.latitud = latitud;
@@ -119,11 +119,11 @@ public class ItinerarioDTO {
         this.duracion = duracion;
     }
 
-    public byte[] getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(byte[] foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 

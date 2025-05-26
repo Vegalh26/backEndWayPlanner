@@ -1,6 +1,6 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.Itinerarios.HorarioDTO;
+import org.example.backendwayplanner.DTOs.Itinerarios.HorarioDTO;
 import org.example.backendwayplanner.Entidades.Horario;
 import org.example.backendwayplanner.Repositorios.HorarioRepository;
 import org.example.backendwayplanner.Repositorios.ItinerarioRepository;

@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos.Itinerarios;
+package org.example.backendwayplanner.DTOs.Itinerarios;
 
 import org.example.backendwayplanner.Enums.DiasSemana;
 

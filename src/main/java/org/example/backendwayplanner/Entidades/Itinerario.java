@@ -32,6 +32,7 @@ public class Itinerario {
     private String duracion;
 
     @Lob
+    @Column(name = "foto", columnDefinition = "bytea")
     private byte[] foto;
 
     @Enumerated(EnumType.STRING)
