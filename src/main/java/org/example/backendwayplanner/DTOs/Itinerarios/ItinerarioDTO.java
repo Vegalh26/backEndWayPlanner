@@ -17,7 +17,6 @@ public class ItinerarioDTO {
     String longitud;
     boolean estaEnRuta;
     boolean apareceEnItinerario;
-    String medioTransporte;
     LocalTime hora;
     String duracion;
     String foto;
@@ -26,14 +25,13 @@ public class ItinerarioDTO {
     Long iddia;
     List<Horario> horarios;
 
-    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String medioTransporte, LocalTime hora, String duracion, String foto, CategoriaLugar categoria, Long idbillete, Long iddia, List<Horario> horarios) {
+    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, LocalTime hora, String duracion, String foto, CategoriaLugar categoria, Long idbillete, Long iddia, List<Horario> horarios) {
         this.id = id;
         this.actividad = actividad;
         this.latitud = latitud;
         this.longitud = longitud;
         this.estaEnRuta = estaEnRuta;
         this.apareceEnItinerario = apareceEnItinerario;
-        this.medioTransporte = medioTransporte;
         this.hora = hora;
         this.duracion = duracion;
         this.foto = foto;
@@ -95,9 +93,6 @@ public class ItinerarioDTO {
         this.apareceEnItinerario = apareceEnItinerario;
     }
 
-    public String getMedioTransporte() {
-        return medioTransporte;
-    }
 
     public LocalTime getHora() {
         return hora;
@@ -107,9 +102,6 @@ public class ItinerarioDTO {
         this.hora = hora;
     }
 
-    public void setMedioTransporte(String medioTransporte) {
-        this.medioTransporte = medioTransporte;
-    }
 
     public String getDuracion() {
         return duracion;

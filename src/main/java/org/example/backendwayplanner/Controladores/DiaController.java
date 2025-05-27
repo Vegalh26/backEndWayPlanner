@@ -1,6 +1,6 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.Itinerarios.DiaDTO;
+import org.example.backendwayplanner.DTOs.Itinerarios.DiaDTO;
 import org.example.backendwayplanner.Entidades.Dia;
 import org.example.backendwayplanner.Servicios.DiaService;
 import org.example.backendwayplanner.Servicios.ItinerarioService;
@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/dia")
+@CrossOrigin(origins = "*")
 public class DiaController {
 
     @Autowired
@@ -21,9 +22,9 @@ public class DiaController {
     private DiaService diaService;
 
     // Obtener dias por id del viajeId
-    @GetMapping("/Obtenerdias")
-    public List<DiaDTO> obtenerDiasPorViajeId(@RequestParam Long viajeId) {
-        List<Dia> dias = diaService.obtenerDiasPorViajeId(viajeId);
+    @GetMapping("/Obtenerdias/{id}")
+    public List<DiaDTO> obtenerDiasPorViajeId(@PathVariable Long id) {
+        List<Dia> dias = diaService.obtenerDiasPorViajeId(id);
         return dias.stream().map(diaService::transformarADTO).collect(Collectors.toList());
     }
 

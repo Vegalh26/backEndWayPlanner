@@ -1,6 +1,6 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.Login.UsuarioDTO;
+import org.example.backendwayplanner.DTOs.Login.UsuarioDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Servicios.UsuarioService;
 import org.springframework.http.ResponseEntity;

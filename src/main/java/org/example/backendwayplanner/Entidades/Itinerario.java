@@ -27,8 +27,6 @@ public class Itinerario {
 
     private boolean apareceEnItinerario;
 
-    private String medioTransporte;
-
     private String duracion;
 
     @Lob
@@ -44,14 +42,14 @@ public class Itinerario {
     @ManyToOne
     private Dia dia;
 
-    @OneToMany
+    @OneToMany(mappedBy = "itinerario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Horario> horarios;
 
     public Itinerario() {
 
     }
 
-    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String medioTransporte, String duracion, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia, List<Horario> horarios) {
+    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String duracion, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia, List<Horario> horarios) {
         this.id = id;
         this.actividad = actividad;
         this.hora = hora;
@@ -59,7 +57,6 @@ public class Itinerario {
         this.longitud = longitud;
         this.estaEnRuta = estaEnRuta;
         this.apareceEnItinerario = apareceEnItinerario;
-        this.medioTransporte = medioTransporte;
         this.duracion = duracion;
         this.foto = foto;
         this.categoria = categoria;
@@ -122,14 +119,6 @@ public class Itinerario {
 
     public void setApareceEnItinerario(boolean apareceEnItinerario) {
         this.apareceEnItinerario = apareceEnItinerario;
-    }
-
-    public String getMedioTransporte() {
-        return medioTransporte;
-    }
-
-    public void setMedioTransporte(String medioTransporte) {
-        this.medioTransporte = medioTransporte;
     }
 
     public String getDuracion() {

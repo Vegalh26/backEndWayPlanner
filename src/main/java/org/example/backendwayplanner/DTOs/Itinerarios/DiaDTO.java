@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos.Itinerarios;
+package org.example.backendwayplanner.DTOs.Itinerarios;
 
 import jakarta.persistence.ManyToOne;
 import org.example.backendwayplanner.Entidades.Viaje;

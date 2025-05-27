@@ -102,7 +102,7 @@ public class ItinerarioService {
     }
 
 
-
+    @Transactional
     public List<ItinerarioDTO> transformarListaADTO(List<Itinerario> itinerarios) {
         List<ItinerarioDTO> itinerarioDTOS = new ArrayList<>();
 
@@ -114,11 +114,10 @@ public class ItinerarioService {
             dto.setLongitud(i.getLongitud());
             dto.setEstaEnRuta(i.isEstaEnRuta());
             dto.setApareceEnItinerario(i.apareceEnItinerario());
-            dto.setMedioTransporte(i.getMedioTransporte());
             dto.setDuracion(i.getDuracion());
             dto.setIddia(i.getDia().getId());
             dto.setIdbillete(i.getBillete().getId());
-            dto.setHorarios(null);
+            dto.setHorarios(i.getHorarios());
             dto.setCategoria(i.getCategoria());
             dto.setHora(i.getHora());
 
@@ -147,12 +146,11 @@ public class ItinerarioService {
         itinerarioSinDTO.setApareceEnItinerario(itinerario.isApareceEnItinerario());
         itinerarioSinDTO.setCategoria(itinerario.getCategoria());
         itinerarioSinDTO.setHora(itinerario.getHora());
-        itinerarioSinDTO.setMedioTransporte(itinerario.getMedioTransporte());
         itinerarioSinDTO.setDuracion(itinerario.getDuracion());
         itinerarioSinDTO.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
         itinerarioSinDTO.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
         itinerarioSinDTO.setFoto(Base64.getDecoder().decode(itinerario.getFoto()));
-        itinerarioSinDTO.setHorarios(null);
+        itinerarioSinDTO.setHorarios(itinerario.getHorarios());
         return itinerarioSinDTO;
     }
 

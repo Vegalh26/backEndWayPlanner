@@ -1,7 +1,7 @@
 package org.example.backendwayplanner.Servicios;
 
 import org.example.backendwayplanner.Dtos.Billetes.CategoriasBilleteDTO;
-import org.example.backendwayplanner.Dtos.Billetes.CrearBilleteDTO;
+import org.example.backendwayplanner.DTOs.Billetes.CrearBilleteDTO;
 import org.example.backendwayplanner.Dtos.Billetes.ListarBilletesDTO;
 import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Entidades.Viaje;
@@ -57,7 +57,6 @@ public class BilleteService {
         billete.setNombre(crearBilleteDTO.getNombre());
         billete.setCategoria(CategoriaBillete.valueOf(crearBilleteDTO.getCategoria()));
         billete.setPdf(crearBilleteDTO.getPdf());
-        billete.setUbicacion(crearBilleteDTO.getUbicacion());
         billete.setViaje(viaje);
 
         billeteRepository.save(billete);
@@ -76,7 +75,6 @@ public class BilleteService {
         billete.setNombre(crearBilleteDTO.getNombre());
         billete.setCategoria(CategoriaBillete.valueOf(crearBilleteDTO.getCategoria()));
         billete.setPdf(crearBilleteDTO.getPdf());
-        billete.setUbicacion(crearBilleteDTO.getUbicacion());
 
         // Guardar el billete actualizado
         billeteRepository.save(billete);
