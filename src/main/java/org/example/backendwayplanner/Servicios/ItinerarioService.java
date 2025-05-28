@@ -1,6 +1,8 @@
 package org.example.backendwayplanner.Servicios;
 
+import org.example.backendwayplanner.DTOs.Itinerarios.HorarioDTO;
 import org.example.backendwayplanner.DTOs.Itinerarios.ItinerarioDTO;
+import org.example.backendwayplanner.Entidades.Horario;
 import org.example.backendwayplanner.Entidades.Itinerario;
 import org.example.backendwayplanner.Repositorios.BilleteRepository;
 import org.example.backendwayplanner.Repositorios.DiaRepository;
@@ -117,7 +119,7 @@ public class ItinerarioService {
             dto.setDuracion(i.getDuracion());
             dto.setIddia(i.getDia().getId());
             dto.setIdbillete(i.getBillete().getId());
-            dto.setHorarios(i.getHorarios());
+            dto.setHorarios(transformarHorariosADTO(i.getHorarios()));
             dto.setCategoria(i.getCategoria());
             dto.setHora(i.getHora());
 
@@ -150,8 +152,38 @@ public class ItinerarioService {
         itinerarioSinDTO.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
         itinerarioSinDTO.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
         itinerarioSinDTO.setFoto(Base64.getDecoder().decode(itinerario.getFoto()));
-        itinerarioSinDTO.setHorarios(itinerario.getHorarios());
+        itinerarioSinDTO.setHorarios(transformarHorariosSinDTO(itinerario.getHorarios()));
         return itinerarioSinDTO;
+    }
+
+    public List<Horario> transformarHorariosSinDTO(List<HorarioDTO> horariosDTO) {
+        List<Horario> horarios = new ArrayList<>();
+        for (HorarioDTO horarioDTO : horariosDTO) {
+            Horario horario = new Horario();
+            horario.setId(horarioDTO.getId());
+            horario.setDia(horarioDTO.getDia());
+            horario.setHoraInicio(horarioDTO.getHoraInicio());
+            horario.setHoraFin(horarioDTO.getHoraFin());
+            horario.setItinerario(itinerarioRepository.findById(horarioDTO.getId()).orElse(null));
+            horario.setClosed(horarioDTO.isClosed());
+            horarios.add(horario);
+        }
+        return horarios;
+    }
+
+    public List<HorarioDTO> transformarHorariosADTO(List<Horario> horarios) {
+        List<HorarioDTO> horariosDTO = new ArrayList<>();
+        for (Horario h : horarios) {
+            HorarioDTO dto = new HorarioDTO();
+            dto.setId(h.getId());
+            dto.setIdItinerario(h.getItinerario().getId());
+            dto.setDia(h.getDia());
+            dto.setHoraInicio(h.getHoraInicio());
+            dto.setHoraFin(h.getHoraFin());
+            dto.setClosed(h.isClosed());
+            horariosDTO.add(dto);
+        }
+        return horariosDTO;
     }
 
     public void borrarItinerario(Long id) {

@@ -24,6 +24,10 @@ public class HorarioDTO {
         this.isClosed = isClosed;
     }
 
+    public HorarioDTO() {
+        // Constructor vacío
+    }
+
     public Long getId() {
         return id;
     }

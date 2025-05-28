@@ -22,7 +22,7 @@ public class ItinerarioController {
         return itinerarioService.obtenerItinerariosPorViajeId(id);
     }
 
-    @GetMapping("/viaje/dia")
+    @PostMapping("/viaje/dia")
     public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(@RequestBody FechasDTO fechas){
         return itinerarioService.obtenerItinerariosPorViajeIdYDia(fechas.getIdViaje(), fechas.getFecha());
     }

@@ -23,9 +23,9 @@ public class ItinerarioDTO {
     CategoriaLugar categoria;
     Long idbillete;
     Long iddia;
-    List<Horario> horarios;
+    List<HorarioDTO> horarios;
 
-    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, LocalTime hora, String duracion, String foto, CategoriaLugar categoria, Long idbillete, Long iddia, List<Horario> horarios) {
+    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, LocalTime hora, String duracion, String foto, CategoriaLugar categoria, Long idbillete, Long iddia, List<HorarioDTO> horarios) {
         this.id = id;
         this.actividad = actividad;
         this.latitud = latitud;
@@ -143,11 +143,11 @@ public class ItinerarioDTO {
         this.iddia = iddia;
     }
 
-    public List<Horario> getHorarios() {
+    public List<HorarioDTO> getHorarios() {
         return horarios;
     }
 
-    public void setHorarios(List<Horario> horarios) {
+    public void setHorarios(List<HorarioDTO> horarios) {
         this.horarios = horarios;
     }
 }
