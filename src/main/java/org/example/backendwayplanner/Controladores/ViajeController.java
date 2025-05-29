@@ -36,7 +36,7 @@ public class ViajeController {
 
 
     @PutMapping("/actualizar/{id}")
-    public Viaje actualizarViaje(@PathVariable Long id, @RequestBody Viaje viaje) {
+    public Viaje actualizarViaje(@PathVariable Long id, @RequestBody ViajeDTO viaje) {
         viaje.setId(id);
         return viajeService.actualizarViaje(viaje);
     }

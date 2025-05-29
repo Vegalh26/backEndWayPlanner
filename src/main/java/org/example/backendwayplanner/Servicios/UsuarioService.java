@@ -118,11 +118,10 @@ public class UsuarioService implements UserDetailsService {
         return usuarioRepository.save(usuario);
     }
 
-
-    public Usuario obtenerUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id)
-                        .orElseThrow(() -> new EntityNotFoundException("Perfil no encontrado para el usuario con ID: " + id));
-
+    public UsuarioDTO obtenerUsuarioPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Perfil no encontrado para el usuario con ID: " + id));
+        return new UsuarioDTO(usuario);
     }
 
     public void eliminarUsuario(Long id) {
@@ -130,6 +129,5 @@ public class UsuarioService implements UserDetailsService {
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con ID: " + id));
         usuarioRepository.delete(usuario);
     }
-
 
 }

@@ -37,7 +37,7 @@ public class ViajeService {
         return viajeRepository.findById(id).map(this::convertirAViajeDTO);
     }
 
-    public Viaje actualizarViaje(Viaje viaje) {
+    public Viaje actualizarViaje(ViajeDTO viaje) {
         Optional<Viaje> viajeExistente = viajeRepository.findById(viaje.getId());
         if (viajeExistente.isPresent()) {
             Viaje viajeActualizado = viajeExistente.get();
