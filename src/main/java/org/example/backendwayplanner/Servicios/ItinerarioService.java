@@ -73,8 +73,23 @@ public class ItinerarioService {
 
     }
 
+    @Transactional
+    public List<ItinerarioDTO> obtenerItinerariosRutaYDia(Long viajeId, LocalDate fecha) {
 
+        // que filtre por el booleano de cada itinerario de si aparece en itinerario o no
+        // y que los ordene por el dia y la hora
+        List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdAndDia_Fecha(viajeId, fecha);
+        List<Itinerario> itinerariosOrdenados = new ArrayList<>();
 
+        for (Itinerario itinerario : itinerarios) {
+            if (itinerario.isEstaEnRuta()) {
+                itinerariosOrdenados.add(itinerario);
+            }
+        }
+
+        return transformarListaADTO(itinerariosOrdenados);
+
+    }
 
 
     // Obtener todos los itinerarios por viaje y día

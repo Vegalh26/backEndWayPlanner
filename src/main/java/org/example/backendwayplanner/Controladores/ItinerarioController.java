@@ -37,6 +37,11 @@ public class ItinerarioController {
         return itinerarioService.obtenerItinerariosEnRuta(id);
     }
 
+    @PostMapping("/rutas/dias")
+    public List<ItinerarioDTO> obtenerItinerariosEnRutaPorDias(@RequestBody FechasDTO fechas) {
+        return itinerarioService.obtenerItinerariosRutaYDia(fechas.getIdViaje(), fechas.getFecha());
+    }
+
     @DeleteMapping("/eliminar/{id}")
     public void eliminarItinerario(@PathVariable Long id) {
         itinerarioService.borrarItinerario(id);
