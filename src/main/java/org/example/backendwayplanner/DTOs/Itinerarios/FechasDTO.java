@@ -2,7 +2,7 @@ package org.example.backendwayplanner.DTOs.Itinerarios;
 
 import java.time.LocalDate;
 
-public class FechasDTO {
+public class  FechasDTO {
     private Long idViaje;
     private LocalDate fecha;
 
