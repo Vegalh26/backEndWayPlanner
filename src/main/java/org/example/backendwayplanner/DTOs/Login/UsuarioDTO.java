@@ -9,12 +9,7 @@ public class UsuarioDTO {
     private String password;
     private String telefono;
 
-    public UsuarioDTO(String nombre, String email, String password, String telefono) {
-        this.nombre = nombre;
-        this.email = email;
-        this.password = password;
-        this.telefono = telefono;
-    }
+
 
     public UsuarioDTO(Usuario usuario) {
         this.nombre = usuario.getNombre();
