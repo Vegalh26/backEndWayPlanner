@@ -45,12 +45,14 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Viaje> viajes;
 
-    public Usuario(String nombre, String email, LocalTime horaNotificacion, String contrasena, String telefono) {
+    public Usuario(String nombre, String email, LocalTime horaNotificacion, String contrasena, String telefono, List<Notificacion> notificaciones, List<Viaje> viajes) {
         this.nombre = nombre;
         this.email = email;
         this.horaNotificacion = horaNotificacion;
         this.contrasena = contrasena;
         this.telefono = telefono;
+        this.notificaciones = notificaciones;
+        this.viajes = viajes;
     }
 
     public Usuario() {
@@ -125,6 +127,22 @@ public class Usuario implements UserDetails {
 
     public void setHoraNotificacion(LocalTime horaNotificacion) {
         this.horaNotificacion = horaNotificacion;
+    }
+
+    public List<Notificacion> getNotificaciones() {
+        return notificaciones;
+    }
+
+    public void setNotificaciones(List<Notificacion> notificaciones) {
+        this.notificaciones = notificaciones;
+    }
+
+    public List<Viaje> getViajes() {
+        return viajes;
+    }
+
+    public void setViajes(List<Viaje> viajes) {
+        this.viajes = viajes;
     }
 
     @Override
