@@ -119,4 +119,19 @@ public class GastosService {
         gastosRepository.delete(gasto);
     }
 
+    public GastoDTO obtenerGastoPorId(Long id) {
+        Gastos gasto = gastosRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Gasto no encontrado"));
+
+        return new GastoDTO(
+                gasto.getId(),
+                gasto.getTitulo(),
+                gasto.getCantidad(),
+                gasto.isEsIngreso(),
+                gasto.getCategoria(),
+                gasto.getFecha(),
+                gasto.getViaje().getId()
+        );
+    }
+
 }

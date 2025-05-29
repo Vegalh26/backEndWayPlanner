@@ -11,15 +11,18 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/viajes")
-public class ViajeController {
 
+
+public class ViajeController {
     @Autowired
     private ViajeService viajeService;
+
 
     @PostMapping("/crear")
     public Viaje crearViaje(@RequestBody Viaje viaje) {
         return viajeService.crearViaje(viaje);
     }
+
 
     @GetMapping("/listarPorUsuario/{usuarioId}")
     public List<ViajeDTO> listarViajesPorUsuario(@PathVariable Long usuarioId) {
@@ -30,6 +33,7 @@ public class ViajeController {
     public ViajeDTO obtenerViajePorId(@PathVariable Long id) {
         return viajeService.obtenerViajePorId(id).orElse(null);
     }
+
 
     @PutMapping("/actualizar/{id}")
     public Viaje actualizarViaje(@PathVariable Long id, @RequestBody Viaje viaje) {
