@@ -133,6 +133,14 @@ public class ItinerarioService {
             dto.setApareceEnItinerario(i.apareceEnItinerario());
             dto.setDuracion(i.getDuracion());
             dto.setIddia(i.getDia().getId());
+
+            if (i.getBillete() != null) {
+                Long id = i.getBillete().getId();
+                dto.setIdbillete(id);
+            } else {
+                Long id = null;
+                dto.setIdbillete(id);
+            }
             dto.setIdbillete(i.getBillete().getId());
             dto.setHorarios(transformarHorariosADTO(i.getHorarios()));
             dto.setCategoria(i.getCategoria());

@@ -37,6 +37,7 @@ public class Itinerario {
     private CategoriaLugar categoria;
 
     @ManyToOne
+    @JoinColumn(nullable = true)
     private Billete billete;
 
     @ManyToOne
