@@ -30,8 +30,7 @@ public class Itinerario {
     private String duracion;
 
     @Lob
-    @Column(name = "foto", columnDefinition = "bytea")
-    private byte[] foto;
+    private Long foto;
 
     @Enumerated(EnumType.STRING)
     private CategoriaLugar categoria;
@@ -50,7 +49,7 @@ public class Itinerario {
 
     }
 
-    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String duracion, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia, List<Horario> horarios) {
+    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String duracion, Long foto, CategoriaLugar categoria, Billete billete, Dia dia, List<Horario> horarios) {
         this.id = id;
         this.actividad = actividad;
         this.hora = hora;
@@ -130,11 +129,11 @@ public class Itinerario {
         this.duracion = duracion;
     }
 
-    public byte[] getFoto() {
+    public Long getFoto() {
         return foto;
     }
 
-    public void setFoto(byte[] foto) {
+    public void setFoto(Long foto) {
         this.foto = foto;
     }
 
