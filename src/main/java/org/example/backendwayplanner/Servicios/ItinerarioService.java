@@ -240,6 +240,22 @@ public class ItinerarioService {
         itinerarioRepository.deleteById(id);
     }
 
+    public void eliminarItinerariosEnRuta(Long id) {
+        Itinerario itinerario = itinerarioRepository.findById(id).orElse(null);
+        if (itinerario != null) {
+            itinerario.setEstaEnRuta(false);
+            itinerarioRepository.save(itinerario);
+        }
+    }
+
+    public void eliminarItinerarioEnItinerario(Long id) {
+        Itinerario itinerario = itinerarioRepository.findById(id).orElse(null);
+        if (itinerario != null) {
+            itinerario.setApareceEnItinerario(false);
+            itinerarioRepository.save(itinerario);
+        }
+    }
+
     public Long guardarFotoComoLargeObject(MultipartFile file) throws Exception {
         try (Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);

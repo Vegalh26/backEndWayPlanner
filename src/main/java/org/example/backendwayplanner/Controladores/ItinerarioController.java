@@ -49,6 +49,16 @@ public class ItinerarioController {
         return itinerarioService.obtenerItinerariosRutaYDia(fechas.getIdViaje(), fechas.getIdDia());
     }
 
+    @DeleteMapping("/rutas/eliminarRuta/{id}")
+    public void eliminarItinerariosEnRuta(@PathVariable Long id) {
+        itinerarioService.eliminarItinerariosEnRuta(id);
+    }
+
+    @DeleteMapping("/eliminarEnItinerario/{id}")
+    public void eliminarItinerarioBooleano(@PathVariable Long id) {
+        itinerarioService.eliminarItinerarioEnItinerario(id);
+    }
+
     @DeleteMapping("/eliminar/{id}")
     public void eliminarItinerario(@PathVariable Long id) {
         itinerarioService.borrarItinerario(id);
