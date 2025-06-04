@@ -4,6 +4,7 @@ import org.example.backendwayplanner.DTOs.Itinerarios.HorarioDTO;
 import org.example.backendwayplanner.DTOs.Itinerarios.ItinerarioDTO;
 import org.example.backendwayplanner.Entidades.Horario;
 import org.example.backendwayplanner.Entidades.Itinerario;
+import org.example.backendwayplanner.Enums.Transporte;
 import org.example.backendwayplanner.Repositorios.BilleteRepository;
 import org.example.backendwayplanner.Repositorios.DiaRepository;
 import org.example.backendwayplanner.Repositorios.HorarioRepository;
@@ -142,6 +143,7 @@ public class ItinerarioService {
         }
         itinerarioDTO.setCategoria(itinerarioGuardado.getCategoria());
         itinerarioDTO.setHora(itinerarioGuardado.getHora());
+        itinerarioDTO.setMedioTransporte(itinerarioGuardado.getMedioTransporte());
         if (oid != null) {
             byte[] fotoBytes = leerImagenDesdeOid(oid);
             String base64 = Base64.getEncoder().encodeToString(fotoBytes);
@@ -152,9 +154,39 @@ public class ItinerarioService {
         return itinerarioDTO;
     }
 
+    public ItinerarioDTO actualizarItinerario(ItinerarioDTO itinerario) {
+        Itinerario existente = itinerarioRepository.findById(itinerario.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Itinerario no encontrado con ID: " + itinerario.getId()));
 
-    public Itinerario actualizarItinerario(ItinerarioDTO itinerario) {
-        return itinerarioRepository.save(transformarSinDTO(itinerario));
+        existente.setActividad(itinerario.getActividad());
+        existente.setLatitud(itinerario.getLatitud());
+        existente.setLongitud(itinerario.getLongitud());
+        existente.setEstaEnRuta(itinerario.isEstaEnRuta());
+        existente.setApareceEnItinerario(itinerario.isApareceEnItinerario());
+        existente.setHora(itinerario.getHora());
+        existente.setMedioTransporte(itinerario.getMedioTransporte());
+        existente.setDuracion(itinerario.getDuracion());
+        existente.setCategoria(itinerario.getCategoria());
+        existente.setFoto(existente.getFoto());
+
+        // Guardar y retornar
+        Itinerario guardado = itinerarioRepository.save(existente);
+        return transformarADTO(guardado);
+    }
+
+
+    public ItinerarioDTO actualizarItinerarioConFoto(ItinerarioDTO itinerario, Long oid) {
+        Itinerario itinerarioActualizado = transformarSinDTO(itinerario);
+        itinerarioActualizado.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
+        if (itinerario.getIdbillete() != null) {
+            itinerarioActualizado.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
+        } else {
+            itinerarioActualizado.setBillete(null);
+        }
+        itinerarioActualizado.setFoto(oid);
+        itinerarioActualizado.setId(itinerario.getId());
+        Itinerario i = itinerarioRepository.save(itinerarioActualizado);
+        return transformarADTO(i);
     }
 
 
@@ -182,6 +214,7 @@ public class ItinerarioService {
             }
             dto.setCategoria(i.getCategoria());
             dto.setHora(i.getHora());
+            dto.setMedioTransporte(i.getMedioTransporte());
             dto.setHorarios(transformarHorariosADTO(horarioRepository.findByItinerario_Id(i.getId())));
 
             if (i.getFoto() != null) {
@@ -216,6 +249,8 @@ public class ItinerarioService {
 
 
     public Itinerario transformarSinDTO(ItinerarioDTO itinerario) {
+
+
         Itinerario itinerarioSinDTO = new Itinerario();
         itinerarioSinDTO.setId(itinerario.getId());
         itinerarioSinDTO.setActividad(itinerario.getActividad());
@@ -225,6 +260,7 @@ public class ItinerarioService {
         itinerarioSinDTO.setApareceEnItinerario(itinerario.isApareceEnItinerario());
         itinerarioSinDTO.setCategoria(itinerario.getCategoria());
         itinerarioSinDTO.setHora(itinerario.getHora());
+        itinerarioSinDTO.setMedioTransporte(itinerario.getMedioTransporte());
         itinerarioSinDTO.setDuracion(itinerario.getDuracion());
         itinerarioSinDTO.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
         if (itinerario.getIdbillete() != null) {
@@ -233,6 +269,37 @@ public class ItinerarioService {
             itinerarioSinDTO.setBillete(null);
         }
         return itinerarioSinDTO;
+    }
+
+    public ItinerarioDTO transformarADTO(Itinerario itinerario) {
+        ItinerarioDTO dto = new ItinerarioDTO();
+        dto.setId(itinerario.getId());
+        dto.setActividad(itinerario.getActividad());
+        dto.setLatitud(itinerario.getLatitud());
+        dto.setLongitud(itinerario.getLongitud());
+        dto.setEstaEnRuta(itinerario.isEstaEnRuta());
+        dto.setApareceEnItinerario(itinerario.apareceEnItinerario());
+        dto.setDuracion(itinerario.getDuracion());
+        dto.setIddia(itinerario.getDia().getId());
+
+        if (itinerario.getBillete() != null) {
+            Long id = itinerario.getBillete().getId();
+            dto.setIdbillete(id);
+        } else {
+            Long id = null;
+            dto.setIdbillete(id);
+        }
+        dto.setCategoria(itinerario.getCategoria());
+        dto.setHora(itinerario.getHora());
+        dto.setMedioTransporte(itinerario.getMedioTransporte());
+
+        if (itinerario.getFoto() != null) {
+            byte[] fotoBytes = leerImagenDesdeOid(itinerario.getFoto());
+            String base64 = Base64.getEncoder().encodeToString(fotoBytes);
+            dto.setFoto(base64);
+        }
+
+        return dto;
     }
 
 

@@ -32,12 +32,21 @@ public class ItinerarioController {
     @PostMapping(value = "/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ItinerarioDTO crearItinerario(
             @RequestPart("itinerario") ItinerarioDTO itinerarioDTO,
-            @RequestPart("foto") MultipartFile foto
+            @RequestPart(value="foto", required = false) MultipartFile foto
     ) throws Exception {
         Long oid = itinerarioService.guardarFotoComoLargeObject(foto);
         return itinerarioService.crearItinerarioConFoto(itinerarioDTO, oid);
     }
 
+        @PutMapping(value = "/actualizar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+        public ItinerarioDTO actualizarItinerario(@RequestPart("itinerario") ItinerarioDTO itinerarioDTO, @RequestPart(value="foto", required = false ) MultipartFile foto) {
+            try {
+                Long oid = itinerarioService.guardarFotoComoLargeObject(foto);
+                return itinerarioService.actualizarItinerarioConFoto(itinerarioDTO, oid);
+            } catch (Exception e) {
+                return itinerarioService.actualizarItinerario(itinerarioDTO);
+            }
+        }
 
     @GetMapping("/rutas/{id}")
     public List<ItinerarioDTO> obtenerItinerariosEnRuta(@PathVariable Long id) {
@@ -54,7 +63,7 @@ public class ItinerarioController {
         itinerarioService.eliminarItinerariosEnRuta(id);
     }
 
-    @DeleteMapping("/eliminarEnItinerario/{id}")
+        @DeleteMapping("/eliminarEnItinerario/{id}")
     public void eliminarItinerarioBooleano(@PathVariable Long id) {
         itinerarioService.eliminarItinerarioEnItinerario(id);
     }

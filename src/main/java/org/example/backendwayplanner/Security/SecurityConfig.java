@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/viajes/**").permitAll()
                         .requestMatchers("/itinerarios/**").permitAll()
                         .requestMatchers("/itinerarios/crear").permitAll()
+                        .requestMatchers("/itinerarios/actualizar/**").permitAll()
                         .requestMatchers("/itinerarios/rutas/**").permitAll()
                         .requestMatchers("/usuario/usuarioPorId/**").permitAll()
                         .requestMatchers("/viajes/listarPorUsuario/**").permitAll()
