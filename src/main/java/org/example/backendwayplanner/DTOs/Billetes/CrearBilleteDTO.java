@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos.Billetes;
+package org.example.backendwayplanner.DTOs.Billetes;
 
 public class CrearBilleteDTO {
     // Atributos
