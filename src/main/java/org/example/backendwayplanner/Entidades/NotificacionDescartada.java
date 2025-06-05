@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 
 
 import java.time.LocalDate;
-@Setter
-@Getter
 @Entity
 public class NotificacionDescartada {
     @Id
