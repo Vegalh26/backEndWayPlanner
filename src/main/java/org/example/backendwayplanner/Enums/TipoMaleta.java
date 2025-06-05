@@ -5,5 +5,6 @@ public enum TipoMaleta {
     MALETA_CABINA,
     MALETIN_PORTATIL,
     MOCHILA,
-    BOLSO
+    BOLSO,
+    OTRO
 }

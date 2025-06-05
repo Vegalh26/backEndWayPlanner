@@ -2,6 +2,8 @@ package org.example.backendwayplanner.Servicios;
 
 import org.example.backendwayplanner.Dtos.Maletas.CrearObjetoDTO;
 import org.example.backendwayplanner.Dtos.Maletas.ListarObjetosMaletasDTO;
+import org.example.backendwayplanner.Dtos.Maletas.MasCantidadObjetoDTO;
+import org.example.backendwayplanner.Dtos.Maletas.ObjetoSeleccionadoDTO;
 import org.example.backendwayplanner.Entidades.Maleta;
 import org.example.backendwayplanner.Entidades.ObjetoMaleta;
 import org.example.backendwayplanner.Enums.CategoriaObjeto;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -29,7 +32,7 @@ public class ObjetoMaletaService {
         List<ObjetoMaleta> objetosMaleta = objetoMaletaRepository.findByMaletaId(maleta);
 
         // Invertir el orden
-        Collections.reverse(objetosMaleta);
+        objetosMaleta.sort(Comparator.comparing(ObjetoMaleta::getNombre));
 
         return objetosMaleta.stream()
                 .map(objetoMaleta -> new ListarObjetosMaletasDTO(
@@ -94,4 +97,34 @@ public class ObjetoMaletaService {
         return getObjetosByMaletaId(maletaId);
     }
     // -----------------------------------------
+
+    // Marcar un objeto como seleccionado o no
+    public List<ListarObjetosMaletasDTO> seleccionarObjetoMaleta(Long id, ObjetoSeleccionadoDTO objetoSeleccionadoDTO) {
+        ObjetoMaleta objetoMaleta = objetoMaletaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Objeto no encontrado"));
+
+        // Actualizar el estado de selección
+        objetoMaleta.setIsSelected(objetoSeleccionadoDTO.getIsSelected());
+
+        objetoMaletaRepository.save(objetoMaleta);
+
+        // Obtener el ID de la maleta para devolver la lista actualizada
+        Long maletaId = objetoMaleta.getMaletaId().getId();
+        return getObjetosByMaletaId(maletaId);
+    }
+
+    // Cambiar la cantidad de un objeto en una maleta
+    public List<ListarObjetosMaletasDTO> cambiarCantidadObjetoMaleta(Long id, MasCantidadObjetoDTO masCantidadObjetoDTO) {
+        ObjetoMaleta objetoMaleta = objetoMaletaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Objeto no encontrado"));
+
+        // Actualizar la cantidad del objeto
+        objetoMaleta.setCantidad(masCantidadObjetoDTO.getCantidad());
+
+        objetoMaletaRepository.save(objetoMaleta);
+
+        // Obtener el ID de la maleta para devolver la lista actualizada
+        Long maletaId = objetoMaleta.getMaletaId().getId();
+        return getObjetosByMaletaId(maletaId);
+    }
 }

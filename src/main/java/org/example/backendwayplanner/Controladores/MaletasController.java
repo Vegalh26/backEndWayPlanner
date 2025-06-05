@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/maletas")
+@CrossOrigin(origins = "*")
 public class MaletasController {
 
     @Autowired
@@ -20,6 +21,12 @@ public class MaletasController {
     @GetMapping("/todas_las_maletas/{id}")
     public List<ListarMaletasDTO> getMaletasByViajeId(@PathVariable Long id) {
         return maletaService.getMaletasByViajeId(id);
+    }
+
+    // Ver una maleta por ID
+    @GetMapping("/maleta/{id}")
+    public ListarMaletasDTO getMaletaById(@PathVariable Long id) {
+        return maletaService.getMaletaById(id);
     }
 
     // CRUD Maleta

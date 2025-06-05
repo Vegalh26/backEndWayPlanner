@@ -1,7 +1,7 @@
 package org.example.backendwayplanner.Controladores;
 
 import org.example.backendwayplanner.Dtos.Billetes.CategoriasBilleteDTO;
-import org.example.backendwayplanner.DTOs.Billetes.CrearBilleteDTO;
+import org.example.backendwayplanner.Dtos.Billetes.CrearBilleteDTO;
 import org.example.backendwayplanner.Dtos.Billetes.ListarBilletesDTO;
 import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Enums.CategoriaBillete;
@@ -30,9 +30,11 @@ public class BilleteController {
     }
 
     // Ver todas las Categorías de Billetes y su cantidad
-    @GetMapping("/categorias")
-    public List<CategoriasBilleteDTO> listarCategoriasConCantidad() {
-        return billeteService.obtenerCategoriasConCantidad();
+    @GetMapping("/categorias/{viajeId}")
+    public List<CategoriasBilleteDTO> listarCategoriasConCantidad(
+            @PathVariable Long viajeId
+    ) {
+        return billeteService.obtenerCategoriasConCantidad(viajeId);
     }
 
 

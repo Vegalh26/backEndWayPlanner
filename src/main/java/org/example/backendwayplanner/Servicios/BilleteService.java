@@ -1,7 +1,7 @@
 package org.example.backendwayplanner.Servicios;
 
 import org.example.backendwayplanner.Dtos.Billetes.CategoriasBilleteDTO;
-import org.example.backendwayplanner.DTOs.Billetes.CrearBilleteDTO;
+import org.example.backendwayplanner.Dtos.Billetes.CrearBilleteDTO;
 import org.example.backendwayplanner.Dtos.Billetes.ListarBilletesDTO;
 import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Entidades.Viaje;
@@ -32,8 +32,8 @@ public class BilleteService {
     }
 
     // Obtener todas las categorías de billetes que hay y su cantidad
-    public List<CategoriasBilleteDTO> obtenerCategoriasConCantidad() {
-        List<Object[]> resultados = billeteRepository.contarBilletesPorCategoria();
+    public List<CategoriasBilleteDTO> obtenerCategoriasConCantidad(Long viajeId) {
+        List<Object[]> resultados = billeteRepository.contarBilletesPorCategoria(viajeId);
 
         return resultados.stream()
                 .map(obj -> {

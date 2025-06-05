@@ -28,6 +28,13 @@ public class MaletaService {
                 .toList();
     }
 
+    // Ver una maleta por ID
+    public ListarMaletasDTO getMaletaById(Long id) {
+        Maleta maleta = maletaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Maleta no encontrada"));
+        return new ListarMaletasDTO(maleta.getId(), maleta.getNombre(), maleta.getPeso(), maleta.getTipoMaleta().toString());
+    }
+
     // CRUD Maleta
     // ---------------------------------------
     // Crear una maleta

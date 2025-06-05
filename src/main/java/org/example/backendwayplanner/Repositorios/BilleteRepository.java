@@ -18,7 +18,7 @@ public interface BilleteRepository extends JpaRepository<Billete, Long> {
     List<Billete> findByCategoriaAndViajeId(CategoriaBillete categoria, Long viajeId);
 
     // Mostrar Categorías y la cantidad de billetes por categoría
-    @Query("SELECT b.categoria, COUNT(b) FROM Billete b GROUP BY b.categoria")
-    List<Object[]> contarBilletesPorCategoria();
+    @Query("SELECT b.categoria, COUNT(b) FROM Billete b WHERE b.viaje.id = ?1 GROUP BY b.categoria")
+    List<Object[]> contarBilletesPorCategoria(Long viajeId);
 
 }

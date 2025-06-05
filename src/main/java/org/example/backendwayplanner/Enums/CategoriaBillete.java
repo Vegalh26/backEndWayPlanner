@@ -7,5 +7,6 @@ public enum CategoriaBillete {
     BARCO,
     CONCIERTO,
     MUSEO,
-    EVENTO
+    EVENTO,
+    OTRO
 }
