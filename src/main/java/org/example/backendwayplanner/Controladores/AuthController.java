@@ -6,17 +6,22 @@ import org.example.backendwayplanner.DTOs.Login.RegistroDTO;
 import org.example.backendwayplanner.DTOs.Login.RespuestaDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Servicios.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
 
-    private final UsuarioService service;
+    private UsuarioService service;
+
+    // Constructor
+    public AuthController(UsuarioService service) {
+        this.service = service;
+    }
 
 
     @PostMapping("/registro/perfil")

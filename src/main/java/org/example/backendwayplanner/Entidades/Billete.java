@@ -17,7 +17,7 @@ public class Billete {
     private CategoriaBillete categoria;
 
     @Lob
-    private byte[] pdf;
+    private Long pdf;
 
     private String ubicacion;
 
@@ -25,7 +25,7 @@ public class Billete {
     private Viaje viaje;
 
 
-    public Billete(String nombre, CategoriaBillete categoria, byte[] pdf, String ubicacion, Viaje viaje) {
+    public Billete(String nombre, CategoriaBillete categoria, Long pdf, String ubicacion, Viaje viaje) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.pdf = pdf;
@@ -61,11 +61,11 @@ public class Billete {
         this.categoria = categoria;
     }
 
-    public byte[] getPdf() {
+    public Long getPdf() {
         return pdf;
     }
 
-    public void setPdf(byte[] pdf) {
+    public void setPdf(Long pdf) {
         this.pdf = pdf;
     }
 
