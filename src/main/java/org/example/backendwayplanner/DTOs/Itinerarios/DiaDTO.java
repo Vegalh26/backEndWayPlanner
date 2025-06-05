@@ -2,6 +2,7 @@ package org.example.backendwayplanner.DTOs.Itinerarios;
 
 import jakarta.persistence.ManyToOne;
 import org.example.backendwayplanner.Entidades.Viaje;
+import org.example.backendwayplanner.Enums.DiasSemana;
 
 import java.time.LocalDate;
 
@@ -13,9 +14,11 @@ public class DiaDTO {
 
     private int numeroDia;
 
+    private DiasSemana diaSemana;
+
     private Long idViaje;
 
-    public DiaDTO(Long id, LocalDate fecha, int numeroDia, Long idViaje) {
+    public DiaDTO(Long id, LocalDate fecha, int numeroDia, DiasSemana diaSemana, Long idViaje) {
         this.id = id;
         this.fecha = fecha;
         this.numeroDia = numeroDia;
@@ -47,6 +50,14 @@ public class DiaDTO {
 
     public void setNumeroDia(int numeroDia) {
         this.numeroDia = numeroDia;
+    }
+
+    public DiasSemana getDiaSemana() {
+        return diaSemana;
+    }
+
+    public void setDiaSemana(DiasSemana diaSemana) {
+        this.diaSemana = diaSemana;
     }
 
     public Long getIdViaje() {

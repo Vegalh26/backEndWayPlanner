@@ -37,13 +37,15 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/horario/**").permitAll()
                         .requestMatchers("auth/registro/perfil").permitAll()
                         .requestMatchers("/gastos/**").permitAll()
                         .requestMatchers("/usuario/**").permitAll()
-                        .requestMatchers("/itinerarios/**").permitAll()
                         .requestMatchers("/viajes/**").permitAll()
-                        .requestMatchers("/itinearios/**").permitAll()
-
+                        .requestMatchers("/itinerarios/**").permitAll()
+                        .requestMatchers("/itinerarios/crear").permitAll()
+                        .requestMatchers("/itinerarios/actualizar/**").permitAll()
+                        .requestMatchers("/itinerarios/rutas/**").permitAll()
                         .requestMatchers("/usuario/usuarioPorId/**").permitAll()
                         .requestMatchers("/viajes/listarPorUsuario/**").permitAll()
                         .requestMatchers("/viajes/crear/**").permitAll()

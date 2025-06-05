@@ -4,22 +4,22 @@ import java.time.LocalDate;
 
 public class  FechasDTO {
     private Long idViaje;
-    private LocalDate fecha;
+    private Long idDia;
 
-    public FechasDTO(Long idViaje,LocalDate fecha) {
-        this.fecha = fecha;
+    public FechasDTO(Long idViaje,Long idDia) {
+        this.idDia = idDia;
         this.idViaje = idViaje;
     }
 
     public FechasDTO() {
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public Long getIdDia() {
+        return idDia;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setIdDia(Long fecha) {
+        this.idDia = fecha;
     }
 
     public Long getIdViaje() {
