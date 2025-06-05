@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
 
-    @Autowired
-    private final UsuarioService service;
+    private UsuarioService service;
+
+    // Constructor
+    public AuthController(UsuarioService service) {
+        this.service = service;
+    }
 
 
     @PostMapping("/registro/perfil")

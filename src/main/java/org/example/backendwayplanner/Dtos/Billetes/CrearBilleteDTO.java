@@ -4,11 +4,11 @@ public class CrearBilleteDTO {
     // Atributos
     private String nombre;
     private String categoria;
-    private byte[] pdf;
+    private String pdf;
     private Long viajeId;
 
     // Constructor
-    public CrearBilleteDTO(String nombre, String categoria, byte[] pdf, Long viajeId) {
+    public CrearBilleteDTO(String nombre, String categoria, String pdf, Long viajeId) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.pdf = pdf;
@@ -36,11 +36,11 @@ public class CrearBilleteDTO {
     }
 
     // Getter y Setter para el PDF
-    public byte[] getPdf() {
+    public String getPdf() {
         return pdf;
     }
 
-    public void setPdf(byte[] pdf) {
+    public void setPdf(String pdf) {
         this.pdf = pdf;
     }
 

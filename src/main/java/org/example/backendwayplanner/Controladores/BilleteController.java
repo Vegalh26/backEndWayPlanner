@@ -43,12 +43,23 @@ public class BilleteController {
     // Crear un billete
     @PostMapping("/nuevo_billete")
     public List<ListarBilletesDTO> crearBillete(
-            @RequestParam("nombre") String nombre,
-            @RequestParam("categoria") String categoria,
-            @RequestParam("viajeId") Long viajeId,
-            @RequestParam("pdf") MultipartFile pdf) {
+        @RequestPart("billete") CrearBilleteDTO crearBilleteDTO,
+        @RequestPart("pdf") MultipartFile pdf) {
 
         try {
+            Long OID = billeteService.guardarPdfComoLargeObject(pdf);
+
+            return billeteService.crearBillete(crearBilleteDTO, OID);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error al leer el archivo PDF", e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /*
+    * try {
             byte[] pdfBytes = pdf.getBytes();
 
             CrearBilleteDTO crearBilleteDTO = new CrearBilleteDTO(nombre, categoria, pdfBytes, viajeId);
@@ -57,16 +68,18 @@ public class BilleteController {
         } catch (IOException e) {
             throw new RuntimeException("Error al leer el archivo PDF", e);
         }
-    }
+    * */
 
 
-    // Actualizar un billete
+    /* Actualizar un billete
     @PutMapping("/actualizar_billete/{billeteId}")
     public List<ListarBilletesDTO> actualizarBillete(
             @PathVariable Long billeteId,
             @RequestBody CrearBilleteDTO crearBilleteDTO) {
         return billeteService.actualizarBillete(billeteId, crearBilleteDTO);
     }
+
+     */
 
     // Eliminar un billete
     @DeleteMapping("/eliminar_billete/{billeteId}")
