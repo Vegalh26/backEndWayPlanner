@@ -105,6 +105,7 @@ public class UsuarioService implements UserDetailsService {
     public Usuario actualizarUsuario(Long id, UsuarioDTO dto) {
         Optional<Usuario> usuarioOpcional = usuarioRepository.findById(id);
 
+
         if (usuarioOpcional.isEmpty()) {
             throw new IllegalArgumentException("Usuario no encontrado");
         }
