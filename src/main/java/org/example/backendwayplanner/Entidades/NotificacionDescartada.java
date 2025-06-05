@@ -12,7 +12,6 @@ public class NotificacionDescartada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long usuarioId;
     private Long viajeId;
     private LocalDate fecha;
