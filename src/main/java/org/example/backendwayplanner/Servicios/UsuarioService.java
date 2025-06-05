@@ -51,6 +51,7 @@ public class UsuarioService implements UserDetailsService {
         nuevoUsuario.setTelefono(dto.getTelefono());
         nuevoUsuario.setFechaRegistro(dto.getFechaRegistro());
         nuevoUsuario.setNombre(dto.getNombre());
+        nuevoUsuario.setFechaNacimiento(dto.getFechaNacimiento());
 
         String codigoVerificacion = generarCodigoVerificacion();
         nuevoUsuario.setVerifiCodi(codigoVerificacion);
@@ -118,10 +119,11 @@ public class UsuarioService implements UserDetailsService {
         return usuarioRepository.save(usuario);
     }
 
-    public UsuarioDTO obtenerUsuarioPorId(Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Perfil no encontrado para el usuario con ID: " + id));
-        return new UsuarioDTO(usuario);
+
+    public Usuario obtenerUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Perfil no encontrado para el usuario con ID: " + id));
+
     }
 
     public void eliminarUsuario(Long id) {
@@ -129,5 +131,21 @@ public class UsuarioService implements UserDetailsService {
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con ID: " + id));
         usuarioRepository.delete(usuario);
     }
+
+    public boolean reenviarCodigo(String email) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        if (usuario.isPresent()) {
+            String codigoVerificacion = usuario.get().getVerifiCodi();
+            if (codigoVerificacion == null || codigoVerificacion.isEmpty()) {
+                codigoVerificacion = generarCodigoVerificacion();
+                usuario.get().setVerifiCodi(codigoVerificacion);
+                usuarioRepository.save(usuario.get());
+            }
+            emailService.envEmail(email, codigoVerificacion);
+            return true;
+        }
+        return false;
+    }
+
 
 }
