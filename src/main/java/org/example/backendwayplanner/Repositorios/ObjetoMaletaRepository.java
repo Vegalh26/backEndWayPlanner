@@ -1,6 +1,6 @@
 package org.example.backendwayplanner.Repositorios;
 
-import org.example.backendwayplanner.Dtos.Maletas.ListarObjetosMaletasDTO;
+import org.example.backendwayplanner.DTOs.Maletas.ListarObjetosMaletasDTO;
 import org.example.backendwayplanner.Entidades.Maleta;
 import org.example.backendwayplanner.Entidades.ObjetoMaleta;
 import org.springframework.data.jpa.repository.JpaRepository;
