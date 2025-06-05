@@ -1,8 +1,8 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.Maletas.CrearMaletaDTO;
+import org.example.backendwayplanner.DTOs.Maletas.CrearMaletaDTO;
 import org.example.backendwayplanner.Entidades.Maleta;
-import org.example.backendwayplanner.Dtos.Maletas.ListarMaletasDTO;
+import org.example.backendwayplanner.DTOs.Maletas.ListarMaletasDTO;
 import org.example.backendwayplanner.Servicios.MaletaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

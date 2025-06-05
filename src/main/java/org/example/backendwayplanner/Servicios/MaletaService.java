@@ -1,8 +1,8 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.Maletas.CrearMaletaDTO;
+import org.example.backendwayplanner.DTOs.Maletas.CrearMaletaDTO;
 import org.example.backendwayplanner.Entidades.Maleta;
-import org.example.backendwayplanner.Dtos.Maletas.ListarMaletasDTO;
+import org.example.backendwayplanner.DTOs.Maletas.ListarMaletasDTO;
 import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Enums.TipoMaleta;
 import org.example.backendwayplanner.Repositorios.MaletaRepository;

@@ -1,9 +1,9 @@
 package org.example.backendwayplanner.Servicios;
 import jakarta.persistence.EntityNotFoundException;
 
-import org.example.backendwayplanner.Dtos.Login.LoginDTO;
-import org.example.backendwayplanner.Dtos.Login.RegistroDTO;
-import org.example.backendwayplanner.Dtos.Login.RespuestaDTO;
+import org.example.backendwayplanner.DTOs.Login.LoginDTO;
+import org.example.backendwayplanner.DTOs.Login.RegistroDTO;
+import org.example.backendwayplanner.DTOs.Login.RespuestaDTO;
 import org.example.backendwayplanner.DTOs.Login.UsuarioDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
@@ -121,10 +121,10 @@ public class UsuarioService implements UserDetailsService {
     }
 
 
-    public Usuario obtenerUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id)
-                        .orElseThrow(() -> new EntityNotFoundException("Perfil no encontrado para el usuario con ID: " + id));
-
+    public UsuarioDTO obtenerUsuarioPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Perfil no encontrado para el usuario con ID: " + id));
+        return new UsuarioDTO(usuario);
     }
 
     public void eliminarUsuario(Long id) {

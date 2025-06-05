@@ -1,7 +1,7 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.Maletas.CrearObjetoDTO;
-import org.example.backendwayplanner.Dtos.Maletas.ListarObjetosMaletasDTO;
+import org.example.backendwayplanner.DTOs.Maletas.CrearObjetoDTO;
+import org.example.backendwayplanner.DTOs.Maletas.ListarObjetosMaletasDTO;
 import org.example.backendwayplanner.Entidades.Maleta;
 import org.example.backendwayplanner.Entidades.ObjetoMaleta;
 import org.example.backendwayplanner.Enums.CategoriaObjeto;
