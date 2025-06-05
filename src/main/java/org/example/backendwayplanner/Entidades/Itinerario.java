@@ -27,26 +27,30 @@ public class Itinerario {
 
     private boolean apareceEnItinerario;
 
-    private String medioTransporte;
-
-    private LocalDateTime duracion;
+    private String duracion;
 
     @Lob
+    @Column(name = "foto", columnDefinition = "bytea")
     private byte[] foto;
 
     @Enumerated(EnumType.STRING)
     private CategoriaLugar categoria;
 
     @ManyToOne
+    @JoinColumn(nullable = true)
     private Billete billete;
 
     @ManyToOne
     private Dia dia;
 
-    @OneToMany
+    @OneToMany(mappedBy = "itinerario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Horario> horarios;
 
-    public Itinerario(Long id,String actividad, String ubicacion, LocalTime hora, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia) {
+    public Itinerario() {
+
+    }
+
+    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String duracion, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia, List<Horario> horarios) {
         this.id = id;
         this.actividad = actividad;
         this.hora = hora;
@@ -54,16 +58,12 @@ public class Itinerario {
         this.longitud = longitud;
         this.estaEnRuta = estaEnRuta;
         this.apareceEnItinerario = apareceEnItinerario;
-        this.medioTransporte = medioTransporte;
         this.duracion = duracion;
         this.foto = foto;
         this.categoria = categoria;
         this.billete = billete;
         this.dia = dia;
-    }
-
-    public Itinerario() {
-        // Constructor vacío
+        this.horarios = horarios;
     }
 
     public Long getId() {
@@ -82,12 +82,52 @@ public class Itinerario {
         this.actividad = actividad;
     }
 
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
     public LocalTime getHora() {
         return hora;
     }
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public boolean isEstaEnRuta() {
+        return estaEnRuta;
+    }
+
+    public void setEstaEnRuta(boolean estaEnRuta) {
+        this.estaEnRuta = estaEnRuta;
+    }
+
+    public boolean apareceEnItinerario() {
+        return apareceEnItinerario;
+    }
+
+    public void setApareceEnItinerario(boolean apareceEnItinerario) {
+        this.apareceEnItinerario = apareceEnItinerario;
+    }
+
+    public String getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(String duracion) {
+        this.duracion = duracion;
     }
 
     public byte[] getFoto() {
@@ -122,51 +162,11 @@ public class Itinerario {
         this.dia = dia;
     }
 
-    public String getLatitud() {
-        return latitud;
+    public List<Horario> getHorarios() {
+        return horarios;
     }
 
-    public void setLatitud(String latitud) {
-        this.latitud = latitud;
-    }
-
-    public String getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(String longitud) {
-        this.longitud = longitud;
-    }
-
-    public boolean isEstaEnRuta() {
-        return estaEnRuta;
-    }
-
-    public void setEstaEnRuta(boolean estaEnRuta) {
-        this.estaEnRuta = estaEnRuta;
-    }
-
-    public boolean apareceEnItinerario() {
-        return apareceEnItinerario;
-    }
-
-    public void setApareceEnItinerario(boolean apareceEnItinerario) {
-        this.apareceEnItinerario = apareceEnItinerario;
-    }
-
-    public String getMedioTransporte() {
-        return medioTransporte;
-    }
-
-    public void setMedioTransporte(String medioTransporte) {
-        this.medioTransporte = medioTransporte;
-    }
-
-    public LocalDateTime getDuracion() {
-        return duracion;
-    }
-
-    public void setDuracion(LocalDateTime duracion) {
-        this.duracion = duracion;
+    public void setHorarios(List<Horario> horarios) {
+        this.horarios = horarios;
     }
 }

@@ -37,11 +37,12 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("auth/login").permitAll()
                         .requestMatchers("auth/registro/perfil").permitAll()
                         .requestMatchers("/gastos/**").permitAll()
                         .requestMatchers("/usuario/**").permitAll()
+                        .requestMatchers("/itinerarios/**").permitAll()
                         .requestMatchers("/viajes/**").permitAll()
+                        .requestMatchers("/itinearios/**").permitAll()
 
                         .requestMatchers("/usuario/usuarioPorId/**").permitAll()
                         .requestMatchers("/viajes/listarPorUsuario/**").permitAll()
@@ -54,6 +55,8 @@ public class SecurityConfig {
                         .requestMatchers("notificaciones/establecer-hora/**").permitAll()
                         .requestMatchers("notificaciones/listar/**").permitAll()
                         .requestMatchers("notificaciones/eliminar/**").permitAll()
+                        .requestMatchers("/dia/**").permitAll()
+                        .requestMatchers("/billetes/**").permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilterChain, UsernamePasswordAuthenticationFilter.class)

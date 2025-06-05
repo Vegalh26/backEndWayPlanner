@@ -1,7 +1,7 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.Itinerarios.FechasDTO;
-import org.example.backendwayplanner.Dtos.Itinerarios.ItinerarioDTO;
+import org.example.backendwayplanner.DTOs.Itinerarios.FechasDTO;
+import org.example.backendwayplanner.DTOs.Itinerarios.ItinerarioDTO;
 import org.example.backendwayplanner.Entidades.Itinerario;
 import org.example.backendwayplanner.Servicios.ItinerarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/itinearios")
+@RequestMapping("/itinerarios")
+@CrossOrigin(origins = "*")
 public class ItinerarioController {
 
     @Autowired
@@ -21,7 +22,7 @@ public class ItinerarioController {
         return itinerarioService.obtenerItinerariosPorViajeId(id);
     }
 
-    @GetMapping("/viaje/{id}/dia")
+    @PostMapping("/viaje/dia")
     public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(@RequestBody FechasDTO fechas){
         return itinerarioService.obtenerItinerariosPorViajeIdYDia(fechas.getIdViaje(), fechas.getFecha());
     }
@@ -29,6 +30,16 @@ public class ItinerarioController {
     @PostMapping("/crear")
     public Itinerario crearItinerario(@RequestBody ItinerarioDTO itinerario) {
         return itinerarioService.crearItinerario(itinerario);
+    }
+
+    @GetMapping("/rutas/{id}")
+    public List<ItinerarioDTO> obtenerItinerariosEnRuta(@PathVariable Long id) {
+        return itinerarioService.obtenerItinerariosEnRuta(id);
+    }
+
+    @PostMapping("/rutas/dias")
+    public List<ItinerarioDTO> obtenerItinerariosEnRutaPorDias(@RequestBody FechasDTO fechas) {
+        return itinerarioService.obtenerItinerariosRutaYDia(fechas.getIdViaje(), fechas.getFecha());
     }
 
     @DeleteMapping("/eliminar/{id}")

@@ -1,18 +1,21 @@
 package org.example.backendwayplanner.Controladores;
 
 import org.example.backendwayplanner.Dtos.Billetes.CategoriasBilleteDTO;
-import org.example.backendwayplanner.Dtos.Billetes.CrearBilleteDTO;
+import org.example.backendwayplanner.DTOs.Billetes.CrearBilleteDTO;
 import org.example.backendwayplanner.Dtos.Billetes.ListarBilletesDTO;
 import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Enums.CategoriaBillete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.example.backendwayplanner.Servicios.BilleteService;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/billetes")
+@CrossOrigin(origins = "*")
 public class BilleteController {
 
     @Autowired
@@ -37,9 +40,23 @@ public class BilleteController {
     // ---------------------------------------
     // Crear un billete
     @PostMapping("/nuevo_billete")
-    public List<ListarBilletesDTO> crearBillete(@RequestBody CrearBilleteDTO crearBilleteDTO) {
-       return billeteService.crearBillete(crearBilleteDTO);
+    public List<ListarBilletesDTO> crearBillete(
+            @RequestParam("nombre") String nombre,
+            @RequestParam("categoria") String categoria,
+            @RequestParam("viajeId") Long viajeId,
+            @RequestParam("pdf") MultipartFile pdf) {
+
+        try {
+            byte[] pdfBytes = pdf.getBytes();
+
+            CrearBilleteDTO crearBilleteDTO = new CrearBilleteDTO(nombre, categoria, pdfBytes, viajeId);
+
+            return billeteService.crearBillete(crearBilleteDTO);
+        } catch (IOException e) {
+            throw new RuntimeException("Error al leer el archivo PDF", e);
+        }
     }
+
 
     // Actualizar un billete
     @PutMapping("/actualizar_billete/{billeteId}")

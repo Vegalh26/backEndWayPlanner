@@ -44,4 +44,10 @@ public class GastosController {
         gastosService.eliminarGasto(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GastoDTO> obtenerGastoPorId(@PathVariable Long id) {
+        GastoDTO gastoDTO = gastosService.obtenerGastoPorId(id);
+        return ResponseEntity.ok(gastoDTO);
+    }
 }

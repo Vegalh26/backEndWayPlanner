@@ -1,5 +1,7 @@
-package org.example.backendwayplanner.Dtos.Login;
+package org.example.backendwayplanner.DTOs.Login;
 
+
+import org.example.backendwayplanner.Entidades.Usuario;
 
 public class UsuarioDTO {
     private String nombre;
@@ -14,8 +16,13 @@ public class UsuarioDTO {
         this.telefono = telefono;
     }
 
-    public UsuarioDTO() {
+    public UsuarioDTO(Usuario usuario) {
+        this.nombre = usuario.getNombre();
+        this.email = usuario.getEmail();
+        this.telefono = usuario.getTelefono();
+        this.password = usuario.getContrasena();
     }
+
 
     public String getNombre() {
         return nombre;

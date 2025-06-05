@@ -23,6 +23,7 @@ public class Usuario implements UserDetails {
 
     private String nombre;
 
+    @Column(unique = true)
     private String email;
 
     private LocalTime horaNotificacion;
@@ -33,15 +34,43 @@ public class Usuario implements UserDetails {
 
     private LocalDate fechaRegistro = LocalDate.now();
 
-    public Usuario(String nombre, String email, LocalTime horaNotificacion, String contrasena, String telefono) {
+    private String verifiCodi;
+
+
+    private boolean verificado = false;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Notificacion> notificaciones;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Viaje> viajes;
+
+    public Usuario(String nombre, String email, LocalTime horaNotificacion, String contrasena, String telefono, List<Notificacion> notificaciones, List<Viaje> viajes) {
         this.nombre = nombre;
         this.email = email;
         this.horaNotificacion = horaNotificacion;
         this.contrasena = contrasena;
         this.telefono = telefono;
+        this.notificaciones = notificaciones;
+        this.viajes = viajes;
     }
 
     public Usuario() {
+    }
+    public String getVerifiCodi() {
+        return verifiCodi;
+    }
+
+    public void setVerifiCodi(String verifiCodi) {
+        this.verifiCodi = verifiCodi;
+    }
+
+    public boolean isVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(boolean verificado) {
+        this.verificado = verificado;
     }
 
     public Long getId() {
@@ -98,6 +127,22 @@ public class Usuario implements UserDetails {
 
     public void setHoraNotificacion(LocalTime horaNotificacion) {
         this.horaNotificacion = horaNotificacion;
+    }
+
+    public List<Notificacion> getNotificaciones() {
+        return notificaciones;
+    }
+
+    public void setNotificaciones(List<Notificacion> notificaciones) {
+        this.notificaciones = notificaciones;
+    }
+
+    public List<Viaje> getViajes() {
+        return viajes;
+    }
+
+    public void setViajes(List<Viaje> viajes) {
+        this.viajes = viajes;
     }
 
     @Override
