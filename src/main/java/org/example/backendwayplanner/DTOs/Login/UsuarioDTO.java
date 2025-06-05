@@ -1,20 +1,32 @@
 package org.example.backendwayplanner.DTOs.Login;
 
 
+import java.time.LocalDate;
+
 public class UsuarioDTO {
     private String nombre;
     private String email;
     private String password;
     private String telefono;
+    private LocalDate fechaNacimiento;
 
-    public UsuarioDTO(String nombre, String email, String password, String telefono) {
+    public UsuarioDTO(String nombre, String email, String password, String telefono, LocalDate fechaNacimiento) {
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public UsuarioDTO() {
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public String getNombre() {

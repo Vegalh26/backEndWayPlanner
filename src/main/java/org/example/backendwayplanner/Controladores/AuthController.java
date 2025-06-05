@@ -45,5 +45,14 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
     }
 
+    @PostMapping("/reenviar-codigo")
+    public ResponseEntity<String> reenviarCodigo(@RequestParam String email) {
+        boolean reenviado = service.reenviarCodigo(email);
+        if (reenviado) {
+            return ResponseEntity.ok("El código de verificación ha sido reenviado a tu correo.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró un usuario con el correo proporcionado.");
+    }
+
 
 }
