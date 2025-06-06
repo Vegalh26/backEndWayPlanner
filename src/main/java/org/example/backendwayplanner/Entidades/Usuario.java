@@ -31,6 +31,8 @@ public class Usuario implements UserDetails {
 
     private String verifiCodi;
 
+    private LocalDate fechaNacimiento;
+
 
     private boolean verificado = false;
 
@@ -54,6 +56,14 @@ public class Usuario implements UserDetails {
     }
     public String getVerifiCodi() {
         return verifiCodi;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public void setVerifiCodi(String verifiCodi) {

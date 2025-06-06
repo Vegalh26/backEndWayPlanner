@@ -1,26 +1,28 @@
-package org.example.backendwayplanner.Dtos.Maletas;
+package org.example.backendwayplanner.DTOs.Maletas;
 
-public class VerMaletaDTO {
+public class ListarMaletasDTO {
     private Long id;
     private String nombre;
     private Double peso;
     private String tipoMaleta;
 
+
     // Constructor
-    public VerMaletaDTO(Long id, String nombre, Double peso, String tipoMaleta) {
+    public ListarMaletasDTO(Long id, String nombre, Double peso, String tipoMaleta) {
         this.id = id;
         this.nombre = nombre;
         this.peso = peso;
         this.tipoMaleta = tipoMaleta;
     }
 
-    public VerMaletaDTO() {
+    public ListarMaletasDTO() {
         // Constructor vacío
     }
 
+
     // Getters y Setters
-    // ---------------------------------------
-    // Getter y Setter para id
+    // ------------------------------------------------
+    // Getter y Setter de Id
     public Long getId() {
         return id;
     }
@@ -29,7 +31,7 @@ public class VerMaletaDTO {
         this.id = id;
     }
 
-    // Getter y Setter para nombre
+    // Getter y Setter de Nombre
     public String getNombre() {
         return nombre;
     }
@@ -38,7 +40,7 @@ public class VerMaletaDTO {
         this.nombre = nombre;
     }
 
-    // Getter y Setter para peso
+    // Getter y Setter de Peso
     public Double getPeso() {
         return peso;
     }
@@ -47,7 +49,7 @@ public class VerMaletaDTO {
         this.peso = peso;
     }
 
-    // Getter y Setter para tipoMaleta
+    // Getter y Setter de TipoMaleta
     public String getTipoMaleta() {
         return tipoMaleta;
     }

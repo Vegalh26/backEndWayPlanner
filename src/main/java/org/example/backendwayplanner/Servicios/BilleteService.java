@@ -1,16 +1,22 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.Billetes.CategoriasBilleteDTO;
+import org.example.backendwayplanner.DTOs.Billetes.CategoriasBilleteDTO;
+import org.example.backendwayplanner.DTOs.Billetes.ListarBilletesDTO;
 import org.example.backendwayplanner.DTOs.Billetes.CrearBilleteDTO;
-import org.example.backendwayplanner.Dtos.Billetes.ListarBilletesDTO;
+
 import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Enums.CategoriaBillete;
 import org.example.backendwayplanner.Repositorios.BilleteRepository;
 import org.example.backendwayplanner.Repositorios.ViajeRepository;
+import org.postgresql.PGConnection;
+import org.postgresql.largeobject.LargeObject;
+import org.postgresql.largeobject.LargeObjectManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +29,9 @@ public class BilleteService {
     @Autowired
     private ViajeRepository viajeRepository;
 
+    @Autowired
+    private javax.sql.DataSource dataSource;
+
     // Obtener billetes por viaje y categoría
     public List<ListarBilletesDTO> obtenerBilletesPorCategoriaYViaje(CategoriaBillete categoria, Long viajeId) {
         List<Billete> billetes = billeteRepository.findByCategoriaAndViajeId(categoria, viajeId);
@@ -32,8 +41,8 @@ public class BilleteService {
     }
 
     // Obtener todas las categorías de billetes que hay y su cantidad
-    public List<CategoriasBilleteDTO> obtenerCategoriasConCantidad() {
-        List<Object[]> resultados = billeteRepository.contarBilletesPorCategoria();
+    public List<CategoriasBilleteDTO> obtenerCategoriasConCantidad(Long viajeId) {
+        List<Object[]> resultados = billeteRepository.contarBilletesPorCategoria(viajeId);
 
         return resultados.stream()
                 .map(obj -> {
@@ -47,7 +56,7 @@ public class BilleteService {
     // CRUD Billete
     // -------------------------
     // Crear un billete
-    public List<ListarBilletesDTO> crearBillete(CrearBilleteDTO crearBilleteDTO) {
+    public List<ListarBilletesDTO> crearBillete(CrearBilleteDTO crearBilleteDTO, Long OID) {
         // Buscar el Viaje por ID
         Viaje viaje = viajeRepository.findById(crearBilleteDTO.getViajeId())
                 .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
@@ -56,7 +65,9 @@ public class BilleteService {
         Billete billete = new Billete();
         billete.setNombre(crearBilleteDTO.getNombre());
         billete.setCategoria(CategoriaBillete.valueOf(crearBilleteDTO.getCategoria()));
-        billete.setPdf(crearBilleteDTO.getPdf());
+
+        billete.setPdf(OID); // Asignar el OID del PDF
+
         billete.setViaje(viaje);
 
         billeteRepository.save(billete);
@@ -65,7 +76,41 @@ public class BilleteService {
         return obtenerBilletesPorCategoriaYViaje(billete.getCategoria(), viaje.getId());
     }
 
-    // Actualizar un billete
+    public Long guardarPdfComoLargeObject(MultipartFile file) throws Exception {
+        try (Connection conn = dataSource.getConnection()) {
+            conn.setAutoCommit(false);
+            LargeObjectManager lobj = conn.unwrap(PGConnection.class).getLargeObjectAPI();
+
+            long oid = lobj.createLO(LargeObjectManager.WRITE);
+            LargeObject obj = lobj.open(oid, LargeObjectManager.WRITE);
+            obj.write(file.getBytes());
+            obj.close();
+
+            conn.commit();
+            return oid;
+        }
+    }
+
+    public byte[] leerPdfDesdeOid(Long oid) {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false); // Desactiva auto-commit
+            org.postgresql.PGConnection pgConn = connection.unwrap(org.postgresql.PGConnection.class);
+            LargeObjectManager lobj = pgConn.getLargeObjectAPI();
+
+            LargeObject obj = lobj.open(oid, LargeObjectManager.READ);
+            byte[] data = new byte[obj.size()];
+            obj.read(data, 0, obj.size());
+            obj.close();
+
+            connection.commit(); // Opcional, para finalizar la transacciÃ³n
+            return data;
+        } catch (Exception e) {
+            throw new RuntimeException("Error leyendo imagen por OID", e);
+        }
+    }
+
+
+    /* Actualizar un billete
     public List<ListarBilletesDTO> actualizarBillete(Long billeteId, CrearBilleteDTO crearBilleteDTO) {
         // Buscar el billete por ID
         Billete billete = billeteRepository.findById(billeteId)
@@ -82,6 +127,8 @@ public class BilleteService {
         // Devolver la lista actualizada de billetes del viaje
         return obtenerBilletesPorCategoriaYViaje(billete.getCategoria(), billete.getViaje().getId());
     }
+
+     */
 
     // Eliminar un billete
     public List<ListarBilletesDTO> eliminarBillete(Long idBillete) {

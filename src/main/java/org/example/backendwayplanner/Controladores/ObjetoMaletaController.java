@@ -1,8 +1,9 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.Maletas.CrearObjetoDTO;
-import org.example.backendwayplanner.Dtos.Maletas.ListarObjetosMaletasDTO;
-import org.example.backendwayplanner.Entidades.ObjetoMaleta;
+import org.example.backendwayplanner.DTOs.Maletas.CrearObjetoDTO;
+import org.example.backendwayplanner.DTOs.Maletas.ListarObjetosMaletasDTO;
+import org.example.backendwayplanner.DTOs.Maletas.MasCantidadObjetoDTO;
+import org.example.backendwayplanner.DTOs.Maletas.ObjetoSeleccionadoDTO;
 import org.example.backendwayplanner.Servicios.ObjetoMaletaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/itemsMaleta")
+@CrossOrigin(origins = "*")
 public class ObjetoMaletaController {
     @Autowired
     private ObjetoMaletaService objetoMaletaService;
@@ -42,4 +44,15 @@ public class ObjetoMaletaController {
     }
     // -----------------------------------------
 
+    // Marcar un objeto como seleccionado o no
+    @PutMapping("/seleccionar_objeto/{id}")
+    public List<ListarObjetosMaletasDTO> seleccionarObjetoMaleta(@PathVariable Long id, @RequestBody ObjetoSeleccionadoDTO objetoSeleccionadoDTO) {
+        return objetoMaletaService.seleccionarObjetoMaleta(id, objetoSeleccionadoDTO);
+    }
+
+    // Cambiar la cantidad de un objeto en una maleta
+    @PutMapping("/cambiar_cantidad_objeto/{id}")
+    public List<ListarObjetosMaletasDTO> cambiarCantidadObjetoMaleta(@PathVariable Long id, @RequestBody MasCantidadObjetoDTO masCantidadObjetoDTO) {
+        return objetoMaletaService.cambiarCantidadObjetoMaleta(id, masCantidadObjetoDTO);
+    }
 }

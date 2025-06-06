@@ -4,6 +4,7 @@ import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Entidades.Dia;
 import org.example.backendwayplanner.Entidades.Horario;
 import org.example.backendwayplanner.Enums.CategoriaLugar;
+import org.example.backendwayplanner.Enums.Transporte;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class ItinerarioDTO {
     boolean estaEnRuta;
     boolean apareceEnItinerario;
     LocalTime hora;
+    Transporte medioTransporte;
     String duracion;
     String foto;
     CategoriaLugar categoria;
@@ -25,7 +27,7 @@ public class ItinerarioDTO {
     Long iddia;
     List<HorarioDTO> horarios;
 
-    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, LocalTime hora, String duracion, String foto, CategoriaLugar categoria, Long idbillete, Long iddia, List<HorarioDTO> horarios) {
+    public ItinerarioDTO(Long id, String actividad, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, LocalTime hora, Transporte medioTransporte,String duracion, String foto, CategoriaLugar categoria, Long idbillete, Long iddia, List<HorarioDTO> horarios) {
         this.id = id;
         this.actividad = actividad;
         this.latitud = latitud;
@@ -33,6 +35,7 @@ public class ItinerarioDTO {
         this.estaEnRuta = estaEnRuta;
         this.apareceEnItinerario = apareceEnItinerario;
         this.hora = hora;
+        this.medioTransporte = medioTransporte;
         this.duracion = duracion;
         this.foto = foto;
         this.categoria = categoria;
@@ -100,6 +103,14 @@ public class ItinerarioDTO {
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
+    }
+
+    public Transporte getMedioTransporte() {
+        return medioTransporte;
+    }
+
+    public void setMedioTransporte(Transporte medioTransporte) {
+        this.medioTransporte = medioTransporte;
     }
 
 

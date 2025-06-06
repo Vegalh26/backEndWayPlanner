@@ -2,10 +2,11 @@ package org.example.backendwayplanner.Controladores;
 
 import org.example.backendwayplanner.DTOs.Itinerarios.FechasDTO;
 import org.example.backendwayplanner.DTOs.Itinerarios.ItinerarioDTO;
-import org.example.backendwayplanner.Entidades.Itinerario;
 import org.example.backendwayplanner.Servicios.ItinerarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,13 +25,27 @@ public class ItinerarioController {
 
     @PostMapping("/viaje/dia")
     public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(@RequestBody FechasDTO fechas){
-        return itinerarioService.obtenerItinerariosPorViajeIdYDia(fechas.getIdViaje(), fechas.getFecha());
+        return itinerarioService.obtenerItinerariosPorViajeIdYDia(fechas.getIdViaje(), fechas.getIdDia());
     }
 
-    @PostMapping("/crear")
-    public Itinerario crearItinerario(@RequestBody ItinerarioDTO itinerario) {
-        return itinerarioService.crearItinerario(itinerario);
+    @PostMapping(value = "/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ItinerarioDTO crearItinerario(
+            @RequestPart("itinerario") ItinerarioDTO itinerarioDTO,
+            @RequestPart(value="foto", required = false) MultipartFile foto
+    ) throws Exception {
+        Long oid = itinerarioService.guardarFotoComoLargeObject(foto);
+        return itinerarioService.crearItinerarioConFoto(itinerarioDTO, oid);
     }
+
+        @PutMapping(value = "/actualizar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+        public ItinerarioDTO actualizarItinerario(@RequestPart("itinerario") ItinerarioDTO itinerarioDTO, @RequestPart(value="foto", required = false ) MultipartFile foto) {
+            try {
+                Long oid = itinerarioService.guardarFotoComoLargeObject(foto);
+                return itinerarioService.actualizarItinerarioConFoto(itinerarioDTO, oid);
+            } catch (Exception e) {
+                return itinerarioService.actualizarItinerario(itinerarioDTO);
+            }
+        }
 
     @GetMapping("/rutas/{id}")
     public List<ItinerarioDTO> obtenerItinerariosEnRuta(@PathVariable Long id) {
@@ -39,7 +54,17 @@ public class ItinerarioController {
 
     @PostMapping("/rutas/dias")
     public List<ItinerarioDTO> obtenerItinerariosEnRutaPorDias(@RequestBody FechasDTO fechas) {
-        return itinerarioService.obtenerItinerariosRutaYDia(fechas.getIdViaje(), fechas.getFecha());
+        return itinerarioService.obtenerItinerariosRutaYDia(fechas.getIdViaje(), fechas.getIdDia());
+    }
+
+    @DeleteMapping("/rutas/eliminarRuta/{id}")
+    public void eliminarItinerariosEnRuta(@PathVariable Long id) {
+        itinerarioService.eliminarItinerariosEnRuta(id);
+    }
+
+        @DeleteMapping("/eliminarEnItinerario/{id}")
+    public void eliminarItinerarioBooleano(@PathVariable Long id) {
+        itinerarioService.eliminarItinerarioEnItinerario(id);
     }
 
     @DeleteMapping("/eliminar/{id}")

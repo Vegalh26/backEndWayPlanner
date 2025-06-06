@@ -1,8 +1,8 @@
 package org.example.backendwayplanner.Servicios;
 
-import org.example.backendwayplanner.Dtos.Maletas.CrearMaletaDTO;
+import org.example.backendwayplanner.DTOs.Maletas.CrearMaletaDTO;
 import org.example.backendwayplanner.Entidades.Maleta;
-import org.example.backendwayplanner.Dtos.Maletas.ListarMaletasDTO;
+import org.example.backendwayplanner.DTOs.Maletas.ListarMaletasDTO;
 import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Enums.TipoMaleta;
 import org.example.backendwayplanner.Repositorios.MaletaRepository;
@@ -26,6 +26,13 @@ public class MaletaService {
         return maletas.stream()
                 .map(maleta -> new ListarMaletasDTO(maleta.getId(), maleta.getNombre(), maleta.getPeso(), maleta.getTipoMaleta().toString()))
                 .toList();
+    }
+
+    // Ver una maleta por ID
+    public ListarMaletasDTO getMaletaById(Long id) {
+        Maleta maleta = maletaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Maleta no encontrada"));
+        return new ListarMaletasDTO(maleta.getId(), maleta.getNombre(), maleta.getPeso(), maleta.getTipoMaleta().toString());
     }
 
     // CRUD Maleta

@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos.Notificaciones;
+package org.example.backendwayplanner.DTOs.Notificaciones;
 
 import lombok.Getter;
 import lombok.Setter;
