@@ -6,6 +6,7 @@ import org.example.backendwayplanner.DTOs.Gastos.GastoDTO;
 import org.example.backendwayplanner.DTOs.Gastos.GastosResumenDTO;
 import org.example.backendwayplanner.Entidades.Gastos;
 import org.example.backendwayplanner.Servicios.GastosService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 
 public class GastosController {
+    @Autowired
     private GastosService gastosService;
 
     @GetMapping("/resumen/{viajeId}")
