@@ -77,31 +77,30 @@ public class UsuarioService implements UserDetailsService {
     public ResponseEntity<RespuestaDTO> login(LoginDTO dto) {
         Optional<Usuario> usuarioOpcional = usuarioRepository.findByEmail(dto.getEmail());
 
-        if (usuarioOpcional.isPresent()) {
-            Usuario usuario = usuarioOpcional.get();
-
-            if (!usuario.isVerificado()) {
-                RespuestaDTO respuesta = new RespuestaDTO();
-                respuesta.setEstado(HttpStatus.FORBIDDEN.value());
-                respuesta.setMensaje("Por favor verifica tu cuenta primero");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(respuesta);
-            }
-
-            if (passwordEncoder.matches(dto.getPassword(), usuario.getPassword())) {
-                String token = jwtService.generateToken(usuario);
-
-                RespuestaDTO respuesta = new RespuestaDTO();
-                respuesta.setEstado(HttpStatus.OK.value());
-                respuesta.setMensaje("Inicio de sesión exitoso");
-                respuesta.setToken(token);
-
-                return ResponseEntity.ok(respuesta);
-            } else {
-                throw new BadCredentialsException("Contraseña incorrecta");
-            }
-        } else {
+        if (usuarioOpcional.isEmpty()) {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
+
+        Usuario usuario = usuarioOpcional.get();
+
+        if (!usuario.isVerificado()) {
+            RespuestaDTO respuesta = new RespuestaDTO();
+            respuesta.setEstado(HttpStatus.FORBIDDEN.value());
+            respuesta.setMensaje("Por favor verifica tu cuenta primero");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(respuesta);
+        }
+
+        if (!passwordEncoder.matches(dto.getPassword(), usuario.getPassword())) {
+            throw new BadCredentialsException("Contraseña incorrecta");
+        }
+
+        String token = jwtService.generateToken(usuario);
+        RespuestaDTO respuesta = new RespuestaDTO();
+        respuesta.setEstado(HttpStatus.OK.value());
+        respuesta.setMensaje("Inicio de sesión exitoso");
+        respuesta.setToken(token);
+
+        return ResponseEntity.ok(respuesta);
     }
     public Usuario actualizarUsuario(Long id, UsuarioDTO dto) {
         Optional<Usuario> usuarioOpcional = usuarioRepository.findById(id);
@@ -116,6 +115,7 @@ public class UsuarioService implements UserDetailsService {
         usuario.setTelefono(dto.getTelefono());
         usuario.setEmail(dto.getEmail());
         usuario.setContrasena(passwordEncoder.encode(dto.getPassword()));
+        usuario.setFechaNacimiento(dto.getFechaNacimiento());
 
         return usuarioRepository.save(usuario);
     }
