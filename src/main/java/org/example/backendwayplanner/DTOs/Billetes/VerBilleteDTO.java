@@ -1,6 +1,6 @@
 package org.example.backendwayplanner.DTOs.Billetes;
 
-public class CrearBilleteDTO {
+public class VerBilleteDTO {
     // Atributos
     private String nombre;
     private String categoria;
@@ -8,7 +8,7 @@ public class CrearBilleteDTO {
     private Long viajeId;
 
     // Constructor
-    public CrearBilleteDTO(String nombre, String categoria, String pdf, Long viajeId) {
+    public VerBilleteDTO(String nombre, String categoria, String pdf, Long viajeId) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.pdf = pdf;

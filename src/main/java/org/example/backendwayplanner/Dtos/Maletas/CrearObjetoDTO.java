@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos.Maletas;
+package org.example.backendwayplanner.DTOs.Maletas;
 
 public class CrearObjetoDTO {
     private String nombre;

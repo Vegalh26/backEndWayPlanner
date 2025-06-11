@@ -1,15 +1,16 @@
 package org.example.backendwayplanner.DTOs.Maletas;
 
-public class ListarObjetosMaletasDTO {
+public class VerItemDTO {
     private Long id;
     private String nombre;
-    private int cantidad;
+    private Integer cantidad;
     private String categoria;
-    private boolean isSelected;
+    private Boolean isSelected;
     private Long maletaId;
 
+
     // Constructor
-    public ListarObjetosMaletasDTO(Long id, String nombre, int cantidad, String categoria, boolean isSelected, Long maletaId) {
+    public VerItemDTO(Long id, String nombre, Integer cantidad, String categoria, Boolean isSelected, Long maletaId) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
@@ -18,14 +19,14 @@ public class ListarObjetosMaletasDTO {
         this.maletaId = maletaId;
     }
 
-    public ListarObjetosMaletasDTO() {
+    public VerItemDTO() {
         // Constructor vacío
     }
 
 
     // Getters y Setters
     // ------------------------------------------------
-    // Getter y Setter de Id
+    // Getter y Setter de id
     public Long getId() {
         return id;
     }
@@ -34,7 +35,7 @@ public class ListarObjetosMaletasDTO {
         this.id = id;
     }
 
-    // Getter y Setter de Nombre
+    // Getter y Setter de nombre
     public String getNombre() {
         return nombre;
     }
@@ -43,16 +44,16 @@ public class ListarObjetosMaletasDTO {
         this.nombre = nombre;
     }
 
-    // Getter y Setter de Cantidad
-    public int getCantidad() {
+    // Getter y Setter de cantidad
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
-    // Getter y Setter de Categoria
+    // Getter y Setter de categoria
     public String getCategoria() {
         return categoria;
     }
@@ -62,11 +63,11 @@ public class ListarObjetosMaletasDTO {
     }
 
     // Getter y Setter de isSelected
-    public boolean getIsSelected() {
+    public Boolean getIsSelected() {
         return isSelected;
     }
 
-    public void setIsSelected(boolean isSelected) {
+    public void setIsSelected(Boolean isSelected) {
         this.isSelected = isSelected;
     }
 

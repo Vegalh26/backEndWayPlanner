@@ -1,8 +1,8 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.Billetes.CategoriasBilleteDTO;
-import org.example.backendwayplanner.Dtos.Billetes.CrearBilleteDTO;
-import org.example.backendwayplanner.Dtos.Billetes.ListarBilletesDTO;
+import org.example.backendwayplanner.DTOs.Billetes.CategoriasBilleteDTO;
+import org.example.backendwayplanner.DTOs.Billetes.CrearBilleteDTO;
+import org.example.backendwayplanner.DTOs.Billetes.ListarBilletesDTO;
 import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Enums.CategoriaBillete;
 import org.springframework.beans.factory.annotation.Autowired;

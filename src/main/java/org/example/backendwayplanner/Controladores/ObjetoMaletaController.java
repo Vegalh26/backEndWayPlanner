@@ -1,9 +1,9 @@
 package org.example.backendwayplanner.Controladores;
 
-import org.example.backendwayplanner.Dtos.Maletas.CrearObjetoDTO;
-import org.example.backendwayplanner.Dtos.Maletas.ListarObjetosMaletasDTO;
-import org.example.backendwayplanner.Dtos.Maletas.MasCantidadObjetoDTO;
-import org.example.backendwayplanner.Dtos.Maletas.ObjetoSeleccionadoDTO;
+import org.example.backendwayplanner.DTOs.Maletas.CrearObjetoDTO;
+import org.example.backendwayplanner.DTOs.Maletas.ListarObjetosMaletasDTO;
+import org.example.backendwayplanner.DTOs.Maletas.MasCantidadObjetoDTO;
+import org.example.backendwayplanner.DTOs.Maletas.ObjetoSeleccionadoDTO;
 import org.example.backendwayplanner.Entidades.ObjetoMaleta;
 import org.example.backendwayplanner.Servicios.ObjetoMaletaService;
 import org.springframework.beans.factory.annotation.Autowired;
