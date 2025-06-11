@@ -3,6 +3,7 @@ package org.example.backendwayplanner.Servicios;
 import org.example.backendwayplanner.DTOs.Billetes.CategoriasBilleteDTO;
 import org.example.backendwayplanner.DTOs.Billetes.CrearBilleteDTO;
 import org.example.backendwayplanner.DTOs.Billetes.ListarBilletesDTO;
+import org.example.backendwayplanner.DTOs.Billetes.VerBilleteDTO;
 import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Entidades.Viaje;
 import org.example.backendwayplanner.Enums.CategoriaBillete;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Connection;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,11 @@ public class BilleteService {
     public List<ListarBilletesDTO> obtenerBilletesPorCategoriaYViaje(CategoriaBillete categoria, Long viajeId) {
         List<Billete> billetes = billeteRepository.findByCategoriaAndViajeId(categoria, viajeId);
         return billetes.stream()
-                .map(b -> new ListarBilletesDTO(b.getId(), b.getNombre(), null, null)) // Solo se usan id y nombre según tu DTO
+                .map(b -> {
+                    byte[] pdfBytes = leerPdfDesdeOid(b.getPdf());
+                    String base64Pdf = Base64.getEncoder().encodeToString(pdfBytes);
+                    return new ListarBilletesDTO(b.getId(), b.getNombre(), b.getCategoria().toString(), base64Pdf, b.getViaje().getId());
+                })
                 .collect(Collectors.toList());
     }
 
@@ -51,6 +57,13 @@ public class BilleteService {
                 })
                 .collect(Collectors.toList());
     }
+
+    // Obtener un billete por ID
+    public Billete obtenerBilletePorId(Long id) {
+        return billeteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Billete no encontrado"));
+    }
+
 
     // CRUD Billete
     // -------------------------
@@ -108,26 +121,45 @@ public class BilleteService {
         }
     }
 
+    public void eliminarLargeObject(Long oid) {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false); // Desactiva auto-commit
+            org.postgresql.PGConnection pgConn = connection.unwrap(org.postgresql.PGConnection.class);
+            LargeObjectManager lobj = pgConn.getLargeObjectAPI();
 
-    /* Actualizar un billete
-    public List<ListarBilletesDTO> actualizarBillete(Long billeteId, CrearBilleteDTO crearBilleteDTO) {
-        // Buscar el billete por ID
-        Billete billete = billeteRepository.findById(billeteId)
+            lobj.delete(oid); // Elimina el Large Object
+
+            connection.commit(); // Opcional, para finalizar la transacción
+        } catch (Exception e) {
+            throw new RuntimeException("Error eliminando Large Object", e);
+        }
+    }
+
+
+    public List<ListarBilletesDTO> actualizarBillete(VerBilleteDTO billeteActualizado, MultipartFile nuevoPdf) {
+        // Buscar el billete original desde la base de datos
+        Billete billete = billeteRepository.findById(billeteActualizado.getId())
                 .orElseThrow(() -> new RuntimeException("Billete no encontrado"));
 
-        // Actualizar los atributos del billete
-        billete.setNombre(crearBilleteDTO.getNombre());
-        billete.setCategoria(CategoriaBillete.valueOf(crearBilleteDTO.getCategoria()));
-        billete.setPdf(crearBilleteDTO.getPdf());
+        // Actualizar campos permitidos
+        billete.setNombre(billeteActualizado.getNombre());
+        billete.setCategoria(CategoriaBillete.valueOf(billeteActualizado.getCategoria()));
 
-        // Guardar el billete actualizado
+        if (nuevoPdf != null && !nuevoPdf.isEmpty()) {
+            try {
+                eliminarLargeObject(billete.getPdf()); // opcional, para limpiar el anterior
+                Long nuevoOid = guardarPdfComoLargeObject(nuevoPdf);
+                billete.setPdf(nuevoOid);
+            } catch (Exception e) {
+                throw new RuntimeException("Error actualizando PDF", e);
+            }
+        }
+
         billeteRepository.save(billete);
 
-        // Devolver la lista actualizada de billetes del viaje
         return obtenerBilletesPorCategoriaYViaje(billete.getCategoria(), billete.getViaje().getId());
     }
 
-     */
 
     // Eliminar un billete
     public List<ListarBilletesDTO> eliminarBillete(Long idBillete) {

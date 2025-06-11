@@ -36,7 +36,7 @@ public class Itinerario {
     @Enumerated(EnumType.STRING)
     private CategoriaLugar categoria;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(nullable = true)
     private Billete billete;
 
