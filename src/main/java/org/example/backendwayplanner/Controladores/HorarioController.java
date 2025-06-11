@@ -28,4 +28,14 @@ public class HorarioController {
          return horarioService.listarHorarios(idItinerario);
     }
 
+    @PutMapping ("/actualizar")
+    public void actualizarHorario(@RequestBody List<HorarioDTO> horarios) {
+        horarioService.actualizarHorario(horarios);
+    }
+
+    @DeleteMapping("/eliminar/{idHorario}")
+    public void eliminarHorario(@PathVariable Long idHorario) {
+        horarioService.eliminarHorario(idHorario);
+    }
+
 }

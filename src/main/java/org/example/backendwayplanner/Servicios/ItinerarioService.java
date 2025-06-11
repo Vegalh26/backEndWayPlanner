@@ -168,6 +168,7 @@ public class ItinerarioService {
         existente.setDuracion(itinerario.getDuracion());
         existente.setCategoria(itinerario.getCategoria());
         existente.setFoto(existente.getFoto());
+        existente.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
 
         // Guardar y retornar
         Itinerario guardado = itinerarioRepository.save(existente);
@@ -176,18 +177,35 @@ public class ItinerarioService {
 
 
     public ItinerarioDTO actualizarItinerarioConFoto(ItinerarioDTO itinerario, Long oid) {
-        Itinerario itinerarioActualizado = transformarSinDTO(itinerario);
-        itinerarioActualizado.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
+        Itinerario existente = itinerarioRepository.findById(itinerario.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Itinerario no encontrado con ID: " + itinerario.getId()));
+
+        existente.setActividad(itinerario.getActividad());
+        existente.setLatitud(itinerario.getLatitud());
+        existente.setLongitud(itinerario.getLongitud());
+        existente.setEstaEnRuta(itinerario.isEstaEnRuta());
+        existente.setApareceEnItinerario(itinerario.isApareceEnItinerario());
+        existente.setHora(itinerario.getHora());
+        existente.setMedioTransporte(itinerario.getMedioTransporte());
+        existente.setDuracion(itinerario.getDuracion());
+        existente.setCategoria(itinerario.getCategoria());
+        existente.setFoto(oid); // ✅ Solo cambia la foto
+
+        // Actualizar relaciones
         if (itinerario.getIdbillete() != null) {
-            itinerarioActualizado.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
+            existente.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
         } else {
-            itinerarioActualizado.setBillete(null);
+            existente.setBillete(null);
         }
-        itinerarioActualizado.setFoto(oid);
-        itinerarioActualizado.setId(itinerario.getId());
-        Itinerario i = itinerarioRepository.save(itinerarioActualizado);
-        return transformarADTO(i);
+
+        if (itinerario.getIddia() != null) {
+            existente.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
+        }
+
+        Itinerario guardado = itinerarioRepository.save(existente);
+        return transformarADTO(guardado);
     }
+
 
 
     @Transactional
