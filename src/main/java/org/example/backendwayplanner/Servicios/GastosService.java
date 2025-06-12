@@ -24,29 +24,32 @@ public class GastosService {
     @Autowired
     private final ViajeRepository viajeRepository;
 
+    // Constructor para inyectar los repositorios
     public GastosService(GastosRepository gastosRepository, ViajeRepository viajeRepository) {
         this.gastosRepository = gastosRepository;
         this.viajeRepository = viajeRepository;
     }
 
-
-
+    // Devuelve un resumen del viaje con total de ingresos, gastos y saldo
     public GastosResumenDTO obtenerResumenDeViaje(Long viajeId) {
         Viaje viaje = viajeRepository.findById(viajeId)
                 .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
 
         List<Gastos> listaGastos = gastosRepository.findByViajeId(viajeId);
 
+        // Calcular ingresos
         double totalIngresos = listaGastos.stream()
                 .filter(Gastos::isEsIngreso)
                 .mapToDouble(Gastos::getCantidad)
                 .sum();
 
+        // Calcular gastos
         double totalGastos = listaGastos.stream()
                 .filter(g -> !g.isEsIngreso())
                 .mapToDouble(Gastos::getCantidad)
                 .sum();
 
+        // Calcular saldo
         double saldo = totalIngresos - totalGastos;
 
         return new GastosResumenDTO(
@@ -58,6 +61,7 @@ public class GastosService {
         );
     }
 
+    // Guarda un nuevo gasto o ingreso asociado a un viaje
     public Gastos guardarGasto(GastoDTO gastoDTO) {
         Viaje viaje = viajeRepository.findById(gastoDTO.getViajeId())
                 .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
@@ -73,11 +77,12 @@ public class GastosService {
         return gastosRepository.save(gasto);
     }
 
+    // Devuelve una lista de fechas con los gastos o ingresos de cada día y sus detalles
     public List<VerGastosDTO> obtenerDiasConGastosOIngresosYDetalles(Long viajeId) {
         List<Gastos> gastos = gastosRepository.findByViajeId(viajeId);
 
         return gastos.stream()
-                .collect(Collectors.groupingBy(Gastos::getFecha))
+                .collect(Collectors.groupingBy(Gastos::getFecha)) // Agrupa por fecha
                 .entrySet()
                 .stream()
                 .map(entry -> new VerGastosDTO(
@@ -91,12 +96,13 @@ public class GastosService {
                                         gasto.getCategoria(),
                                         gasto.getFecha(),
                                         gasto.getViaje().getId()
-
                                 ))
                                 .collect(Collectors.toList())
                 ))
                 .collect(Collectors.toList());
     }
+
+    // Actualiza un gasto existente
     public Gastos actualizarGasto(Long id, GastoDTO gastoDTO) {
         Gastos gastoExistente = gastosRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Gasto no encontrado"));
@@ -113,12 +119,14 @@ public class GastosService {
         return gastosRepository.save(gastoExistente);
     }
 
+    // Elimina un gasto por su ID
     public void eliminarGasto(Long id) {
         Gastos gasto = gastosRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Gasto no encontrado"));
         gastosRepository.delete(gasto);
     }
 
+    // Obtiene los detalles de un gasto específico por ID
     public GastoDTO obtenerGastoPorId(Long id) {
         Gastos gasto = gastosRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Gasto no encontrado"));
@@ -133,5 +141,4 @@ public class GastosService {
                 gasto.getViaje().getId()
         );
     }
-
 }

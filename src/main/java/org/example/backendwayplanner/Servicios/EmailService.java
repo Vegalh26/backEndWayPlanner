@@ -11,18 +11,22 @@ import org.springframework.stereotype.Service;
 public class EmailService {
     private final JavaMailSender mailSender;
 
+    // Inyección de dependencia del JavaMailSender
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
+    // Envía un correo electrónico con un código de verificación en formato HTML
     public void envEmail(String para, String codigo) {
         MimeMessage mensaje = mailSender.createMimeMessage();
 
         try {
+            // Ayuda a construir el mensaje con soporte para HTML
             MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
-            helper.setTo(para);
-            helper.setSubject("¡Bienvenido a WayPlanner! Verifica tu cuenta");
+            helper.setTo(para); // Destinatario
+            helper.setSubject("¡Bienvenido a WayPlanner! Verifica tu cuenta"); // Asunto
 
+            // Contenido HTML del correo con diseño visual y el código incrustado
             String contenidoHtml = """
                 <html>
                 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
@@ -44,9 +48,9 @@ public class EmailService {
                 """.formatted(codigo);
 
             helper.setText(contenidoHtml, true); // 'true' indica que el contenido es HTML
-            mailSender.send(mensaje);
+            mailSender.send(mensaje); // Envía el correo
         } catch (MessagingException e) {
-            e.printStackTrace(); // O manejar el error como corresponda
+            e.printStackTrace(); // Manejo básico de error
         }
     }
 }
