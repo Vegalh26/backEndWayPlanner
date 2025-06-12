@@ -1,4 +1,4 @@
-package org.example.backendwayplanner.Dtos.Login;
+package org.example.backendwayplanner.DTOs.Login;
 
 import lombok.Data;
 

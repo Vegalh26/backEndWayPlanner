@@ -4,13 +4,19 @@ import org.example.backendwayplanner.DTOs.Itinerarios.HorarioDTO;
 import org.example.backendwayplanner.DTOs.Itinerarios.ItinerarioDTO;
 import org.example.backendwayplanner.Entidades.Horario;
 import org.example.backendwayplanner.Entidades.Itinerario;
+import org.example.backendwayplanner.Enums.Transporte;
 import org.example.backendwayplanner.Repositorios.BilleteRepository;
 import org.example.backendwayplanner.Repositorios.DiaRepository;
+import org.example.backendwayplanner.Repositorios.HorarioRepository;
 import org.example.backendwayplanner.Repositorios.ItinerarioRepository;
+import org.postgresql.PGConnection;
+import org.postgresql.largeobject.LargeObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.postgresql.largeobject.LargeObjectManager;
 
 
 import javax.sql.DataSource;
@@ -34,7 +40,10 @@ public class ItinerarioService {
     private DiaRepository diaRepository;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private HorarioRepository horarioRepository;
+
+    @Autowired
+    private DataSource dataSource;
 
     // Obtener todos los itinerarios en orden por viajeId
     @Transactional
@@ -74,11 +83,12 @@ public class ItinerarioService {
     }
 
     @Transactional
-    public List<ItinerarioDTO> obtenerItinerariosRutaYDia(Long viajeId, LocalDate fecha) {
+    public List<ItinerarioDTO> obtenerItinerariosRutaYDia(Long viajeId, Long idDia) {
 
         // que filtre por el booleano de cada itinerario de si aparece en itinerario o no
         // y que los ordene por el dia y la hora
-        List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdAndDia_Fecha(viajeId, fecha);
+        System.out.printf("Obteniendo itinerarios para viajeId: %d y diaId: %d%n", viajeId, idDia);
+        List<Itinerario> itinerarios = itinerarioRepository.buscarItinerariosPorDiaId(idDia);
         List<Itinerario> itinerariosOrdenados = new ArrayList<>();
 
         for (Itinerario itinerario : itinerarios) {
@@ -94,9 +104,10 @@ public class ItinerarioService {
 
     // Obtener todos los itinerarios por viaje y día
     @Transactional
-    public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(Long viajeId, LocalDate fecha) {
+    public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(Long viajeId, Long idDia) {
 
-        List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdAndDia_Fecha(viajeId, fecha);
+        System.out.printf("Obteniendo itinerarios para viajeId: %d y diaId: %d%n", viajeId, idDia);
+        List<Itinerario> itinerarios = itinerarioRepository.buscarItinerariosPorDiaId(idDia);
         List<Itinerario> itinerariosOrdenados = new ArrayList<>();
 
         for (Itinerario itinerario : itinerarios) {
@@ -110,13 +121,91 @@ public class ItinerarioService {
     }
 
 
-    public Itinerario crearItinerario(ItinerarioDTO itinerario) {
-        return itinerarioRepository.save(transformarSinDTO(itinerario));
+    public ItinerarioDTO crearItinerarioConFoto(ItinerarioDTO dto, Long oid) {
+        Itinerario i = transformarSinDTO(dto);
+        i.setFoto(oid);
+
+        Itinerario itinerarioGuardado = itinerarioRepository.save(i);
+        ItinerarioDTO itinerarioDTO = new ItinerarioDTO();
+
+        itinerarioDTO.setId(itinerarioGuardado.getId());
+        itinerarioDTO.setActividad(itinerarioGuardado.getActividad());
+        itinerarioDTO.setLatitud(itinerarioGuardado.getLatitud());
+        itinerarioDTO.setLongitud(itinerarioGuardado.getLongitud());
+        itinerarioDTO.setEstaEnRuta(itinerarioGuardado.isEstaEnRuta());
+        itinerarioDTO.setApareceEnItinerario(itinerarioGuardado.apareceEnItinerario());
+        itinerarioDTO.setDuracion(itinerarioGuardado.getDuracion());
+        itinerarioDTO.setIddia(itinerarioGuardado.getDia().getId());
+        if (itinerarioGuardado.getBillete() != null) {
+            itinerarioDTO.setIdbillete(itinerarioGuardado.getBillete().getId());
+        } else {
+            itinerarioDTO.setIdbillete(null);
+        }
+        itinerarioDTO.setCategoria(itinerarioGuardado.getCategoria());
+        itinerarioDTO.setHora(itinerarioGuardado.getHora());
+        itinerarioDTO.setMedioTransporte(itinerarioGuardado.getMedioTransporte());
+        if (oid != null) {
+            byte[] fotoBytes = leerImagenDesdeOid(oid);
+            String base64 = Base64.getEncoder().encodeToString(fotoBytes);
+            itinerarioDTO.setFoto(base64);
+        } else {
+            itinerarioDTO.setFoto(null);
+        }
+        return itinerarioDTO;
     }
 
-    public Itinerario actualizarItinerario(ItinerarioDTO itinerario) {
-        return itinerarioRepository.save(transformarSinDTO(itinerario));
+    public ItinerarioDTO actualizarItinerario(ItinerarioDTO itinerario) {
+        Itinerario existente = itinerarioRepository.findById(itinerario.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Itinerario no encontrado con ID: " + itinerario.getId()));
+
+        existente.setActividad(itinerario.getActividad());
+        existente.setLatitud(itinerario.getLatitud());
+        existente.setLongitud(itinerario.getLongitud());
+        existente.setEstaEnRuta(itinerario.isEstaEnRuta());
+        existente.setApareceEnItinerario(itinerario.isApareceEnItinerario());
+        existente.setHora(itinerario.getHora());
+        existente.setMedioTransporte(itinerario.getMedioTransporte());
+        existente.setDuracion(itinerario.getDuracion());
+        existente.setCategoria(itinerario.getCategoria());
+        existente.setFoto(existente.getFoto());
+        existente.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
+
+        // Guardar y retornar
+        Itinerario guardado = itinerarioRepository.save(existente);
+        return transformarADTO(guardado);
     }
+
+
+    public ItinerarioDTO actualizarItinerarioConFoto(ItinerarioDTO itinerario, Long oid) {
+        Itinerario existente = itinerarioRepository.findById(itinerario.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Itinerario no encontrado con ID: " + itinerario.getId()));
+
+        existente.setActividad(itinerario.getActividad());
+        existente.setLatitud(itinerario.getLatitud());
+        existente.setLongitud(itinerario.getLongitud());
+        existente.setEstaEnRuta(itinerario.isEstaEnRuta());
+        existente.setApareceEnItinerario(itinerario.isApareceEnItinerario());
+        existente.setHora(itinerario.getHora());
+        existente.setMedioTransporte(itinerario.getMedioTransporte());
+        existente.setDuracion(itinerario.getDuracion());
+        existente.setCategoria(itinerario.getCategoria());
+        existente.setFoto(oid); // ✅ Solo cambia la foto
+
+        // Actualizar relaciones
+        if (itinerario.getIdbillete() != null) {
+            existente.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
+        } else {
+            existente.setBillete(null);
+        }
+
+        if (itinerario.getIddia() != null) {
+            existente.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
+        }
+
+        Itinerario guardado = itinerarioRepository.save(existente);
+        return transformarADTO(guardado);
+    }
+
 
 
     @Transactional
@@ -141,18 +230,16 @@ public class ItinerarioService {
                 Long id = null;
                 dto.setIdbillete(id);
             }
-            dto.setIdbillete(i.getBillete().getId());
-            dto.setHorarios(transformarHorariosADTO(i.getHorarios()));
             dto.setCategoria(i.getCategoria());
             dto.setHora(i.getHora());
+            dto.setMedioTransporte(i.getMedioTransporte());
+            dto.setHorarios(transformarHorariosADTO(horarioRepository.findByItinerario_Id(i.getId())));
 
-            // Convertir OID a Base64 (si existe)
             if (i.getFoto() != null) {
-                dto.setFoto(Base64.getEncoder().encodeToString(i.getFoto()));
-            } else {
-                dto.setFoto(null);
+                byte[] fotoBytes = leerImagenDesdeOid(i.getFoto());
+                String base64 = Base64.getEncoder().encodeToString(fotoBytes);
+                dto.setFoto(base64);
             }
-
 
             itinerarioDTOS.add(dto);
         }
@@ -160,8 +247,28 @@ public class ItinerarioService {
         return itinerarioDTOS;
     }
 
+    public List<HorarioDTO> transformarHorariosADTO(List<Horario> horarios) {
+        List<HorarioDTO> horarioDTOS = new ArrayList<>();
+
+        for (Horario h : horarios) {
+            HorarioDTO dto = new HorarioDTO();
+            dto.setId(h.getId());
+            dto.setIdItinerario(h.getItinerario().getId());
+            dto.setDia(h.getDia());
+            dto.setHoraInicio(h.getHoraInicio());
+            dto.setHoraFin(h.getHoraFin());
+            dto.setClosed(h.isClosed());
+
+            horarioDTOS.add(dto);
+        }
+
+        return horarioDTOS;
+    }
+
 
     public Itinerario transformarSinDTO(ItinerarioDTO itinerario) {
+
+
         Itinerario itinerarioSinDTO = new Itinerario();
         itinerarioSinDTO.setId(itinerario.getId());
         itinerarioSinDTO.setActividad(itinerario.getActividad());
@@ -171,47 +278,100 @@ public class ItinerarioService {
         itinerarioSinDTO.setApareceEnItinerario(itinerario.isApareceEnItinerario());
         itinerarioSinDTO.setCategoria(itinerario.getCategoria());
         itinerarioSinDTO.setHora(itinerario.getHora());
+        itinerarioSinDTO.setMedioTransporte(itinerario.getMedioTransporte());
         itinerarioSinDTO.setDuracion(itinerario.getDuracion());
         itinerarioSinDTO.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
-        itinerarioSinDTO.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
-        itinerarioSinDTO.setFoto(Base64.getDecoder().decode(itinerario.getFoto()));
-        itinerarioSinDTO.setHorarios(transformarHorariosSinDTO(itinerario.getHorarios()));
+        if (itinerario.getIdbillete() != null) {
+            itinerarioSinDTO.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
+        } else {
+            itinerarioSinDTO.setBillete(null);
+        }
         return itinerarioSinDTO;
     }
 
-    public List<Horario> transformarHorariosSinDTO(List<HorarioDTO> horariosDTO) {
-        List<Horario> horarios = new ArrayList<>();
-        for (HorarioDTO horarioDTO : horariosDTO) {
-            Horario horario = new Horario();
-            horario.setId(horarioDTO.getId());
-            horario.setDia(horarioDTO.getDia());
-            horario.setHoraInicio(horarioDTO.getHoraInicio());
-            horario.setHoraFin(horarioDTO.getHoraFin());
-            horario.setItinerario(itinerarioRepository.findById(horarioDTO.getId()).orElse(null));
-            horario.setClosed(horarioDTO.isClosed());
-            horarios.add(horario);
+    public ItinerarioDTO transformarADTO(Itinerario itinerario) {
+        ItinerarioDTO dto = new ItinerarioDTO();
+        dto.setId(itinerario.getId());
+        dto.setActividad(itinerario.getActividad());
+        dto.setLatitud(itinerario.getLatitud());
+        dto.setLongitud(itinerario.getLongitud());
+        dto.setEstaEnRuta(itinerario.isEstaEnRuta());
+        dto.setApareceEnItinerario(itinerario.apareceEnItinerario());
+        dto.setDuracion(itinerario.getDuracion());
+        dto.setIddia(itinerario.getDia().getId());
+
+        if (itinerario.getBillete() != null) {
+            Long id = itinerario.getBillete().getId();
+            dto.setIdbillete(id);
+        } else {
+            Long id = null;
+            dto.setIdbillete(id);
         }
-        return horarios;
+        dto.setCategoria(itinerario.getCategoria());
+        dto.setHora(itinerario.getHora());
+        dto.setMedioTransporte(itinerario.getMedioTransporte());
+
+        if (itinerario.getFoto() != null) {
+            byte[] fotoBytes = leerImagenDesdeOid(itinerario.getFoto());
+            String base64 = Base64.getEncoder().encodeToString(fotoBytes);
+            dto.setFoto(base64);
+        }
+
+        return dto;
     }
 
-    public List<HorarioDTO> transformarHorariosADTO(List<Horario> horarios) {
-        List<HorarioDTO> horariosDTO = new ArrayList<>();
-        for (Horario h : horarios) {
-            HorarioDTO dto = new HorarioDTO();
-            dto.setId(h.getId());
-            dto.setIdItinerario(h.getItinerario().getId());
-            dto.setDia(h.getDia());
-            dto.setHoraInicio(h.getHoraInicio());
-            dto.setHoraFin(h.getHoraFin());
-            dto.setClosed(h.isClosed());
-            horariosDTO.add(dto);
-        }
-        return horariosDTO;
-    }
 
     public void borrarItinerario(Long id) {
         itinerarioRepository.deleteById(id);
     }
 
+    public void eliminarItinerariosEnRuta(Long id) {
+        Itinerario itinerario = itinerarioRepository.findById(id).orElse(null);
+        if (itinerario != null) {
+            itinerario.setEstaEnRuta(false);
+            itinerarioRepository.save(itinerario);
+        }
+    }
+
+    public void eliminarItinerarioEnItinerario(Long id) {
+        Itinerario itinerario = itinerarioRepository.findById(id).orElse(null);
+        if (itinerario != null) {
+            itinerario.setApareceEnItinerario(false);
+            itinerarioRepository.save(itinerario);
+        }
+    }
+
+    public Long guardarFotoComoLargeObject(MultipartFile file) throws Exception {
+        try (Connection conn = dataSource.getConnection()) {
+            conn.setAutoCommit(false);
+            LargeObjectManager lobj = conn.unwrap(PGConnection.class).getLargeObjectAPI();
+
+            long oid = lobj.createLO(LargeObjectManager.WRITE);
+            LargeObject obj = lobj.open(oid, LargeObjectManager.WRITE);
+            obj.write(file.getBytes());
+            obj.close();
+
+            conn.commit();
+            return oid;
+        }
+    }
+
+    public byte[] leerImagenDesdeOid(Long oid) {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false); // Desactiva auto-commit
+            org.postgresql.PGConnection pgConn = connection.unwrap(org.postgresql.PGConnection.class);
+            LargeObjectManager lobj = pgConn.getLargeObjectAPI();
+
+            LargeObject obj = lobj.open(oid, LargeObjectManager.READ);
+            byte[] data = new byte[obj.size()];
+            obj.read(data, 0, obj.size());
+            obj.close();
+
+            connection.commit(); // Opcional, para finalizar la transacción
+            return data;
+        } catch (Exception e) {
+            throw new RuntimeException("Error leyendo imagen por OID", e);
+        }
+    }
 
 }

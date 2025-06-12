@@ -1,9 +1,9 @@
 package org.example.backendwayplanner.Controladores;
 
 import lombok.AllArgsConstructor;
-import org.example.backendwayplanner.Dtos.Login.LoginDTO;
-import org.example.backendwayplanner.Dtos.Login.RegistroDTO;
-import org.example.backendwayplanner.Dtos.Login.RespuestaDTO;
+import org.example.backendwayplanner.DTOs.Login.LoginDTO;
+import org.example.backendwayplanner.DTOs.Login.RegistroDTO;
+import org.example.backendwayplanner.DTOs.Login.RespuestaDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +48,15 @@ public class AuthController {
         respuesta.setEstado(HttpStatus.BAD_REQUEST.value());
         respuesta.setMensaje("Código de verificación incorrecto");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
+    }
+
+    @PostMapping("/reenviar-codigo")
+    public ResponseEntity<String> reenviarCodigo(@RequestParam String email) {
+        boolean reenviado = service.reenviarCodigo(email);
+        if (reenviado) {
+            return ResponseEntity.ok("El código de verificación ha sido reenviado a tu correo.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró un usuario con el correo proporcionado.");
     }
 
 

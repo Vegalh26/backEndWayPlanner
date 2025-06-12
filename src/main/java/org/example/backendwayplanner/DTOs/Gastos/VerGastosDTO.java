@@ -1,9 +1,10 @@
-package org.example.backendwayplanner.Dtos.Gastos;
+package org.example.backendwayplanner.DTOs.Gastos;
 
 
 import java.time.LocalDate;
 import java.util.List;
-import org.example.backendwayplanner.Dtos.Gastos.GastoDTO;
+import org.example.backendwayplanner.DTOs.Gastos.GastoDTO;
+
 public class VerGastosDTO {
     private LocalDate fecha;
     private List<GastoDTO> gastos;

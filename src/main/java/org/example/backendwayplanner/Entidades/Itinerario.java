@@ -2,6 +2,7 @@ package org.example.backendwayplanner.Entidades;
 
 import jakarta.persistence.*;
 import org.example.backendwayplanner.Enums.CategoriaLugar;
+import org.example.backendwayplanner.Enums.Transporte;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -19,6 +20,9 @@ public class Itinerario {
 
     private LocalTime hora;
 
+    @Enumerated(EnumType.STRING)
+    private Transporte medioTransporte;
+
     private String latitud;
 
     private String longitud;
@@ -30,8 +34,7 @@ public class Itinerario {
     private String duracion;
 
     @Lob
-    @Column(name = "foto", columnDefinition = "bytea")
-    private byte[] foto;
+    private Long foto;
 
     @Enumerated(EnumType.STRING)
     private CategoriaLugar categoria;
@@ -50,10 +53,11 @@ public class Itinerario {
 
     }
 
-    public Itinerario(Long id, String actividad, LocalTime hora, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String duracion, byte[] foto, CategoriaLugar categoria, Billete billete, Dia dia, List<Horario> horarios) {
+    public Itinerario(Long id, String actividad, LocalTime hora, Transporte medioTransporte, String latitud, String longitud, boolean estaEnRuta, boolean apareceEnItinerario, String duracion, Long foto, CategoriaLugar categoria, Billete billete, Dia dia, List<Horario> horarios) {
         this.id = id;
         this.actividad = actividad;
         this.hora = hora;
+        this.medioTransporte = medioTransporte;
         this.latitud = latitud;
         this.longitud = longitud;
         this.estaEnRuta = estaEnRuta;
@@ -94,6 +98,14 @@ public class Itinerario {
         return hora;
     }
 
+    public Transporte getMedioTransporte() {
+        return medioTransporte;
+    }
+
+    public void setMedioTransporte(Transporte medioTransporte) {
+        this.medioTransporte = medioTransporte;
+    }
+
     public void setHora(LocalTime hora) {
         this.hora = hora;
     }
@@ -130,11 +142,11 @@ public class Itinerario {
         this.duracion = duracion;
     }
 
-    public byte[] getFoto() {
+    public Long getFoto() {
         return foto;
     }
 
-    public void setFoto(byte[] foto) {
+    public void setFoto(Long foto) {
         this.foto = foto;
     }
 

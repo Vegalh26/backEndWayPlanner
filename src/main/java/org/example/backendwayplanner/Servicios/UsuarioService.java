@@ -1,9 +1,9 @@
 package org.example.backendwayplanner.Servicios;
 import jakarta.persistence.EntityNotFoundException;
 
-import org.example.backendwayplanner.Dtos.Login.LoginDTO;
-import org.example.backendwayplanner.Dtos.Login.RegistroDTO;
-import org.example.backendwayplanner.Dtos.Login.RespuestaDTO;
+import org.example.backendwayplanner.DTOs.Login.LoginDTO;
+import org.example.backendwayplanner.DTOs.Login.RegistroDTO;
+import org.example.backendwayplanner.DTOs.Login.RespuestaDTO;
 import org.example.backendwayplanner.DTOs.Login.UsuarioDTO;
 import org.example.backendwayplanner.Entidades.Usuario;
 import org.example.backendwayplanner.Repositorios.UsuarioRepository;
@@ -51,6 +51,7 @@ public class UsuarioService implements UserDetailsService {
         nuevoUsuario.setTelefono(dto.getTelefono());
         nuevoUsuario.setFechaRegistro(dto.getFechaRegistro());
         nuevoUsuario.setNombre(dto.getNombre());
+        nuevoUsuario.setFechaNacimiento(dto.getFechaNacimiento());
 
         String codigoVerificacion = generarCodigoVerificacion();
         nuevoUsuario.setVerifiCodi(codigoVerificacion);
@@ -76,34 +77,34 @@ public class UsuarioService implements UserDetailsService {
     public ResponseEntity<RespuestaDTO> login(LoginDTO dto) {
         Optional<Usuario> usuarioOpcional = usuarioRepository.findByEmail(dto.getEmail());
 
-        if (usuarioOpcional.isPresent()) {
-            Usuario usuario = usuarioOpcional.get();
-
-            if (!usuario.isVerificado()) {
-                RespuestaDTO respuesta = new RespuestaDTO();
-                respuesta.setEstado(HttpStatus.FORBIDDEN.value());
-                respuesta.setMensaje("Por favor verifica tu cuenta primero");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(respuesta);
-            }
-
-            if (passwordEncoder.matches(dto.getPassword(), usuario.getPassword())) {
-                String token = jwtService.generateToken(usuario);
-
-                RespuestaDTO respuesta = new RespuestaDTO();
-                respuesta.setEstado(HttpStatus.OK.value());
-                respuesta.setMensaje("Inicio de sesión exitoso");
-                respuesta.setToken(token);
-
-                return ResponseEntity.ok(respuesta);
-            } else {
-                throw new BadCredentialsException("Contraseña incorrecta");
-            }
-        } else {
+        if (usuarioOpcional.isEmpty()) {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
+
+        Usuario usuario = usuarioOpcional.get();
+
+        if (!usuario.isVerificado()) {
+            RespuestaDTO respuesta = new RespuestaDTO();
+            respuesta.setEstado(HttpStatus.FORBIDDEN.value());
+            respuesta.setMensaje("Por favor verifica tu cuenta primero");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(respuesta);
+        }
+
+        if (!passwordEncoder.matches(dto.getPassword(), usuario.getPassword())) {
+            throw new BadCredentialsException("Contraseña incorrecta");
+        }
+
+        String token = jwtService.generateToken(usuario);
+        RespuestaDTO respuesta = new RespuestaDTO();
+        respuesta.setEstado(HttpStatus.OK.value());
+        respuesta.setMensaje("Inicio de sesión exitoso");
+        respuesta.setToken(token);
+
+        return ResponseEntity.ok(respuesta);
     }
     public Usuario actualizarUsuario(Long id, UsuarioDTO dto) {
         Optional<Usuario> usuarioOpcional = usuarioRepository.findById(id);
+
 
         if (usuarioOpcional.isEmpty()) {
             throw new IllegalArgumentException("Usuario no encontrado");
@@ -114,9 +115,11 @@ public class UsuarioService implements UserDetailsService {
         usuario.setTelefono(dto.getTelefono());
         usuario.setEmail(dto.getEmail());
         usuario.setContrasena(passwordEncoder.encode(dto.getPassword()));
+        usuario.setFechaNacimiento(dto.getFechaNacimiento());
 
         return usuarioRepository.save(usuario);
     }
+
 
     public UsuarioDTO obtenerUsuarioPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -129,5 +132,21 @@ public class UsuarioService implements UserDetailsService {
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con ID: " + id));
         usuarioRepository.delete(usuario);
     }
+
+    public boolean reenviarCodigo(String email) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        if (usuario.isPresent()) {
+            String codigoVerificacion = usuario.get().getVerifiCodi();
+            if (codigoVerificacion == null || codigoVerificacion.isEmpty()) {
+                codigoVerificacion = generarCodigoVerificacion();
+                usuario.get().setVerifiCodi(codigoVerificacion);
+                usuarioRepository.save(usuario.get());
+            }
+            emailService.envEmail(email, codigoVerificacion);
+            return true;
+        }
+        return false;
+    }
+
 
 }

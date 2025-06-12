@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/horario")
+@CrossOrigin(origins = "*")
 public class HorarioController {
 
 
@@ -25,6 +26,16 @@ public class HorarioController {
     @GetMapping("/listar/{idItinerario}")
     public List<HorarioDTO> listarHorarios(@PathVariable Long idItinerario) {
          return horarioService.listarHorarios(idItinerario);
+    }
+
+    @PutMapping ("/actualizar")
+    public void actualizarHorario(@RequestBody List<HorarioDTO> horarios) {
+        horarioService.actualizarHorario(horarios);
+    }
+
+    @DeleteMapping("/eliminar/{idHorario}")
+    public void eliminarHorario(@PathVariable Long idHorario) {
+        horarioService.eliminarHorario(idHorario);
     }
 
 }
