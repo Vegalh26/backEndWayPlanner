@@ -19,10 +19,12 @@ public class HorarioService {
     @Autowired
     private ItinerarioRepository itinerarioRepository;
 
+    // Crea horarios a partir de una lista de HorarioDTO
     public List<Horario> crearHorarios (List<HorarioDTO> horarios) {
         return horarioRepository.saveAll(pasarHorariosDTOsinDTO(horarios));
     }
 
+    // Crea un horario a partir de un HorarioDTO
     public Horario crearHorario (HorarioDTO horarioDTO) {
         Horario horario = new Horario();
         horario.setDia(horarioDTO.getDia());
@@ -33,6 +35,7 @@ public class HorarioService {
         return horarioRepository.save(horario);
     }
 
+    // Convierte una lista de HorarioDTO a una lista de Horario
     public List<Horario> pasarHorariosDTOsinDTO (List<HorarioDTO> horarios) {
 
         List<Horario> listaHorarios = new ArrayList<>();
@@ -63,6 +66,7 @@ public class HorarioService {
         return horariosDTO;
     }
 
+    // Actualizar horarios a partir de una lista de HorarioDTO
     public void actualizarHorario(List<HorarioDTO> horarios) {
 
         List<Horario> listaHorarios = new ArrayList<>();
@@ -86,6 +90,7 @@ public class HorarioService {
         horarioRepository.saveAll(listaHorarios);
     }
 
+    // Eliminar un horario por su ID
     public void eliminarHorario(Long idHorario) {
         horarioRepository.deleteById(idHorario);
     }
