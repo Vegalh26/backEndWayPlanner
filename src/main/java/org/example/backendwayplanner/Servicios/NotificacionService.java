@@ -14,6 +14,7 @@ import org.example.backendwayplanner.Repositorios.ViajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import java.time.temporal.ChronoUnit;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -74,9 +75,9 @@ public class NotificacionService {
             // Solo se notifican viajes que ocurren hoy, mañana o hasta en 3 días
             if (diasHastaViaje >= 0 && diasHastaViaje <= 3) {
                 // Se verifica si estamos dentro de una ventana de ±2 minutos con respecto a la hora configurada
-                long diferenciaMinutos = Math.abs(java.time.Duration.between(horaActual, horaUsuario).toMinutes());
 
-                if (diferenciaMinutos < 2) {
+                if (horaActual.truncatedTo(ChronoUnit.MINUTES).equals(horaUsuario)) {
+
                     // Evitar notificaciones duplicadas o ya descartadas por el usuario
                     boolean yaExiste = notificacionRepository.existsByUsuarioIdAndViajeId(usuario.getId(), viaje.getId());
                     boolean yaDescartada = notificacionDescartadaRepository.existsByUsuarioIdAndViajeId(usuario.getId(), viaje.getId());
