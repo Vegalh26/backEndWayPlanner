@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface MaletaRepository extends JpaRepository<Maleta, Long> {
+    // Encontrar viaje por ID
     List<Maleta> findByViajeId(Long viajeId);
 }

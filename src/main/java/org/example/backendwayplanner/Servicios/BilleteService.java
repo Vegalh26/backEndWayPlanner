@@ -89,32 +89,42 @@ public class BilleteService {
         return obtenerBilletesPorCategoriaYViaje(billete.getCategoria(), viaje.getId());
     }
 
+    // Guardar un PDF como Large Object en PostgreSQL
     public Long guardarPdfComoLargeObject(MultipartFile file) throws Exception {
+        // Verificar que el archivo no esté vacío
         try (Connection conn = dataSource.getConnection()) {
+            // Es para desactivar el auto-commit y manejar transacciones manualmente
             conn.setAutoCommit(false);
             LargeObjectManager lobj = conn.unwrap(PGConnection.class).getLargeObjectAPI();
 
+            // Crear un nuevo Large Object y obtener su OID
             long oid = lobj.createLO(LargeObjectManager.WRITE);
             LargeObject obj = lobj.open(oid, LargeObjectManager.WRITE);
             obj.write(file.getBytes());
             obj.close();
 
+            // Finalizar la transacción
             conn.commit();
             return oid;
         }
     }
 
+    // Leer un PDF desde un Large Object usando su OID
     public byte[] leerPdfDesdeOid(Long oid) {
+        // Verificar que el OID no sea nulo
         try (Connection connection = dataSource.getConnection()) {
+            // Es para desactivar el auto-commit y manejar transacciones manualmente
             connection.setAutoCommit(false); // Desactiva auto-commit
             org.postgresql.PGConnection pgConn = connection.unwrap(org.postgresql.PGConnection.class);
             LargeObjectManager lobj = pgConn.getLargeObjectAPI();
 
+            // Verificar que el OID no sea nulo
             LargeObject obj = lobj.open(oid, LargeObjectManager.READ);
             byte[] data = new byte[obj.size()];
             obj.read(data, 0, obj.size());
             obj.close();
 
+            // Finalizar la transacción
             connection.commit(); // Opcional, para finalizar la transacciÃ³n
             return data;
         } catch (Exception e) {
@@ -122,8 +132,11 @@ public class BilleteService {
         }
     }
 
+    // Eliminar un Large Object por su OID
     public void eliminarLargeObject(Long oid) {
+        // Verificar que el OID no sea nulo
         try (Connection connection = dataSource.getConnection()) {
+            // Es para desactivar el auto-commit y manejar transacciones manualmente
             connection.setAutoCommit(false); // Desactiva auto-commit
             org.postgresql.PGConnection pgConn = connection.unwrap(org.postgresql.PGConnection.class);
             LargeObjectManager lobj = pgConn.getLargeObjectAPI();
@@ -137,6 +150,7 @@ public class BilleteService {
     }
 
 
+    // Actualizar un billete
     public List<ListarBilletesDTO> actualizarBillete(VerBilleteDTO billeteActualizado, MultipartFile nuevoPdf) {
         // Buscar el billete original desde la base de datos
         Billete billete = billeteRepository.findById(billeteActualizado.getId())
@@ -146,18 +160,24 @@ public class BilleteService {
         billete.setNombre(billeteActualizado.getNombre());
         billete.setCategoria(CategoriaBillete.valueOf(billeteActualizado.getCategoria()));
 
+        // Si se proporciona un nuevo PDF, actualizarlo
         if (nuevoPdf != null && !nuevoPdf.isEmpty()) {
+            // Eliminar el Large Object anterior si existe
             try {
+                // Eliminar el Large Object anterior
                 eliminarLargeObject(billete.getPdf()); // opcional, para limpiar el anterior
                 Long nuevoOid = guardarPdfComoLargeObject(nuevoPdf);
                 billete.setPdf(nuevoOid);
             } catch (Exception e) {
+                // Manejar la excepción y lanzar un RuntimeException
                 throw new RuntimeException("Error actualizando PDF", e);
             }
         }
 
+        // Guardar el billete actualizado
         billeteRepository.save(billete);
 
+        // Devolver la lista actualizada de billetes del viaje
         return obtenerBilletesPorCategoriaYViaje(billete.getCategoria(), billete.getViaje().getId());
     }
 
