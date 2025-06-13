@@ -49,12 +49,12 @@ public class ItinerarioService {
     @Transactional
     public List<ItinerarioDTO> obtenerItinerariosPorViajeId(Long viajeId) {
 
-        // que filtre por el booleano de cada itinerario de si aparece en itinerario o no
-        // y que los ordene por el dia y la hora
+        // Obtiene todos los itinerarios del viaje ordenados por día y hora
         List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdOrderByDia_NumeroDiaAscHoraAsc(viajeId);
         List<Itinerario> itinerariosOrdenados = new ArrayList<>();
 
         for (Itinerario itinerario : itinerarios) {
+            // Filtra los itinerarios que aparecen en los itinerarios
             if (itinerario.apareceEnItinerario()) {
                 itinerariosOrdenados.add(itinerario);
             }
@@ -67,12 +67,12 @@ public class ItinerarioService {
     @Transactional
     public List<ItinerarioDTO> obtenerItinerariosEnRuta(Long viajeId) {
 
-        // que filtre por el booleano de cada itinerario de si aparece en itinerario o no
-        // y que los ordene por el dia y la hora
+        // Obtiene todos los itinerarios del viaje ordenados por día y hora
         List<Itinerario> itinerarios = itinerarioRepository.findByDia_Viaje_IdOrderByDia_NumeroDiaAscHoraAsc(viajeId);
         List<Itinerario> itinerariosOrdenados = new ArrayList<>();
 
         for (Itinerario itinerario : itinerarios) {
+            // Filtra los itinerarios que están en ruta
             if (itinerario.isEstaEnRuta()) {
                 itinerariosOrdenados.add(itinerario);
             }
@@ -85,13 +85,12 @@ public class ItinerarioService {
     @Transactional
     public List<ItinerarioDTO> obtenerItinerariosRutaYDia(Long viajeId, Long idDia) {
 
-        // que filtre por el booleano de cada itinerario de si aparece en itinerario o no
-        // y que los ordene por el dia y la hora
-        System.out.printf("Obteniendo itinerarios para viajeId: %d y diaId: %d%n", viajeId, idDia);
+        // Obtiene todos los itinerarios por el Día
         List<Itinerario> itinerarios = itinerarioRepository.buscarItinerariosPorDiaId(idDia);
         List<Itinerario> itinerariosOrdenados = new ArrayList<>();
 
         for (Itinerario itinerario : itinerarios) {
+            // Filtra los itinerarios que están en ruta
             if (itinerario.isEstaEnRuta()) {
                 itinerariosOrdenados.add(itinerario);
             }
@@ -106,11 +105,13 @@ public class ItinerarioService {
     @Transactional
     public List<ItinerarioDTO> obtenerItinerariosPorViajeIdYDia(Long viajeId, Long idDia) {
 
-        System.out.printf("Obteniendo itinerarios para viajeId: %d y diaId: %d%n", viajeId, idDia);
+        // Obtiene todos los itinerarios por el Día
         List<Itinerario> itinerarios = itinerarioRepository.buscarItinerariosPorDiaId(idDia);
         List<Itinerario> itinerariosOrdenados = new ArrayList<>();
 
+
         for (Itinerario itinerario : itinerarios) {
+            // Filtra los itinerarios que aparecen en los itinerarios
             if (itinerario.apareceEnItinerario()) {
                 itinerariosOrdenados.add(itinerario);
             }
@@ -120,7 +121,7 @@ public class ItinerarioService {
 
     }
 
-
+    // Crear un nuevo itinerario con foto, el cual espera un Object id (oid) que representa el OID de la foto almacenada en la base de datos
     public ItinerarioDTO crearItinerarioConFoto(ItinerarioDTO dto, Long oid) {
         Itinerario i = transformarSinDTO(dto);
         i.setFoto(oid);
@@ -145,6 +146,7 @@ public class ItinerarioService {
         itinerarioDTO.setHora(itinerarioGuardado.getHora());
         itinerarioDTO.setMedioTransporte(itinerarioGuardado.getMedioTransporte());
         if (oid != null) {
+            // Leer la imagen desde el OID y convertirla a Base64
             byte[] fotoBytes = leerImagenDesdeOid(oid);
             String base64 = Base64.getEncoder().encodeToString(fotoBytes);
             itinerarioDTO.setFoto(base64);
@@ -154,6 +156,7 @@ public class ItinerarioService {
         return itinerarioDTO;
     }
 
+    // Actualizar un itinerario sin su foto por si hace una sin ella
     public ItinerarioDTO actualizarItinerario(ItinerarioDTO itinerario) {
         Itinerario existente = itinerarioRepository.findById(itinerario.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Itinerario no encontrado con ID: " + itinerario.getId()));
@@ -168,28 +171,46 @@ public class ItinerarioService {
         existente.setDuracion(itinerario.getDuracion());
         existente.setCategoria(itinerario.getCategoria());
         existente.setFoto(existente.getFoto());
+        existente.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
 
         // Guardar y retornar
         Itinerario guardado = itinerarioRepository.save(existente);
         return transformarADTO(guardado);
     }
 
-
+    // Actualizar un itinerario con foto, el cual espera un Object id (oid) que representa el OID de la foto almacenada en la base de datos
     public ItinerarioDTO actualizarItinerarioConFoto(ItinerarioDTO itinerario, Long oid) {
-        Itinerario itinerarioActualizado = transformarSinDTO(itinerario);
-        itinerarioActualizado.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
+        Itinerario existente = itinerarioRepository.findById(itinerario.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Itinerario no encontrado con ID: " + itinerario.getId()));
+
+        existente.setActividad(itinerario.getActividad());
+        existente.setLatitud(itinerario.getLatitud());
+        existente.setLongitud(itinerario.getLongitud());
+        existente.setEstaEnRuta(itinerario.isEstaEnRuta());
+        existente.setApareceEnItinerario(itinerario.isApareceEnItinerario());
+        existente.setHora(itinerario.getHora());
+        existente.setMedioTransporte(itinerario.getMedioTransporte());
+        existente.setDuracion(itinerario.getDuracion());
+        existente.setCategoria(itinerario.getCategoria());
+        existente.setFoto(oid); // ✅ Solo cambia la foto
+
+        // Actualizar relaciones
         if (itinerario.getIdbillete() != null) {
-            itinerarioActualizado.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
+            existente.setBillete(billeteRepository.findById(itinerario.getIdbillete()).orElse(null));
         } else {
-            itinerarioActualizado.setBillete(null);
+            existente.setBillete(null);
         }
-        itinerarioActualizado.setFoto(oid);
-        itinerarioActualizado.setId(itinerario.getId());
-        Itinerario i = itinerarioRepository.save(itinerarioActualizado);
-        return transformarADTO(i);
+
+        if (itinerario.getIddia() != null) {
+            existente.setDia(diaRepository.findById(itinerario.getIddia()).orElse(null));
+        }
+
+        Itinerario guardado = itinerarioRepository.save(existente);
+        return transformarADTO(guardado);
     }
 
 
+    // Transformar una lista de itinerarios a DTOs
     @Transactional
     public List<ItinerarioDTO> transformarListaADTO(List<Itinerario> itinerarios) {
         List<ItinerarioDTO> itinerarioDTOS = new ArrayList<>();
@@ -229,6 +250,7 @@ public class ItinerarioService {
         return itinerarioDTOS;
     }
 
+    // Transformar una lista de horarios a DTOs
     public List<HorarioDTO> transformarHorariosADTO(List<Horario> horarios) {
         List<HorarioDTO> horarioDTOS = new ArrayList<>();
 
@@ -247,7 +269,7 @@ public class ItinerarioService {
         return horarioDTOS;
     }
 
-
+    // Transformar un DTO de itinerario a entidad sin foto
     public Itinerario transformarSinDTO(ItinerarioDTO itinerario) {
 
 
@@ -271,6 +293,7 @@ public class ItinerarioService {
         return itinerarioSinDTO;
     }
 
+    // Transformar un solo itinerario a DTO
     public ItinerarioDTO transformarADTO(Itinerario itinerario) {
         ItinerarioDTO dto = new ItinerarioDTO();
         dto.setId(itinerario.getId());
@@ -302,7 +325,7 @@ public class ItinerarioService {
         return dto;
     }
 
-
+    // Borrar un itinerario por ID
     public void borrarItinerario(Long id) {
         itinerarioRepository.deleteById(id);
     }
@@ -315,6 +338,7 @@ public class ItinerarioService {
         }
     }
 
+    // Eliminar un itinerario de los itinerarios (el booleano)
     public void eliminarItinerarioEnItinerario(Long id) {
         Itinerario itinerario = itinerarioRepository.findById(id).orElse(null);
         if (itinerario != null) {
@@ -323,6 +347,7 @@ public class ItinerarioService {
         }
     }
 
+    // Guardar una foto como Large Object en PostgreSQL y devolver su OID
     public Long guardarFotoComoLargeObject(MultipartFile file) throws Exception {
         try (Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
@@ -338,9 +363,11 @@ public class ItinerarioService {
         }
     }
 
+    // Leer una imagen desde un OID de Large Object en PostgreSQL
     public byte[] leerImagenDesdeOid(Long oid) {
         try (Connection connection = dataSource.getConnection()) {
-            connection.setAutoCommit(false); // Desactiva auto-commit
+            connection.setAutoCommit(false);
+            // Usamos PGConnection para acceder a LargeObjectManager, que no viene por defecto en JDBC
             org.postgresql.PGConnection pgConn = connection.unwrap(org.postgresql.PGConnection.class);
             LargeObjectManager lobj = pgConn.getLargeObjectAPI();
 
@@ -349,7 +376,7 @@ public class ItinerarioService {
             obj.read(data, 0, obj.size());
             obj.close();
 
-            connection.commit(); // Opcional, para finalizar la transacción
+            connection.commit();
             return data;
         } catch (Exception e) {
             throw new RuntimeException("Error leyendo imagen por OID", e);

@@ -4,6 +4,7 @@ package org.example.backendwayplanner.DTOs.Login;
 import org.example.backendwayplanner.Entidades.Usuario;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class UsuarioDTO {
     private String nombre;
@@ -11,13 +12,15 @@ public class UsuarioDTO {
     private String password;
     private String telefono;
     private LocalDate fechaNacimiento;
+    private LocalTime horaNotificacion;
 
-    public UsuarioDTO(String nombre, String email, String password, String telefono, LocalDate fechaNacimiento) {
+    public UsuarioDTO(String nombre, String email, String password, String telefono, LocalDate fechaNacimiento, LocalTime horaNotificacion) {
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
+        this.horaNotificacion = horaNotificacion;
     }
 
     public UsuarioDTO(Usuario usuario) {
@@ -26,6 +29,7 @@ public class UsuarioDTO {
         this.telefono = usuario.getTelefono();
         this.password = usuario.getContrasena();
         this.fechaNacimiento = usuario.getFechaNacimiento();
+        this.horaNotificacion = usuario.getHoraNotificacion();
     }
 
     public UsuarioDTO() {
@@ -69,5 +73,12 @@ public class UsuarioDTO {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public LocalTime getHoraNotificacion() {
+        return horaNotificacion;
+    }
+    public void setHoraNotificacion(LocalTime horaNotificacion) {
+        this.horaNotificacion = horaNotificacion;
     }
 }

@@ -1,5 +1,4 @@
 package org.example.backendwayplanner.Entidades;
-
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -4,6 +4,7 @@ import org.example.backendwayplanner.DTOs.Maletas.CrearObjetoDTO;
 import org.example.backendwayplanner.DTOs.Maletas.ListarObjetosMaletasDTO;
 import org.example.backendwayplanner.DTOs.Maletas.MasCantidadObjetoDTO;
 import org.example.backendwayplanner.DTOs.Maletas.ObjetoSeleccionadoDTO;
+import org.example.backendwayplanner.Entidades.ObjetoMaleta;
 import org.example.backendwayplanner.Servicios.ObjetoMaletaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

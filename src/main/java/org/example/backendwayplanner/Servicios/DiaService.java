@@ -18,18 +18,22 @@ public class DiaService {
     @Autowired
     private ViajeRepository viajeRepository;
 
+    // Listar los días por un viaje
     public List<Dia> obtenerDiasPorViajeId(Long viajeId) {
         return diaRepository.findByViaje_Id(viajeId);
     }
 
+    // Crear un dia por un DTO
     public Dia crearDia(DiaDTO dia) {
         return diaRepository.save(transformarSinDTO(dia));
     }
 
+    // Eliminar un día por ID
     public void eliminarDia(Long id) {
         diaRepository.deleteById(id);
     }
 
+    // Métdo para transformar un objeto Dia a su forma en DTO
     public DiaDTO transformarADTO(Dia dia) {
         DiaDTO diaDTO = new DiaDTO();
         diaDTO.setId(dia.getId());
@@ -40,6 +44,7 @@ public class DiaService {
         return diaDTO;
     }
 
+    // Métdo para transformar un objeto DiaDTO a su forma en Dia
     public Dia transformarSinDTO(DiaDTO diaDTO) {
         Dia dia = new Dia();
         dia.setId(diaDTO.getId());

@@ -3,9 +3,11 @@ package org.example.backendwayplanner.Controladores;
 import org.example.backendwayplanner.DTOs.Billetes.CategoriasBilleteDTO;
 import org.example.backendwayplanner.DTOs.Billetes.CrearBilleteDTO;
 import org.example.backendwayplanner.DTOs.Billetes.ListarBilletesDTO;
+import org.example.backendwayplanner.DTOs.Billetes.VerBilleteDTO;
 import org.example.backendwayplanner.Entidades.Billete;
 import org.example.backendwayplanner.Enums.CategoriaBillete;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.example.backendwayplanner.Servicios.BilleteService;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +39,19 @@ public class BilleteController {
         return billeteService.obtenerCategoriasConCantidad(viajeId);
     }
 
+    // Ver un billete por ID
+    @GetMapping("/ver_pdf/{billeteId}")
+    public ResponseEntity<byte[]> verPdf(@PathVariable Long billeteId) {
+        Billete billete = billeteService.obtenerBilletePorId(billeteId);
+        byte[] pdfBytes = billeteService.leerPdfDesdeOid(billete.getPdf());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.inline().filename(billete.getNombre() + ".pdf").build());
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+
 
     // CRUD Billete
     // ---------------------------------------
@@ -58,28 +73,19 @@ public class BilleteController {
         }
     }
 
-    /*
-    * try {
-            byte[] pdfBytes = pdf.getBytes();
 
-            CrearBilleteDTO crearBilleteDTO = new CrearBilleteDTO(nombre, categoria, pdfBytes, viajeId);
-
-            return billeteService.crearBillete(crearBilleteDTO);
-        } catch (IOException e) {
-            throw new RuntimeException("Error al leer el archivo PDF", e);
-        }
-    * */
-
-
-    /* Actualizar un billete
     @PutMapping("/actualizar_billete/{billeteId}")
     public List<ListarBilletesDTO> actualizarBillete(
             @PathVariable Long billeteId,
-            @RequestBody CrearBilleteDTO crearBilleteDTO) {
-        return billeteService.actualizarBillete(billeteId, crearBilleteDTO);
+            @RequestPart("billete") VerBilleteDTO billete,
+            @RequestPart(value = "pdf", required = false) MultipartFile pdf) {
+
+        // Asegurarse de que el ID del path se refleje en el objeto
+        billete.setId(billeteId);
+
+        return billeteService.actualizarBillete(billete, pdf);
     }
 
-     */
 
     // Eliminar un billete
     @DeleteMapping("/eliminar_billete/{billeteId}")

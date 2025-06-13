@@ -35,8 +35,8 @@ public class DiaController {
     }
 
     // Eliminar un dia por id
-    @DeleteMapping("/EliminarDia")
-    public void eliminarDia(@RequestParam Long id) {
+    @DeleteMapping("/EliminarDia/{id}")
+    public void eliminarDia(@PathVariable Long id) {
         diaService.eliminarDia(id);
     }
 
