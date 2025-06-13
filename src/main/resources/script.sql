@@ -80,7 +80,7 @@ CREATE TABLE itinerario
     hora                  TIME(6),
     latitud               VARCHAR(255),
     longitud              VARCHAR(255),
-    medio_transporte      VARCHAR(255) CHECK (medio_transporte IN ('ANDANDO', 'BICICLETA', 'COCHE', 'AUTOBUS', 'TREN', 'METRO', 'TAXI', 'BARCO', 'TRANVIA', 'OTRO')),
+    medio_transporte      VARCHAR(255) CHECK (medio_transporte IN ('ANDANDO', 'BICICLETA', 'COCHE', 'AUTOBUS', 'TREN', 'METRO', 'TAXI', 'BARCO', 'TRANVIA', 'OTRO') OR NULL),
     billete_id            BIGINT UNIQUE,
     dia_id                BIGINT,
     CONSTRAINT fk_itinerario_billete FOREIGN KEY (billete_id) REFERENCES billetes(id) ON DELETE SET NULL,
