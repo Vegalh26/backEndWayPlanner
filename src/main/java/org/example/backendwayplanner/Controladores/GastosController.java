@@ -20,6 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class GastosController {
 
+
     @Autowired // Inyección automática de dependencias
     private GastosService gastosService; // Servicio que contiene la lógica relacionada con los gastos
 
