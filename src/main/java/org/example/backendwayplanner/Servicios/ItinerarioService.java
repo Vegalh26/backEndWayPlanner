@@ -156,6 +156,15 @@ public class ItinerarioService {
         return itinerarioDTO;
     }
 
+    // Crear un nuevo itinerario sin foto
+    public ItinerarioDTO crearItinerario(ItinerarioDTO dto) {
+        Itinerario i = transformarSinDTO(dto);
+        i.setFoto(null);
+
+        Itinerario itinerarioGuardado = itinerarioRepository.save(i);
+        return transformarADTO(itinerarioGuardado);
+    }
+
     // Actualizar un itinerario sin su foto por si hace una sin ella
     public ItinerarioDTO actualizarItinerario(ItinerarioDTO itinerario) {
         Itinerario existente = itinerarioRepository.findById(itinerario.getId())

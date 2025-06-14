@@ -36,6 +36,9 @@ public class ItinerarioController {
             @RequestPart("itinerario") ItinerarioDTO itinerarioDTO,
             @RequestPart(value="foto", required = false) MultipartFile foto
     ) throws Exception {
+        if (foto == null) {
+            return itinerarioService.crearItinerario(itinerarioDTO);
+        }
         Long oid = itinerarioService.guardarFotoComoLargeObject(foto);
         return itinerarioService.crearItinerarioConFoto(itinerarioDTO, oid);
     }
